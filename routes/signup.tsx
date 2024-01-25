@@ -1,6 +1,11 @@
 import GoogleIcon from "icons/brand-google-filled.tsx";
+import { getUser } from "lib/get_user.ts";
+import { redirect } from "lib/redirect.ts";
 
-export default function Signup() {
+export default async function Signup(req: Request) {
+  const user = await getUser(req);
+  if (user) return redirect("/dashboard");
+
   return (
     <>
       <header class="w-screen p-4 shadow fixed flex gap-4">
