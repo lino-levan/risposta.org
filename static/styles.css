@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-titan-one {
+    font-family: 'Titan One', sans-serif;
+}
