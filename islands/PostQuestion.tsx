@@ -1,8 +1,13 @@
+import { useSignal } from "@preact/signals";
+
 export interface PostQuestionProps {
   classId: string;
 }
 
 export function PostQuestion(props: PostQuestionProps) {
+  const title = useSignal("");
+  const content = useSignal("");
+  const loading = useSignal(false);
   return (
     <div class="flex flex-col gap-4">
       <div class="flex items-center gap-4">
@@ -22,13 +27,22 @@ export function PostQuestion(props: PostQuestionProps) {
       </div>
       <div class="flex items-center gap-4">
         <p class="font-bold w-36">Title</p>
-        <input class="border rounded px-4 py-2 w-96" id="title" />
+        <input
+          class="border rounded px-4 py-2 w-96"
+          value={title.value}
+          onInput={(e) => {
+            title.value = e.currentTarget.value;
+          }}
+        />
       </div>
       <div class="flex items-center gap-4">
         <p class="font-bold w-36">Details</p>
         <textarea
           class="border rounded px-4 py-2 w-96 h-32 resize-none"
-          id="content"
+          content={content.value}
+          onInput={(e) => {
+            content.value = e.currentTarget.value;
+          }}
         />
       </div>
       <div class="flex items-center gap-4">
@@ -42,25 +56,29 @@ export function PostQuestion(props: PostQuestionProps) {
       <div class="flex items-center gap-4 pl-40">
         <button
           class="rounded px-4 py-2 border"
+          disabled={loading}
           onClick={async () => {
-            const title =
-              (document.getElementById("title") as HTMLInputElement).value;
-            const content =
-              (document.getElementById("content") as HTMLTextAreaElement).value;
+            loading.value = true;
             const req = await fetch(`/api/class/${props.classId}/post`, {
               method: "POST",
               body: JSON.stringify({
-                title,
-                content,
+                title: title.value,
+                content: content.value,
               }),
             });
-            const res = await req.text();
+            if (req.ok) {
+              location.href = `/class/${props.classId}`;
+            }
           }}
         >
           Post
         </button>
-        <button class="rounded px-4 py-2 border">Save Draft</button>
-        <button class="rounded px-4 py-2 border">Cancel</button>
+        <button class="rounded px-4 py-2 border" disabled={loading}>
+          Save Draft
+        </button>
+        <a class="rounded px-4 py-2 border" href={`/class/${props.classId}`}>
+          Cancel
+        </a>
       </div>
     </div>
   );
