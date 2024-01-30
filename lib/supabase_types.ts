@@ -121,18 +121,21 @@ export interface Database {
           created_at: string;
           id: number;
           member_id: number;
+          title: string;
         };
         Insert: {
           content: string;
           created_at?: string;
           id?: number;
           member_id: number;
+          title: string;
         };
         Update: {
           content?: string;
           created_at?: string;
           id?: number;
           member_id?: number;
+          title?: string;
         };
         Relationships: [
           {
