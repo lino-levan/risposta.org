@@ -1,8 +1,9 @@
 import { getUser } from "lib/get_user.ts";
 import { redirect } from "lib/redirect.ts";
 import { PostQuestion } from "islands/PostQuestion.tsx";
+import { RouteContext } from "$fresh/server.ts";
 
-export default async function Dashboard(req: Request) {
+export default async function Dashboard(req: Request, ctx: RouteContext) {
   const user = await getUser(req);
   if (!user) return redirect("/login");
 
@@ -20,7 +21,7 @@ export default async function Dashboard(req: Request) {
         </a>
       </header>
       <div class="w-screen h-screen flex flex-col justify-center items-center">
-        <PostQuestion />
+        <PostQuestion classId={ctx.params.id} />
       </div>
     </>
   );

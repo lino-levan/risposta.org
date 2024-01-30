@@ -27,7 +27,7 @@ export const handler: Handlers = {
       member_id: member.id,
       content,
       title,
-    });
+    }).select();
     if (error || !data) return new Response(null, { status: 500 });
 
     // success :)
