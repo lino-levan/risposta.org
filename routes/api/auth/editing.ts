@@ -1,5 +1,5 @@
 import { Handlers } from "$fresh/server.ts";
-import { contentType } from "$std/media_types/content_type.ts";
+//import { contentType } from "$std/media_types/content_type.ts";
 import { supabase } from "lib/db.ts";
 
 interface UserEdit {
