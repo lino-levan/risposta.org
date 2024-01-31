@@ -1,6 +1,10 @@
-import MyIsland from "../islands/my-island.tsx";
+import { getUser } from "lib/get_user.ts";
+import { redirect } from "lib/response.ts";
 
-export default function Home() {
+export default async function Home(req: Request) {
+  const user = await getUser(req);
+  if (user) return redirect("/dashboard");
+
   return (
     <>
       <header class="w-screen p-4 shadow fixed flex gap-4">
@@ -14,7 +18,6 @@ export default function Home() {
         <p class="text-center">
           The education platform you've been waiting for.
         </p>
-        <MyIsland />
       </div>
     </>
   );
