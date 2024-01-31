@@ -8,13 +8,19 @@ import * as $api_auth_callback from "./routes/api/auth/callback.ts";
 import * as $api_auth_editing from "./routes/api/auth/editing.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
+import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
+import * as $api_posts_id_vote from "./routes/api/posts/[id]/vote.ts";
+import * as $class_id_create from "./routes/class/[id]/create.tsx";
+import * as $class_id_index from "./routes/class/[id]/index.tsx";
 import * as $dashboard_index from "./routes/dashboard/index.tsx";
 import * as $dashboard_user from "./routes/dashboard/user.tsx";
 import * as $editing from "./routes/editing.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
+
 import * as $my_island from "./islands/my-island.tsx";
+import * as $PostQuestion from "./islands/PostQuestion.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -25,6 +31,10 @@ const manifest = {
     "./routes/api/auth/editing.ts": $api_auth_editing,
     "./routes/api/auth/login.ts": $api_auth_login,
     "./routes/api/auth/logout.ts": $api_auth_logout,
+    "./routes/api/class/[id]/post.ts": $api_class_id_post,
+    "./routes/api/posts/[id]/vote.ts": $api_posts_id_vote,
+    "./routes/class/[id]/create.tsx": $class_id_create,
+    "./routes/class/[id]/index.tsx": $class_id_index,
     "./routes/dashboard/index.tsx": $dashboard_index,
     "./routes/dashboard/user.tsx": $dashboard_user,
     "./routes/editing.tsx": $editing,
@@ -34,6 +44,8 @@ const manifest = {
   },
   islands: {
     "./islands/my-island.tsx": $my_island,
+
+    "./islands/PostQuestion.tsx": $PostQuestion,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

@@ -1,8 +1,8 @@
-import IconLogout from "icons/logout.tsx";
+import { RouteContext } from "$fresh/server.ts";
 import { getUser } from "lib/get_user.ts";
 import { redirect } from "lib/response.ts";
 
-export default async function Dashboard(req: Request) {
+export default async function Dashboard(req: Request, ctx: RouteContext) {
   const user = await getUser(req);
   if (!user) return redirect("/login");
 
@@ -19,18 +19,21 @@ export default async function Dashboard(req: Request) {
           <img class="w-8 h-8 rounded-full" src={user.picture} />
         </a>
       </header>
-      <div class="w-screen h-screen flex flex-col justify-center items-center gap-8">
-        <h1 class="text-5xl">User Profile</h1>
-        <div class="flex items-center gap-2 p-4">
-          <img src={user.picture} />
-          <div class="flex flex-col gap-2">
-            <h1 class="text-4xl">{user.name}</h1>
-            <h2>{user.email}</h2>
+      <div class="w-screen h-screen flex pt-16">
+        <div class="h-full w-64 border-r p-4 flex flex-col gap-4">
+          <a
+            href={`/class/${ctx.params.id}/create`}
+            class="px-4 py-2 rounded border text-center"
+          >
+            Create Post
+          </a>
+          <div class="flex flex-col gap-4">
+            QUESTIONS HERE
           </div>
         </div>
-        <a class="border px-4 py-2 flex gap-2" href="/api/auth/logout">
-          <IconLogout /> Logout
-        </a>
+        <div class="h-full flex-grow p-4">
+          <p>This is the class main page</p>
+        </div>
       </div>
     </>
   );
