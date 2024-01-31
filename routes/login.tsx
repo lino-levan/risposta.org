@@ -1,6 +1,6 @@
 import GoogleIcon from "icons/brand-google-filled.tsx";
 import { getUser } from "lib/get_user.ts";
-import { redirect } from "lib/redirect.ts";
+import { redirect } from "lib/response.ts";
 
 export default async function Login(req: Request) {
   const user = await getUser(req);

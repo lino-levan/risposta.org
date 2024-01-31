@@ -1,6 +1,6 @@
 import { RouteContext } from "$fresh/server.ts";
 import { getUser } from "lib/get_user.ts";
-import { redirect } from "lib/redirect.ts";
+import { redirect } from "lib/response.ts";
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
   const user = await getUser(req);

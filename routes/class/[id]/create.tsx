@@ -1,5 +1,5 @@
 import { getUser } from "lib/get_user.ts";
-import { redirect } from "lib/redirect.ts";
+import { redirect } from "lib/response.ts";
 import { PostQuestion } from "islands/PostQuestion.tsx";
 import { RouteContext } from "$fresh/server.ts";
 

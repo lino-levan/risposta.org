@@ -3,12 +3,14 @@ import { handleCallback } from "deno_kv_oauth";
 import { oAuthConfig } from "lib/auth.ts";
 import { supabase } from "lib/db.ts";
 
+/** Properties guarenteed to exist on a google user */
 interface GoogleUser {
   email: string;
   name: string;
   picture: string;
 }
 
+/** Get the google user JSON */
 async function getGoogleUser(accessToken: string): Promise<GoogleUser> {
   const googleUserReq = await fetch(
     "https://www.googleapis.com/oauth2/v1/userinfo?alt=json",
@@ -37,18 +39,16 @@ export const handler: Handlers = {
         email: googleUser.email,
         picture: googleUser.picture,
       }, { onConflict: "email" }).select();
-
     if (userError || !userData || userData.length === 0) {
       return new Response("error creating user record");
     }
-
     const userId = userData[0].id;
 
+    // upsert session
     const { error: sessionError } = await supabase.from("sessions").upsert({
       id: sessionId,
       user_id: userId,
     }).select();
-
     if (sessionError) {
       return new Response("error creating session record");
     }
