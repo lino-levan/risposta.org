@@ -16,6 +16,14 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   if (error) throw ":(";
   const post = postData[0];
 
+  const { count: upvoteCount } = await supabase.from("votes").select("*", {
+    count: "exact",
+  }).eq("upvote", true);
+  const { count: downvoteCount } = await supabase.from("votes").select("*", {
+    count: "exact",
+  }).eq("upvote", false);
+  const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
+
   return (
     <>
       <header class="w-screen py-2 px-4 shadow fixed flex items-center gap-4">
@@ -47,7 +55,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
               <button>
                 <ArrowUp />
               </button>
-              <p>10</p>
+              <p>{votes}</p>
               <button>
                 <ArrowUp class="rotate-180" />
               </button>
