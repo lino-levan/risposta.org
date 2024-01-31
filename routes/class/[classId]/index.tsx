@@ -1,7 +1,6 @@
+import { RouteContext } from "$fresh/server.ts";
 import { getUser } from "lib/get_user.ts";
 import { redirect } from "lib/response.ts";
-import { PostQuestion } from "islands/PostQuestion.tsx";
-import { RouteContext } from "$fresh/server.ts";
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
   const user = await getUser(req);
@@ -20,8 +19,21 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           <img class="w-8 h-8 rounded-full" src={user.picture} />
         </a>
       </header>
-      <div class="w-screen h-screen flex flex-col justify-center items-center">
-        <PostQuestion classId={ctx.params.id} />
+      <div class="w-screen h-screen flex pt-16">
+        <div class="h-full w-64 border-r p-4 flex flex-col gap-4">
+          <a
+            href={`/class/${ctx.params.classId}/create`}
+            class="px-4 py-2 rounded border text-center"
+          >
+            Create Post
+          </a>
+          <div class="flex flex-col gap-4">
+            QUESTIONS HERE
+          </div>
+        </div>
+        <div class="h-full flex-grow p-4">
+          <p>This is the class main page</p>
+        </div>
       </div>
     </>
   );
