@@ -1,7 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
 import { getUser } from "lib/get_user.ts";
-import { bad, unauthorized } from "lib/response.ts";
+import { bad, success, unauthorized } from "lib/response.ts";
 
 export const handler: Handlers = {
   async POST(req, ctx) {
@@ -32,6 +32,6 @@ export const handler: Handlers = {
     if (error) return bad();
 
     // success :)
-    return new Response(null);
+    return success();
   },
 };
