@@ -6,6 +6,7 @@ import { bad, unauthorized } from "lib/response.ts";
 export const handler: Handlers = {
   async POST(req, ctx) {
     // TODO(lino-levan): Validate input
+    const classId = parseInt(ctx.params.id);
     const { title, content }: { title: string; content: string } = await req
       .json();
 
@@ -16,7 +17,7 @@ export const handler: Handlers = {
     // get member row from class id and user
     const { data: memberData, error: memberError } = await supabase.from(
       "members",
-    ).select("*").eq("user_id", user.id).eq("class_id", ctx.params.id);
+    ).select("*").eq("user_id", user.id).eq("class_id", classId);
     if (memberError || memberData.length === 0 || memberData.length > 1) {
       return bad();
     }

@@ -5,6 +5,7 @@ import { bad, unauthorized } from "lib/response.ts";
 
 export const handler: Handlers = {
   async GET(req, ctx) {
+    // TODO(lino-levan): Validate input
     const postId = parseInt(ctx.params.id);
     const user = await getUser(req);
     if (!user) return unauthorized();
