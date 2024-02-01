@@ -19,6 +19,7 @@ import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
+import * as $Vote from "./islands/Vote.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -42,6 +43,7 @@ const manifest = {
   },
   islands: {
     "./islands/PostQuestion.tsx": $PostQuestion,
+    "./islands/Vote.tsx": $Vote,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
