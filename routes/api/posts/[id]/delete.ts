@@ -6,17 +6,12 @@ import { bad, unauthorized } from "lib/response.ts";
 export const handler: Handlers = {
   async POST(req, ctx) {
     const postId = parseInt(ctx.params.id);
-    const { title, content }: { title: string; content: string } = await req
-      .json();
 
     const user = await getUser(req);
     if (!user) return unauthorized();
 
     const { error } = await supabase.from("posts")
-      .update({
-        title,
-        content,
-      })
+      .delete()
       .eq("id", postId);
 
     if (error) return bad();
