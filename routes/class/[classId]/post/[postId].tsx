@@ -3,6 +3,7 @@ import { getUser } from "lib/get_user.ts";
 import { redirect } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 import ArrowUp from "icons/arrow-big-up.tsx";
+import { bad } from "lib/response.ts";
 import ArrowUpFilled from "icons/arrow-big-up-filled.tsx";
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
@@ -15,6 +16,24 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   );
   if (error) throw ":(";
   const post = postData[0];
+
+  //(Matt) - Pulling comments from supabase?? Waiting for comment functionality.
+  /*
+  const { data} = await supabase
+  .from('posts')
+  .select(`
+    *,
+    member_id!inner(*),
+    comments:comments!inner(*)
+  `)
+  .eq('member_id.class_id', 10);
+
+  if (error) {
+  console.error('Error: ', error);
+} else {
+  console.log('Data: ', data);
+}
+*/
 
   const { count: upvoteCount } = await supabase.from("votes").select("*", {
     count: "exact",
