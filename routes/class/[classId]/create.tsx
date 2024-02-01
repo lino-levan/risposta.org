@@ -21,7 +21,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
         </a>
       </header>
       <div class="w-screen h-screen flex flex-col justify-center items-center">
-        <PostQuestion classId={ctx.params.id} />
+        <PostQuestion classId={ctx.params.classId} />
       </div>
     </>
   );

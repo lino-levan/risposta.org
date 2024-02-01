@@ -22,3 +22,8 @@ export function bad(error?: string): Response {
     status: 400,
   });
 }
+
+/** Construct a success response */
+export function success(message?: string): Response {
+  return new Response(message ?? null);
+}
