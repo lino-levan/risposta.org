@@ -25,16 +25,27 @@ export default async function Dashboard(req: Request) {
           <h2 class="font-bold text-xl mb-4">Sidebar</h2>
           <ul>
             {items.map((item, index) => (
-              <li key={index}><a href="#" class="block py-6 px-3 text-xl rounded hover:bg-green-300">{item}</a></li>
+              <li key={index}>
+                <a
+                  href="#"
+                  class="block py-6 px-3 text-xl rounded hover:bg-green-300"
+                >
+                  {item}
+                </a>
+              </li>
             ))}
           </ul>
         </aside>
         <main class="flex-1 bg-gray-100 min-h-screen py-6 flex flex-col justify-center sm:py-12">
           <div class="relative py-3 sm:max-w-xl sm:mx-auto">
-            <div class="absolute inset-0 bg-gradient-to-r from-green-200 to-green-400 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-green-200 to-green-400 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
+            </div>
             <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
               <h1 class="text-2xl font-bold mb-4">Welcome to the Dashboard</h1>
-              <p class="text-gray-500">This is the dashboard. You can add more components or information here as needed.</p>
+              <p class="text-gray-500">
+                This is the dashboard. You can add more components or
+                information here as needed.
+              </p>
             </div>
           </div>
         </main>

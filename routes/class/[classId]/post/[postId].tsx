@@ -1,10 +1,9 @@
 import { RouteContext } from "$fresh/server.ts";
 import { getUser } from "lib/get_user.ts";
-import { redirect } from "lib/response.ts";
+import { redirect, unauthorized } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
-import ArrowUp from "icons/arrow-big-up.tsx";
+import { Vote } from "islands/Vote.tsx";
 import { bad } from "lib/response.ts";
-import ArrowUpFilled from "icons/arrow-big-up-filled.tsx";
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
   // TODO(lino-levan): Clean up
@@ -33,7 +32,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
 } else {
   console.log('Data: ', data);
 }
-*/
+  */
 
   const { count: upvoteCount } = await supabase.from("votes").select("*", {
     count: "exact",
@@ -42,6 +41,22 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     count: "exact",
   }).eq("upvote", false);
   const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
+
+  // Get member who is opening the page
+  const { data: memberData, error: memberError } = await supabase.from(
+    "members",
+  ).select("*").eq("user_id", user.id).eq("class_id", ctx.params.classId);
+  if (memberError) return unauthorized();
+  const member = memberData[0];
+
+  // Checked the voted state
+  const { data } = await supabase.from("votes").select("*").eq(
+    "member_id",
+    member.id,
+  );
+  const voted = data === null || data.length === 0
+    ? 0
+    : (data[0].upvote ? 1 : -1);
 
   return (
     <>
@@ -70,15 +85,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
         </div>
         <div class="h-full flex-grow p-4 flex flex-col gap-2">
           <div class="flex items-center gap-4">
-            <div class="flex items-center flex-col w-4">
-              <button>
-                <ArrowUp />
-              </button>
-              <p>{votes}</p>
-              <button>
-                <ArrowUp class="rotate-180" />
-              </button>
-            </div>
+            <Vote votes={votes} voted={voted} postId={post.id} />
             <div class="flex flex-col">
               <h2 class="text-zinc-400 text-xs">
                 Posted by Lino Le Van 7 hours ago

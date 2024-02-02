@@ -4,8 +4,9 @@ import { getUser } from "lib/get_user.ts";
 import { bad, success, unauthorized } from "lib/response.ts";
 
 export const handler: Handlers = {
-  async GET(req, ctx) {
+  async POST(req, ctx) {
     // TODO(lino-levan): Validate input
+    const { vote }: { vote: number } = await req.json();
     const postId = parseInt(ctx.params.id);
     const user = await getUser(req);
     if (!user) return unauthorized();
@@ -36,15 +37,32 @@ export const handler: Handlers = {
     ) return new Response(null, { status: 500 });
     const member = memberData[0];
 
-    // TODO(lino-levan): Extend this api to both upvoting and downvoting.
-    const upvote = true;
-
-    const { error } = await supabase
-      .from("votes")
-      .upsert({ post_id: postId, member_id: member.id, upvote: upvote }).select(
-        "*",
-      );
-    if (error) return bad();
+    if (vote === 1) {
+      const { error } = await supabase
+        .from("votes")
+        .upsert({ post_id: postId, member_id: member.id, upvote: true }, {
+          onConflict: "post_id, member_id",
+        }).select(
+          "*",
+        );
+      if (error) return bad();
+    } else if (vote === -1) {
+      const { error } = await supabase
+        .from("votes")
+        .upsert({ post_id: postId, member_id: member.id, upvote: false }, {
+          onConflict: "post_id, member_id",
+        }).select(
+          "*",
+        );
+      if (error) return bad();
+    } else if (vote === 0) {
+      const { error } = await supabase
+        .from("votes")
+        .delete()
+        .eq("post_id", postId)
+        .eq("member_id", member.id);
+      if (error) return bad();
+    }
 
     return success();
   },
