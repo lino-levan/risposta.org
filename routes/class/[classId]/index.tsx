@@ -3,6 +3,8 @@ import { redirect } from "lib/response.ts";
 import { RouteContext } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
+import { getClass } from "lib/get_class.ts";
+import { getMembership } from "lib/membership.ts";
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
   const user = await getUser(req);
@@ -28,10 +30,24 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   //Dummy items
   //const items = Array(15).fill(0).map((_, i) => `Question ${i + 1}`);
 
+  //get current user member state
+  const member = await getMembership(user.id, ctx.params.classId);
+  console.log("In class:", member);
+  if (!member) return redirect("./no_access");
+
+  const classData = await getClass(ctx.params.classId);
+
   return (
     <>
       <header class="bg-green-300 text-white shadow w-full py-4 px-6 flex items-center justify-between">
         <a href="/" class="font-titan-one text-xl uppercase">Risposta</a>
+        {member.role === "teacher" && (
+          <a
+            href={`/class/${ctx.params.classId}/setting`}
+          >
+            Manage Class
+          </a>
+        )}
         <a
           href="/dashboard/user"
           class="flex items-center gap-2 p-2 hover:bg-green-500 rounded transition-colors duration-200"
@@ -67,7 +83,9 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
             <div class="absolute inset-0 bg-gradient-to-r from-green-200 to-green-400 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
             </div>
             <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-              <h1 class="text-2xl font-bold mb-4">Welcome to the Dashboard</h1>
+              <h1 class="text-2xl font-bold mb-4">
+                Welcome to {classData?.name}
+              </h1>
               <p class="text-gray-500 font-titan-one">This is the dashboard.</p>
             </div>
           </div>
