@@ -27,8 +27,7 @@ export default function CreateClassForm() {
       //console.log("New class data:", newClass);
       //console.log("New class data:", newClass.id);
       window.location.href = `/class/${newClass.id}`;
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Error:", error);
       setMessage("Error creating class");
     }

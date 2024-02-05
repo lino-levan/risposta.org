@@ -7,8 +7,8 @@ export async function getMembership(user_id: number, class_id: string) {
     .eq("user_id", user_id)
     .eq("class_id", class_id)
     .single();
-  
-//console.log(memeberData);
+
+  //console.log(memeberData);
   if (error || !memeberData) return null;
   return memeberData;
 }

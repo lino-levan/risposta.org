@@ -21,7 +21,7 @@ export default async function NoAccess(req: Request) {
       <div class="w-screen h-screen flex flex-col justify-center items-center gap-4">
         <p>Sorry, you do not have access to the current class</p>
         <a
-          href="/dashboard" 
+          href="/dashboard"
           class="px-4 py-2 rounded border text-center"
         >
           Return to your main page

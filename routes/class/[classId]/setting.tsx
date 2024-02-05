@@ -23,7 +23,10 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
         </a>
       </header>
       <div class="w-screen h-screen flex flex-col justify-center items-center gap-4">
-        <UpdataClassForm classId = {ctx.params.classId} name = {classData?.name || "Class Name"} />
+        <UpdataClassForm
+          classId={ctx.params.classId}
+          name={classData?.name || "Class Name"}
+        />
       </div>
     </>
   );
