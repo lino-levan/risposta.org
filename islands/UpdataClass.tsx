@@ -33,7 +33,7 @@ export function UpdataClassForm(props: UpdataClassProps) {
         class="border p-2"
         value={className.value}
         onInput={(e) => className.value = e.currentTarget.value}
-        placeholder= {props.name}
+        placeholder={props.name}
         disabled={loading.value}
       />
       <button

@@ -13,14 +13,19 @@ export const handler: Handlers = {
     const { error } = await supabase.from("classes").insert({ name });
 
     //get class_id
-    const { data: classData, error: classError } = await supabase.from("classes")
+    const { data: classData, error: classError } = await supabase.from(
+      "classes",
+    )
       .select("*")
       .eq("name", name)
       .order("created_at", { ascending: false })
       .limit(1);
 
-    if (classError || !classData || classData.length === 0 || classData.length > 1)
+    if (
+      classError || !classData || classData.length === 0 || classData.length > 1
+    ) {
       return new Response(null, { status: 500 });
+    }
 
     if (error) throw error;
     const classroom = classData[0];

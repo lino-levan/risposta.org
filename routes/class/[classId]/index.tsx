@@ -22,7 +22,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   const { data, error } = await supabase
     .from("posts")
     .select("*, member_id!inner(*)")
-    .eq("member_id.class_id", 10);
+    .eq("member_id.class_id", ctx.params.classId);
 
   if (error) return bad();
   //console.log(data, error);
@@ -69,7 +69,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
             {data.map((item, index) => (
               <li key={index} class="border-b border-white w-3/4 mx-auto">
                 <a
-                  href={`/class/${item.member_id}/post/${item.id}`}
+                  href={`/class/${ctx.params.classId}/post/${item.id}`}
                   class="block py-6 px-3 text-xl rounded hover:bg-green-300"
                 >
                   {item.title}

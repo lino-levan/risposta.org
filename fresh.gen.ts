@@ -8,17 +8,24 @@ import * as $api_auth_callback from "./routes/api/auth/callback.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
+import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
+import * as $api_class_create_class from "./routes/api/class/create_class.ts";
 import * as $api_posts_id_edit from "./routes/api/posts/[id]/edit.ts";
 import * as $api_posts_id_vote from "./routes/api/posts/[id]/vote.ts";
 import * as $class_classId_create from "./routes/class/[classId]/create.tsx";
 import * as $class_classId_index from "./routes/class/[classId]/index.tsx";
 import * as $class_classId_post_postId_ from "./routes/class/[classId]/post/[postId].tsx";
+import * as $class_classId_setting from "./routes/class/[classId]/setting.tsx";
+import * as $class_no_access from "./routes/class/no_access.tsx";
+import * as $dashboard_create_class from "./routes/dashboard/create_class.tsx";
 import * as $dashboard_index from "./routes/dashboard/index.tsx";
 import * as $dashboard_user from "./routes/dashboard/user.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
+import * as $CreateClass from "./islands/CreateClass.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
+import * as $UpdataClass from "./islands/UpdataClass.tsx";
 import * as $Vote from "./islands/Vote.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -30,11 +37,16 @@ const manifest = {
     "./routes/api/auth/login.ts": $api_auth_login,
     "./routes/api/auth/logout.ts": $api_auth_logout,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
+    "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
+    "./routes/api/class/create_class.ts": $api_class_create_class,
     "./routes/api/posts/[id]/edit.ts": $api_posts_id_edit,
     "./routes/api/posts/[id]/vote.ts": $api_posts_id_vote,
     "./routes/class/[classId]/create.tsx": $class_classId_create,
     "./routes/class/[classId]/index.tsx": $class_classId_index,
     "./routes/class/[classId]/post/[postId].tsx": $class_classId_post_postId_,
+    "./routes/class/[classId]/setting.tsx": $class_classId_setting,
+    "./routes/class/no_access.tsx": $class_no_access,
+    "./routes/dashboard/create_class.tsx": $dashboard_create_class,
     "./routes/dashboard/index.tsx": $dashboard_index,
     "./routes/dashboard/user.tsx": $dashboard_user,
     "./routes/index.tsx": $index,
@@ -42,7 +54,9 @@ const manifest = {
     "./routes/signup.tsx": $signup,
   },
   islands: {
+    "./islands/CreateClass.tsx": $CreateClass,
     "./islands/PostQuestion.tsx": $PostQuestion,
+    "./islands/UpdataClass.tsx": $UpdataClass,
     "./islands/Vote.tsx": $Vote,
   },
   baseUrl: import.meta.url,
