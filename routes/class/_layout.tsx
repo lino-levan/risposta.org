@@ -1,13 +1,10 @@
+import { FreshContext } from "$fresh/server.ts";
 import { getUser } from "lib/get_user.ts";
 import { redirect } from "lib/response.ts";
-import { UpdataClassForm } from "../../../islands/UpdataClass.tsx";
-import { RouteContext } from "$fresh/server.ts";
-import { getClass } from "lib/get_class.ts";
 
-export default async function Dashboard(req: Request, ctx: RouteContext) {
+export default async function Layout(req: Request, ctx: FreshContext) {
   const user = await getUser(req);
   if (!user) return redirect("/login");
-  const classData = await getClass(ctx.params.classId);
 
   return (
     <>
@@ -22,12 +19,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           <img class="w-8 h-8 rounded-full" src={user.picture} />
         </a>
       </header>
-      <div class="w-screen h-screen flex flex-col justify-center items-center gap-4">
-        <UpdataClassForm
-          classId={ctx.params.classId}
-          name={classData?.name || "Class Name"}
-        />
-      </div>
+      <ctx.Component />
     </>
   );
 }

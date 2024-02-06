@@ -27,8 +27,7 @@ export function UpdataClassForm(props: UpdataClassProps) {
   };
 
   return (
-    <div class="flex flex-col items-center justify-center">
-      New class name here
+    <div class="flex flex-col">
       <input
         class="border p-2"
         value={className.value}

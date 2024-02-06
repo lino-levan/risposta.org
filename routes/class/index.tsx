@@ -2,26 +2,13 @@ import { getUser } from "lib/get_user.ts";
 import { redirect } from "lib/response.ts";
 
 export default async function Dashboard(req: Request) {
-  const user = await getUser(req);
-  if (!user) return redirect("/login");
-
   //Dummy items
   const items = Array(15).fill(0).map((_, i) => `Question ${i + 1}`);
 
   return (
     <>
-      <header class="bg-green-300 text-white shadow w-full py-4 px-6 flex items-center justify-between">
-        <a href="/" class="font-titan-one text-xl uppercase">Risposta</a>
-        <a
-          href="/class/user"
-          class="flex items-center gap-2 p-2 hover:bg-green-500 rounded transition-colors duration-200"
-        >
-          <img class="w-8 h-8 rounded-full" src={user.picture} />
-          <span>{user.name}</span>
-        </a>
-      </header>
-      <div class="flex">
-        <aside class="bg-green-200 w-64 p-4 overflow-y-auto h-screen">
+      <div class="flex pt-16 w-screen h-screen">
+        <aside class="bg-green-200 w-64 p-4 overflow-y-auto">
           <h2 class="font-bold text-xl mb-4">Sidebar</h2>
           <ul>
             {items.map((item, index) => (
@@ -36,7 +23,7 @@ export default async function Dashboard(req: Request) {
             ))}
           </ul>
         </aside>
-        <main class="flex-1 bg-gray-100 min-h-screen py-6 flex flex-col justify-center sm:py-12">
+        <main class="flex-1 bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
           <div class="relative py-3 sm:max-w-xl sm:mx-auto">
             <div class="absolute inset-0 bg-gradient-to-r from-green-200 to-green-400 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
             </div>
