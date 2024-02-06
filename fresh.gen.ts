@@ -16,10 +16,10 @@ import * as $class_classId_create from "./routes/class/[classId]/create.tsx";
 import * as $class_classId_index from "./routes/class/[classId]/index.tsx";
 import * as $class_classId_post_postId_ from "./routes/class/[classId]/post/[postId].tsx";
 import * as $class_classId_setting from "./routes/class/[classId]/setting.tsx";
+import * as $class_create_class from "./routes/class/create_class.tsx";
+import * as $class_index from "./routes/class/index.tsx";
 import * as $class_no_access from "./routes/class/no_access.tsx";
-import * as $dashboard_create_class from "./routes/dashboard/create_class.tsx";
-import * as $dashboard_index from "./routes/dashboard/index.tsx";
-import * as $dashboard_user from "./routes/dashboard/user.tsx";
+import * as $class_user from "./routes/class/user.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
@@ -45,10 +45,10 @@ const manifest = {
     "./routes/class/[classId]/index.tsx": $class_classId_index,
     "./routes/class/[classId]/post/[postId].tsx": $class_classId_post_postId_,
     "./routes/class/[classId]/setting.tsx": $class_classId_setting,
+    "./routes/class/create_class.tsx": $class_create_class,
+    "./routes/class/index.tsx": $class_index,
     "./routes/class/no_access.tsx": $class_no_access,
-    "./routes/dashboard/create_class.tsx": $dashboard_create_class,
-    "./routes/dashboard/index.tsx": $dashboard_index,
-    "./routes/dashboard/user.tsx": $dashboard_user,
+    "./routes/class/user.tsx": $class_user,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
     "./routes/signup.tsx": $signup,

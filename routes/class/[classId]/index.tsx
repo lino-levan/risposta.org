@@ -49,7 +49,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           </a>
         )}
         <a
-          href="/dashboard/user"
+          href="/class/user"
           class="flex items-center gap-2 p-2 hover:bg-green-500 rounded transition-colors duration-200"
         >
           <img class="w-8 h-8 rounded-full" src={user.picture} />

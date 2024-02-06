@@ -11,7 +11,7 @@ export default async function NoAccess(req: Request) {
         <a href="/" class="font-titan-one text-xl uppercase">Risposta</a>
         <div class="ml-auto" />
         <a
-          href="/dashboard/user"
+          href="/class/user"
           class="w-40 flex items-center justify-center gap-2 p-2 hover:bg-gray-100 rounded group"
         >
           <p>{user.name}</p>
@@ -21,7 +21,7 @@ export default async function NoAccess(req: Request) {
       <div class="w-screen h-screen flex flex-col justify-center items-center gap-4">
         <p>Sorry, you do not have access to the current class</p>
         <a
-          href="/dashboard"
+          href="/class"
           class="px-4 py-2 rounded border text-center"
         >
           Return to your main page

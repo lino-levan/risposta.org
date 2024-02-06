@@ -13,7 +13,7 @@ export default async function Dashboard(req: Request) {
       <header class="bg-green-300 text-white shadow w-full py-4 px-6 flex items-center justify-between">
         <a href="/" class="font-titan-one text-xl uppercase">Risposta</a>
         <a
-          href="/dashboard/user"
+          href="/class/user"
           class="flex items-center gap-2 p-2 hover:bg-green-500 rounded transition-colors duration-200"
         >
           <img class="w-8 h-8 rounded-full" src={user.picture} />
@@ -47,13 +47,13 @@ export default async function Dashboard(req: Request) {
                 information here as needed.
                 <a
                   class="border px-4 py-2 flex gap-2"
-                  href="/dashboard/create_class"
+                  href="/class/create_class"
                 >
                   Create class as Instructor
                 </a>
                 <a
                   class="border px-4 py-2 flex gap-2"
-                  href="/dashboard/join_class"
+                  href="/class/join_class"
                 >
                   Join class as Student (not implemented)
                 </a>
@@ -71,7 +71,7 @@ import { redirect } from "lib/response.ts";
 
 export default async function Home(req: Request) {
   const user = await getUser(req);
-  if (user) return redirect("/dashboard");
+  if (user) return redirect("/class");
 
   return (
     <>
