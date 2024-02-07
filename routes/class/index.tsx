@@ -1,6 +1,6 @@
 import { getUser } from "lib/get_user.ts";
 import { redirect } from "lib/response.ts";
-
+import { Database, Enums, Tables } from "lib/supabase_types.ts";
 import { bad } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 
@@ -15,6 +15,12 @@ export default async function Dashboard(req: Request) {
     .select("*, class_id!inner(*)")
     .eq("user_id", user.id);
   if (error) return bad();
+
+  // This spooky code exists to extract classes from our join
+  // We have to convince typescript that this is okay, we know it's okay
+  const classes = data.map((row) => row.class_id) as unknown as Tables<
+    "classes"
+  >[];
 
   return (
     <>
@@ -35,18 +41,18 @@ export default async function Dashboard(req: Request) {
               Join class
             </a>
           </div>
-          {data.map(({ class_id }) => (
+          {classes.map((course) => (
             <a
-              href={`/class/${class_id.id}`}
+              href={`/class/${course.id}`}
               class="border px-4 py-2 flex items-center justify-between hover:bg-gray-100"
             >
               <img
                 class="w-8 h-8 rounded-full"
                 src={`https://api.dicebear.com/7.x/initials/svg?seed=${
-                  encodeURIComponent(class_id.name)
+                  encodeURIComponent(course.name)
                 }`}
               />
-              <p>{class_id.name}</p>
+              <p>{course.name}</p>
             </a>
           ))}
         </div>
