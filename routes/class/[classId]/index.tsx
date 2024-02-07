@@ -1,6 +1,6 @@
 import { RouteContext } from "$fresh/server.ts";
 
-export default async function Dashboard(req: Request, ctx: RouteContext) {
+export default function ClassDashboard(req: Request, ctx: RouteContext) {
   return (
     <div class="bg-white p-20 rounded">
       <h1 class="text-2xl font-bold mb-4">
