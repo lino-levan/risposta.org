@@ -32,7 +32,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   if (memberError) return unauthorized();
   const member = memberData[0];
 
-  // Checked the voted state
+  //Checked the voted state
   const { data } = await supabase.from("votes").select("*").eq(
     "member_id",
     member.id,
@@ -41,8 +41,8 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     ? 0
     : (data[0].upvote ? 1 : -1);
 
-  // Fetch comments for the current post
-  const { data: comments} = await supabase
+  //comments for the current post
+  const { data: comments } = await supabase
     .from("comments")
     .select("*")
     .eq("post_id", ctx.params.postId);
@@ -70,10 +70,10 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
         </div>
         <p class="pl-8">{post.content}</p>
         {comments.map((comment) => (
-        <div class="border px-4 py-2 flex items-center justify-between">
-          <p>{comment.content}</p>
-        </div>
-      ))}
+          <div class="border px-4 py-2 flex items-center justify-between">
+            <p>{comment.content}</p>
+          </div>
+        ))}
         <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       </div>
     </div>

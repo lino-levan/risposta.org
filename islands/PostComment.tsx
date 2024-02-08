@@ -5,6 +5,7 @@ export interface PostCommentProps {
   classId: string;
 }
 
+//island
 export function PostComment(props: PostCommentProps) {
   const comment = useSignal("");
   const loading = useSignal(false);

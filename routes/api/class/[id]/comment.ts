@@ -14,15 +14,18 @@ export const handler: Handlers = {
 
     // Get data on the post being upvoted
     const { data: postData, error: postError } = await supabase.from(
-        "posts",
-      ).select("*, member_id!inner(*)").eq("id", postId);
-      if (postError || postData.length === 0 || postData.length > 1) return bad();
-      const post = postData[0];
+      "posts",
+    ).select("*, member_id!inner(*)").eq("id", postId);
+    if (postError || postData.length === 0 || postData.length > 1) return bad();
+    const post = postData[0];
 
-    // get member row from user
+    //get member row from user
     const { data: memberData, error: memberError } = await supabase.from(
       "members",
-    ).select("*").eq("user_id", user.id).eq("class_id", post.member_id.class_id);
+    ).select("*").eq("user_id", user.id).eq(
+      "class_id",
+      post.member_id.class_id,
+    );
     console.log(memberData);
     if (memberError || memberData.length === 0 || memberData.length > 1) {
       return bad();
