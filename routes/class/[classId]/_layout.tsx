@@ -28,7 +28,7 @@ export default async function Layout(req: Request, ctx: FreshContext) {
         <aside class="h-full w-64 border-r p-4 flex flex-col gap-2">
           {member.role === "teacher" && (
             <a
-              href={`/class/${ctx.params.classId}/setting`}
+              href={`/class/${ctx.params.classId}/settings`}
               class="px-4 py-2 rounded border text-center hover:bg-gray-100"
             >
               Manage Class
