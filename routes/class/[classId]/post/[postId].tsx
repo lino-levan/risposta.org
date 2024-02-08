@@ -36,10 +36,10 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
 
   const { count: upvoteCount } = await supabase.from("votes").select("*", {
     count: "exact",
-  }).eq("upvote", true);
+  }).eq("upvote", true).eq("post_id", ctx.params.postId);
   const { count: downvoteCount } = await supabase.from("votes").select("*", {
     count: "exact",
-  }).eq("upvote", false);
+  }).eq("upvote", false).eq("post_id", ctx.params.postId);
   const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
 
   // Get member who is opening the page
@@ -53,7 +53,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   const { data } = await supabase.from("votes").select("*").eq(
     "member_id",
     member.id,
-  );
+  ).eq("post_id", ctx.params.postId);
   const voted = data === null || data.length === 0
     ? 0
     : (data[0].upvote ? 1 : -1);
