@@ -1,4 +1,4 @@
-import { UpdataClassForm } from "../../../islands/UpdataClass.tsx";
+import { UpdataClassForm } from "islands/UpdataClass.tsx";
 import { RouteContext } from "$fresh/server.ts";
 import { getClass } from "lib/get_class.ts";
 
