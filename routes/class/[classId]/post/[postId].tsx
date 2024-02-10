@@ -5,6 +5,7 @@ import { supabase } from "lib/db.ts";
 import ArrowUp from "icons/arrow-big-up.tsx";
 import { bad } from "lib/response.ts";
 import ArrowUpFilled from "icons/arrow-big-up-filled.tsx";
+import { EditIsland } from "islands/edit.tsx"
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
   // TODO(lino-levan): Clean up
@@ -91,6 +92,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
             </div>
           </div>
           <p class="pl-8">{post.content}</p>
+          <EditIsland></EditIsland>
         </div>
       </div>
     </>
