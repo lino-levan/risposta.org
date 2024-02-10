@@ -1,7 +1,7 @@
 // Code we did live in the TA session for building the comment tree
 // Relatively bing chilling
 
-let posts: {
+const posts: {
   id: number;
   comment: string;
   parent_id: number | null;

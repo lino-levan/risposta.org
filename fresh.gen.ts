@@ -8,19 +8,35 @@ import * as $api_auth_callback from "./routes/api/auth/callback.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
+<<<<<<< HEAD
 import * as $api_posts_id_delete from "./routes/api/posts/[id]/delete.ts";
+=======
+import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
+import * as $api_class_create_class from "./routes/api/class/create_class.ts";
+>>>>>>> abe60701613a3787ce9682b9a2781861fa5218f0
 import * as $api_posts_id_edit from "./routes/api/posts/[id]/edit.ts";
 import * as $api_posts_id_vote from "./routes/api/posts/[id]/vote.ts";
+import * as $class_classId_layout from "./routes/class/[classId]/_layout.tsx";
 import * as $class_classId_create from "./routes/class/[classId]/create.tsx";
 import * as $class_classId_index from "./routes/class/[classId]/index.tsx";
 import * as $class_classId_post_postId_ from "./routes/class/[classId]/post/[postId].tsx";
-import * as $dashboard_index from "./routes/dashboard/index.tsx";
-import * as $dashboard_user from "./routes/dashboard/user.tsx";
+import * as $class_classId_settings from "./routes/class/[classId]/settings.tsx";
+import * as $class_layout from "./routes/class/_layout.tsx";
+import * as $class_create_class from "./routes/class/create_class.tsx";
+import * as $class_index from "./routes/class/index.tsx";
+import * as $class_no_access from "./routes/class/no_access.tsx";
+import * as $class_user from "./routes/class/user.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
+import * as $CreateClass from "./islands/CreateClass.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
+<<<<<<< HEAD
 import * as $edit from "./islands/edit.tsx";
+=======
+import * as $UpdataClass from "./islands/UpdataClass.tsx";
+import * as $Vote from "./islands/Vote.tsx";
+>>>>>>> abe60701613a3787ce9682b9a2781861fa5218f0
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -31,21 +47,37 @@ const manifest = {
     "./routes/api/auth/login.ts": $api_auth_login,
     "./routes/api/auth/logout.ts": $api_auth_logout,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
+<<<<<<< HEAD
     "./routes/api/posts/[id]/delete.ts": $api_posts_id_delete,
+=======
+    "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
+    "./routes/api/class/create_class.ts": $api_class_create_class,
+>>>>>>> abe60701613a3787ce9682b9a2781861fa5218f0
     "./routes/api/posts/[id]/edit.ts": $api_posts_id_edit,
     "./routes/api/posts/[id]/vote.ts": $api_posts_id_vote,
+    "./routes/class/[classId]/_layout.tsx": $class_classId_layout,
     "./routes/class/[classId]/create.tsx": $class_classId_create,
     "./routes/class/[classId]/index.tsx": $class_classId_index,
     "./routes/class/[classId]/post/[postId].tsx": $class_classId_post_postId_,
-    "./routes/dashboard/index.tsx": $dashboard_index,
-    "./routes/dashboard/user.tsx": $dashboard_user,
+    "./routes/class/[classId]/settings.tsx": $class_classId_settings,
+    "./routes/class/_layout.tsx": $class_layout,
+    "./routes/class/create_class.tsx": $class_create_class,
+    "./routes/class/index.tsx": $class_index,
+    "./routes/class/no_access.tsx": $class_no_access,
+    "./routes/class/user.tsx": $class_user,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
     "./routes/signup.tsx": $signup,
   },
   islands: {
+    "./islands/CreateClass.tsx": $CreateClass,
     "./islands/PostQuestion.tsx": $PostQuestion,
+<<<<<<< HEAD
     "./islands/edit.tsx": $edit,
+=======
+    "./islands/UpdataClass.tsx": $UpdataClass,
+    "./islands/Vote.tsx": $Vote,
+>>>>>>> abe60701613a3787ce9682b9a2781861fa5218f0
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

@@ -3,7 +3,7 @@ import { redirect } from "lib/response.ts";
 
 export default async function Home(req: Request) {
   const user = await getUser(req);
-  if (user) return redirect("/dashboard");
+  if (user) return redirect("/class");
 
   return (
     <>
