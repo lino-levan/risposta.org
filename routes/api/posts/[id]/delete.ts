@@ -10,6 +10,17 @@ export const handler: Handlers = {
     const user = await getUser(req);
     if (!user) return unauthorized();
 
+    const { data: post, error: postError } = await supabase
+      .from("posts")
+      .select("member_id, member:member_id (user_id)")
+      .eq("id", postId)
+      .single();
+
+    if (postError || !post) return bad("Post not found.");
+    if (post.member.user_id !== user.id) {
+      return unauthorized("You do not have permission to edit this post.");
+    }
+
     const { error } = await supabase.from("posts")
       .delete()
       .eq("id", postId);

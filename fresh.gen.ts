@@ -30,6 +30,7 @@ import * as $CreateClass from "./islands/CreateClass.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
 import * as $UpdataClass from "./islands/UpdataClass.tsx";
 import * as $Vote from "./islands/Vote.tsx";
+import * as $delete from "./islands/delete.tsx";
 import * as $edit from "./islands/edit.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -65,6 +66,7 @@ const manifest = {
     "./islands/PostQuestion.tsx": $PostQuestion,
     "./islands/UpdataClass.tsx": $UpdataClass,
     "./islands/Vote.tsx": $Vote,
+    "./islands/delete.tsx": $delete,
     "./islands/edit.tsx": $edit,
   },
   baseUrl: import.meta.url,
