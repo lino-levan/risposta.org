@@ -3,6 +3,7 @@ import { getUser } from "lib/get_user.ts";
 import { redirect, unauthorized } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 import { Vote } from "islands/Vote.tsx";
+import { EditPost } from "islands/edit.tsx";
 import { bad } from "lib/response.ts";
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
@@ -75,6 +76,13 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           </div>
         </div>
         <p class="pl-8">{post.content}</p>
+        <EditPost 
+          postId={post.id} 
+          initialTitle={post.title} 
+          initialContent={post.content} 
+          userId={user} // Replace with your actual classId variable
+          classId={ctx.params.classId}   // Replace with your actual userId variable
+        />
       </div>
     </div>
   );
