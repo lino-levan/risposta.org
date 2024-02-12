@@ -3,7 +3,9 @@ import { getUser } from "lib/get_user.ts";
 import { redirect, unauthorized } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 import { Vote } from "islands/Vote.tsx";
+import { EditPost } from "islands/edit.tsx";
 import { bad } from "lib/response.ts";
+import { DeletePost } from "islands/delete.tsx";
 import { PostComment } from "islands/PostComment.tsx";
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
@@ -40,17 +42,6 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   const voted = data === null || data.length === 0
     ? 0
     : (data[0].upvote ? 1 : -1);
-
-  //comments for the current post
-  const { data: comments } = await supabase
-    .from("comments")
-    .select("*")
-    .eq("post_id", ctx.params.postId);
-
-  if (error) {
-    console.error("Failed to fetch comments:", error);
-    return; // Or handle the error as appropriate for your application
-  }
 
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2">
