@@ -43,6 +43,17 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     ? 0
     : (data[0].upvote ? 1 : -1);
 
+  //comments for the current post
+  const { data: comments } = await supabase
+    .from("comments")
+    .select("*")
+    .eq("post_id", ctx.params.postId);
+
+  if (error) {
+    console.error("Failed to fetch comments:", error);
+    return; // Or handle the error as appropriate for your application
+  }
+
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2">
       <div class="bg-white p-4 rounded">
