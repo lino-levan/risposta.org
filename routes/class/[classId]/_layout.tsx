@@ -4,7 +4,7 @@ import { redirect } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
 import { getClass } from "lib/get_class.ts";
-import { getMembership } from "lib/membership.ts";
+import { getMembership } from "lib/get_member.ts";
 
 export default async function Layout(req: Request, ctx: FreshContext) {
   const user = await getUser(req);
@@ -28,7 +28,7 @@ export default async function Layout(req: Request, ctx: FreshContext) {
         <aside class="h-full w-64 border-r p-4 flex flex-col gap-2">
           {member.role === "teacher" && (
             <a
-              href={`/class/${ctx.params.classId}/setting`}
+              href={`/class/${ctx.params.classId}/settings`}
               class="px-4 py-2 rounded border text-center hover:bg-gray-100"
             >
               Manage Class

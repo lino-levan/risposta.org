@@ -1,6 +1,3 @@
-import { getUser } from "lib/get_user.ts";
-import { redirect } from "lib/response.ts";
-
 export default async function NoAccess(req: Request) {
   return (
     <>
