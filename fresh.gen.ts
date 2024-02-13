@@ -11,6 +11,7 @@ import * as $api_class_id_comment from "./routes/api/class/[id]/comment.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
 import * as $api_class_create_class from "./routes/api/class/create_class.ts";
+import * as $api_comments_id_vote from "./routes/api/comments/[id]/vote.ts";
 import * as $api_posts_id_delete from "./routes/api/posts/[id]/delete.ts";
 import * as $api_posts_id_edit from "./routes/api/posts/[id]/edit.ts";
 import * as $api_posts_id_vote from "./routes/api/posts/[id]/vote.ts";
@@ -27,6 +28,7 @@ import * as $class_user from "./routes/class/user.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
+import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
 import * as $PostComment from "./islands/PostComment.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
@@ -47,6 +49,7 @@ const manifest = {
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
     "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
     "./routes/api/class/create_class.ts": $api_class_create_class,
+    "./routes/api/comments/[id]/vote.ts": $api_comments_id_vote,
     "./routes/api/posts/[id]/delete.ts": $api_posts_id_delete,
     "./routes/api/posts/[id]/edit.ts": $api_posts_id_edit,
     "./routes/api/posts/[id]/vote.ts": $api_posts_id_vote,
@@ -65,6 +68,7 @@ const manifest = {
     "./routes/signup.tsx": $signup,
   },
   islands: {
+    "./islands/CommentVote.tsx": $CommentVote,
     "./islands/CreateClass.tsx": $CreateClass,
     "./islands/PostComment.tsx": $PostComment,
     "./islands/PostQuestion.tsx": $PostQuestion,
