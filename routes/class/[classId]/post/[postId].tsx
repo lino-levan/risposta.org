@@ -4,9 +4,6 @@ import { redirect, unauthorized } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 import { Vote } from "islands/Vote.tsx";
 import { CommentVote } from "islands/CommentVote.tsx";
-import { EditPost } from "islands/edit.tsx";
-import { bad } from "lib/response.ts";
-import { DeletePost } from "islands/delete.tsx";
 import { PostComment } from "islands/PostComment.tsx";
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
@@ -72,7 +69,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           </div>
         </div>
         <p class="pl-8">{post.content}</p>
-        {comments.map((comment) => (
+        {comments!.map((comment) => (
           <div class="border px-4 py-2 flex items-center">
             <CommentVote votes={votes} voted={voted} commentId={comment.id} />
             <p>{comment.content}</p>

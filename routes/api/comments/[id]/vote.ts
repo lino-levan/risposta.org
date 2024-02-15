@@ -6,7 +6,8 @@ import { bad, success, unauthorized } from "lib/response.ts";
 export const handler: Handlers = {
   async POST(req) {
     // TODO(lino-levan): Validate input
-    const { vote, commentId }: { vote: number, commentId: number } = await req.json();
+    const { vote, commentId }: { vote: number; commentId: number } = await req
+      .json();
     const user = await getUser(req);
     if (!user) return unauthorized();
 
@@ -14,7 +15,9 @@ export const handler: Handlers = {
     const { data: commentData, error: commentError } = await supabase.from(
       "comments",
     ).select("*").eq("id", commentId);
-    if (commentError || commentData.length === 0 || commentData.length > 1) return bad();
+    if (commentError || commentData.length === 0 || commentData.length > 1) {
+      return bad();
+    }
     const comment = commentData[0];
 
     // Get data on the author who commented the comment
@@ -48,9 +51,12 @@ export const handler: Handlers = {
     } else if (vote === -1) {
       const { error } = await supabase
         .from("votes")
-        .upsert({ comment_id: commentId, member_id: member.id, upvote: false }, {
-          onConflict: "comment_id, member_id",
-        }).select(
+        .upsert(
+          { comment_id: commentId, member_id: member.id, upvote: false },
+          {
+            onConflict: "comment_id, member_id",
+          },
+        ).select(
           "*",
         );
       if (error) return bad();
