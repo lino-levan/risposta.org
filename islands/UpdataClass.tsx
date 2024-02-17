@@ -27,7 +27,9 @@ export function UpdataClassForm(props: UpdataClassProps) {
   };
 
   const deleteClass = async () => {
-    const confirmation = confirm("Are you sure you want to delete this class?\nThis action cannot be reverted.");
+    const confirmation = confirm(
+      "Are you sure you want to delete this class?\nThis action cannot be reverted.",
+    );
     if (confirmation) {
       loading.value = true;
       const req = await fetch(`/api/class/${props.classId}/delete_class`, {
@@ -37,7 +39,7 @@ export function UpdataClassForm(props: UpdataClassProps) {
         location.href = "/";
       }
     }
-  }
+  };
 
   return (
     <div class="flex flex-col items-center">

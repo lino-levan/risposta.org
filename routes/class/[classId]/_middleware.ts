@@ -7,12 +7,11 @@ export const handler = [
   async function classAccess(req: Request, ctx: FreshContext) {
     const user = await getUser(req);
     if (!user) return redirect("/login");
-    
+
     //not a member of this class
     const member = await getMembership(user.id, ctx.params.classId);
     if (!member) return redirect("./no_access");
 
     return await ctx.next();
-  }
-  
+  },
 ];

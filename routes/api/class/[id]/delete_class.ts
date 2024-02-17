@@ -4,9 +4,9 @@ import { supabase } from "lib/db.ts";
 export const handler: Handlers = {
   async POST(_req, ctx) {
     const { error } = await supabase.from("classes").delete().eq(
-        "id",
-        ctx.params.id,
-      );
+      "id",
+      ctx.params.id,
+    );
 
     if (error) {
       console.error(error);
