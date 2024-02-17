@@ -10,6 +10,8 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   // TODO(lino-levan): Clean up
   const user = await getUser(req);
   if (!user) return redirect("/login");
+
+  // Get post votes
   const { data: postData, error } = await supabase.from("posts").select("*").eq(
     "id",
     ctx.params.postId,
@@ -24,6 +26,38 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     count: "exact",
   }).eq("upvote", false).eq("post_id", ctx.params.postId);
   const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
+
+  // Get comment votes
+  const { data: commentsData, error: commentsError } = await supabase
+    .from("comments")
+    .select("*")
+    .eq("post_id", ctx.params.postId);
+
+  if (commentsError) {
+    throw ":(";
+  }
+
+  const comment = commentsData ?? [];
+
+  const commentVotesPromises = comment!.map(async (comment) => {
+    const { count: upvoteCountComment } = await supabase
+      .from("votes")
+      .select("*", { count: "exact" })
+      .eq("upvote", true)
+      .eq("comment_id", comment.id);
+
+    const { count: downvoteCountComment } = await supabase
+      .from("votes")
+      .select("*", { count: "exact" })
+      .eq("upvote", false)
+      .eq("comment_id", comment.id);
+    const votesComment = (upvoteCountComment ?? 0) -
+      (downvoteCountComment ?? 0);
+
+    return votesComment;
+  });
+
+  const votesComments = await Promise.all(commentVotesPromises);
 
   // Get member who is opening the page
   const { data: memberData, error: memberError } = await supabase.from(
@@ -89,9 +123,13 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           </div>
         </div>
         <p class="pl-8">{post.content}</p>
-        {comments!.map((comment) => (
+        {comments!.map((comment, index) => (
           <div class="border px-4 py-2 flex items-center">
-            <CommentVote votes={votes} voted={voted} commentId={comment.id} />
+            <CommentVote
+              votes={votesComments[index]}
+              voted={voted}
+              commentId={comment.id}
+            />
             <p>{comment.content}</p>
           </div>
         ))}

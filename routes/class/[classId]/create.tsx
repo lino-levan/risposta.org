@@ -3,7 +3,7 @@ import { RouteContext } from "$fresh/server.ts";
 import { getUser } from "lib/get_user.ts";
 
 // This needs to be an async function because of how fresh does routing
-// deno-lint-ignore require-await
+
 export default async function Create(req: Request, ctx: RouteContext) {
   const currentUser = await getUser(req);
 
