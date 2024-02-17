@@ -85,7 +85,7 @@ const postCreatorId = postCreator.member.user_id;
           </div>
         ))}
         <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
-      </div>
+      </div> 
     </div>
   );
 }
