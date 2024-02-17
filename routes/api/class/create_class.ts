@@ -9,7 +9,7 @@ export const handler: Handlers = {
     if (!user) return new Response(null, { status: 401 });
 
     //insert new class
-    const { name, GPT, access } = await req.json();
+    const { name, _GPT, _access } = await req.json();
     const { error } = await supabase.from("classes").insert({ name });
     //const { error } = await supabase.from("classes").insert({ name, enableGPT: GPT, access: access});
 
