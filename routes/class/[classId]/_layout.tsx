@@ -4,7 +4,7 @@ import { redirect } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
 import { getClass } from "lib/get_class.ts";
-import { getMembership } from "lib/membership.ts";
+import { getMembership } from "lib/get_member.ts";
 
 export default async function Layout(req: Request, ctx: FreshContext) {
   const user = await getUser(req);
