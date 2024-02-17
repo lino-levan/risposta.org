@@ -4,11 +4,13 @@ export default function CreateClassForm() {
   const [className, setClassName] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
+  const [enableGPT, setEnableGPT] = useState(false);
+  const [publicAccess, setPublicAccess] = useState(false);
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
 
-    const classData = { name: className };
+    const classData = { name: className, GPT: enableGPT, access: publicAccess };
 
     try {
       const response = await fetch("/api/class/create_class", {
@@ -24,8 +26,6 @@ export default function CreateClassForm() {
       }
 
       const newClass = await response.json();
-      //console.log("New class data:", newClass);
-      //console.log("New class data:", newClass.id);
       window.location.href = `/class/${newClass.id}`;
     } catch (error) {
       console.error("Error:", error);
@@ -55,6 +55,28 @@ export default function CreateClassForm() {
           value={description}
           onInput={(e) => setDescription(e.currentTarget.value)}
         />
+      </div>
+      <div>
+        <label for="enableGPT" class="flex items-center gap-2">
+          <input
+            id="enableGPT"
+            type="checkbox"
+            checked={enableGPT}
+            onChange={(e) => setEnableGPT(e.currentTarget.checked)}
+          />
+          Enable ChatGPT response (not implemented)
+        </label>
+      </div>
+      <div>
+        <label for="publicAccess" class="flex items-center gap-2">
+          <input
+            id="publicAccess"
+            type="checkbox"
+            checked={publicAccess}
+            onChange={(e) => setPublicAccess(e.currentTarget.checked)}
+          />
+          Set class to public access (not implemented)
+        </label>
       </div>
       <button
         type="submit"

@@ -3,7 +3,11 @@ import { getUser } from "lib/get_user.ts";
 import { redirect, unauthorized } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 import { Vote } from "islands/Vote.tsx";
+<<<<<<< HEAD
 import { bad } from "lib/response.ts";
+=======
+import { CommentVote } from "islands/CommentVote.tsx";
+>>>>>>> 69d7fde7251f5248a4ec00fb06e842066bc291c3
 import { PostComment } from "islands/PostComment.tsx";
 import { DeletePost } from "islands/delete.tsx";
 import { EditPost } from "islands/edit.tsx";
@@ -78,6 +82,7 @@ const postCreatorId = postCreator.member.user_id;
           </div>
         </div>
         <p class="pl-8">{post.content}</p>
+<<<<<<< HEAD
         <EditPost
           postId={post.id}
           initialTitle={post.title}
@@ -94,6 +99,11 @@ const postCreatorId = postCreator.member.user_id;
         />
         {comments.map((comment) => (
           <div class="border px-4 py-2 flex items-center justify-between">
+=======
+        {comments!.map((comment) => (
+          <div class="border px-4 py-2 flex items-center">
+            <CommentVote votes={votes} voted={voted} commentId={comment.id} />
+>>>>>>> 69d7fde7251f5248a4ec00fb06e842066bc291c3
             <p>{comment.content}</p>
           </div>
         ))}

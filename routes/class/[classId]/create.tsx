@@ -1,6 +1,8 @@
 import { PostQuestion } from "islands/PostQuestion.tsx";
 import { RouteContext } from "$fresh/server.ts";
 
+// This needs to be an async function because of how fresh does routing
+// deno-lint-ignore require-await
 export default async function Create(req: Request, ctx: RouteContext) {
   return (
     <div class="p-8 bg-white rounded">
