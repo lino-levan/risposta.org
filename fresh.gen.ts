@@ -8,6 +8,7 @@ import * as $api_auth_callback from "./routes/api/auth/callback.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
 import * as $api_class_id_comment from "./routes/api/class/[id]/comment.ts";
+import * as $api_class_id_delete_class from "./routes/api/class/[id]/delete_class.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
 import * as $api_class_create_class from "./routes/api/class/create_class.ts";
@@ -16,9 +17,11 @@ import * as $api_posts_id_delete from "./routes/api/posts/[id]/delete.ts";
 import * as $api_posts_id_edit from "./routes/api/posts/[id]/edit.ts";
 import * as $api_posts_id_vote from "./routes/api/posts/[id]/vote.ts";
 import * as $class_classId_layout from "./routes/class/[classId]/_layout.tsx";
+import * as $class_classId_middleware from "./routes/class/[classId]/_middleware.ts";
 import * as $class_classId_create from "./routes/class/[classId]/create.tsx";
 import * as $class_classId_index from "./routes/class/[classId]/index.tsx";
 import * as $class_classId_post_postId_ from "./routes/class/[classId]/post/[postId].tsx";
+import * as $class_classId_post_middleware from "./routes/class/[classId]/post/_middleware.ts";
 import * as $class_classId_settings from "./routes/class/[classId]/settings.tsx";
 import * as $class_layout from "./routes/class/_layout.tsx";
 import * as $class_create_class from "./routes/class/create_class.tsx";
@@ -46,6 +49,7 @@ const manifest = {
     "./routes/api/auth/login.ts": $api_auth_login,
     "./routes/api/auth/logout.ts": $api_auth_logout,
     "./routes/api/class/[id]/comment.ts": $api_class_id_comment,
+    "./routes/api/class/[id]/delete_class.ts": $api_class_id_delete_class,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
     "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
     "./routes/api/class/create_class.ts": $api_class_create_class,
@@ -54,9 +58,12 @@ const manifest = {
     "./routes/api/posts/[id]/edit.ts": $api_posts_id_edit,
     "./routes/api/posts/[id]/vote.ts": $api_posts_id_vote,
     "./routes/class/[classId]/_layout.tsx": $class_classId_layout,
+    "./routes/class/[classId]/_middleware.ts": $class_classId_middleware,
     "./routes/class/[classId]/create.tsx": $class_classId_create,
     "./routes/class/[classId]/index.tsx": $class_classId_index,
     "./routes/class/[classId]/post/[postId].tsx": $class_classId_post_postId_,
+    "./routes/class/[classId]/post/_middleware.ts":
+      $class_classId_post_middleware,
     "./routes/class/[classId]/settings.tsx": $class_classId_settings,
     "./routes/class/_layout.tsx": $class_layout,
     "./routes/class/create_class.tsx": $class_create_class,

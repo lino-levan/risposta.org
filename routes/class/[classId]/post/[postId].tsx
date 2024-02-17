@@ -52,6 +52,26 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     return; // Or handle the error as appropriate for your application
   }
 
+  const postedTime = new Date(post.created_at).getTime();
+  const currentTime = new Date().getTime();
+  const timeDifferenceInSeconds = Math.floor((currentTime - postedTime) / 1000);
+
+  let timeAgo;
+  if (timeDifferenceInSeconds < 60) {
+    timeAgo = "just now";
+  } else if (timeDifferenceInSeconds < 3600) {
+    const minutesAgo = Math.floor(timeDifferenceInSeconds / 60);
+    timeAgo = `${minutesAgo} ${minutesAgo === 1 ? "minute" : "minutes"} ago`;
+  } else if (timeDifferenceInSeconds < 86400) {
+    const hoursAgo = Math.floor(timeDifferenceInSeconds / 3600);
+    timeAgo = `${hoursAgo} ${hoursAgo === 1 ? "hour" : "hours"} ago`;
+  } else {
+    const daysAgo = Math.floor(timeDifferenceInSeconds / 86400);
+    timeAgo = `${daysAgo} ${daysAgo === 1 ? "day" : "days"} ago`;
+  }
+
+  const postedBy = post.anonymous ? "Anonymous" : user.name;
+
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2">
       <div class="bg-white p-4 rounded">
@@ -59,7 +79,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           <Vote votes={votes} voted={voted} postId={post.id} />
           <div class="flex flex-col">
             <h2 class="text-zinc-400 text-xs">
-              Posted by Lino Le Van 7 hours ago
+              Posted by {postedBy} {timeAgo}
             </h2>
             <h1 class="font-bold text-3xl">{post.title}</h1>
             <div class="flex gap-2 pt-2">
