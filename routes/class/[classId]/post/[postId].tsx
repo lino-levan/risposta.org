@@ -3,9 +3,10 @@ import { getUser } from "lib/get_user.ts";
 import { redirect, unauthorized } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 import { Vote } from "islands/Vote.tsx";
-import { EditPost } from "islands/edit.tsx";
-import { bad } from "lib/response.ts";
+import { CommentVote } from "islands/CommentVote.tsx";
+import { PostComment } from "islands/PostComment.tsx";
 import { DeletePost } from "islands/delete.tsx";
+import { EditPost } from "islands/edit.tsx";
 
 export default async function Dashboard(req: Request, ctx: RouteContext) {
   // TODO(lino-levan): Clean up
@@ -17,24 +18,6 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   );
   if (error) throw ":(";
   const post = postData[0];
-
-  //(Matt) - Pulling comments from supabase?? Waiting for comment functionality.
-  /*
-  const { data} = await supabase
-  .from('posts')
-  .select(`
-    *,
-    member_id!inner(*),
-    comments:comments!inner(*)
-  `)
-  .eq('member_id.class_id', 10);
-
-  if (error) {
-  console.error('Error: ', error);
-} else {
-  console.log('Data: ', data);
-}
-  */
 
   const { count: upvoteCount } = await supabase.from("votes").select("*", {
     count: "exact",
@@ -51,7 +34,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   if (memberError) return unauthorized();
   const member = memberData[0];
 
-  // Checked the voted state
+  //Checked the voted state
   const { data } = await supabase.from("votes").select("*").eq(
     "member_id",
     member.id,
@@ -60,12 +43,23 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     ? 0
     : (data[0].upvote ? 1 : -1);
 
+  //comments for the current post
+  const { data: comments } = await supabase
+    .from("comments")
+    .select("*")
+    .eq("post_id", ctx.params.postId);
+
+  if (error) {
+    console.error("Failed to fetch comments:", error);
+    return; // Or handle the error as appropriate for your application
+  }
+
   const { data: postCreator, error1 } = await supabase
-    .from("posts")
-    .select("*, member:member_id(user_id)")
-    .eq("id", ctx.params.postId)
-    .single();
-  const postCreatorId = postCreator.member.user_id;
+  .from("posts")
+  .select("*, member:member_id(user_id)")
+  .eq("id", ctx.params.postId)
+  .single();
+const postCreatorId = postCreator.member.user_id;
 
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2">
@@ -84,20 +78,13 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           </div>
         </div>
         <p class="pl-8">{post.content}</p>
-        <EditPost
-          postId={post.id}
-          initialTitle={post.title}
-          initialContent={post.content}
-          classId={ctx.params.classId}
-          userId={user.id}
-          postCreatorId={postCreatorId}
-        />
-        <DeletePost
-          postId={post.id}
-          userId={user.id}
-          classId={ctx.params.classId}
-          postCreatorId={postCreatorId}
-        />
+        {comments!.map((comment) => (
+          <div class="border px-4 py-2 flex items-center">
+            <CommentVote votes={votes} voted={voted} commentId={comment.id} />
+            <p>{comment.content}</p>
+          </div>
+        ))}
+        <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       </div>
     </div>
   );
