@@ -10,6 +10,8 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   // TODO(lino-levan): Clean up
   const user = await getUser(req);
   if (!user) return redirect("/login");
+
+  // Get post votes
   const { data: postData, error } = await supabase.from("posts").select("*").eq(
     "id",
     ctx.params.postId,
@@ -24,6 +26,38 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     count: "exact",
   }).eq("upvote", false).eq("post_id", ctx.params.postId);
   const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
+
+  // Get comment votes
+  const { data: commentsData, error: commentsError } = await supabase
+    .from("comments")
+    .select("*")
+    .eq("post_id", ctx.params.postId);
+
+  if (commentsError) {
+    throw ":(";
+  }
+
+  const comment = commentsData ?? [];
+
+  const commentVotesPromises = comment!.map(async (comment) => {
+    const { count: upvoteCountComment } = await supabase
+      .from("votes")
+      .select("*", { count: "exact" })
+      .eq("upvote", true)
+      .eq("comment_id", comment.id);
+
+    const { count: downvoteCountComment } = await supabase
+      .from("votes")
+      .select("*", { count: "exact" })
+      .eq("upvote", false)
+      .eq("comment_id", comment.id);
+    const votesComment = (upvoteCountComment ?? 0) -
+      (downvoteCountComment ?? 0);
+
+    return votesComment;
+  });
+
+  const votesComments = await Promise.all(commentVotesPromises);
 
   // Get member who is opening the page
   const { data: memberData, error: memberError } = await supabase.from(
@@ -52,6 +86,26 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     return; // Or handle the error as appropriate for your application
   }
 
+  const postedTime = new Date(post.created_at).getTime();
+  const currentTime = new Date().getTime();
+  const timeDifferenceInSeconds = Math.floor((currentTime - postedTime) / 1000);
+
+  let timeAgo;
+  if (timeDifferenceInSeconds < 60) {
+    timeAgo = "just now";
+  } else if (timeDifferenceInSeconds < 3600) {
+    const minutesAgo = Math.floor(timeDifferenceInSeconds / 60);
+    timeAgo = `${minutesAgo} ${minutesAgo === 1 ? "minute" : "minutes"} ago`;
+  } else if (timeDifferenceInSeconds < 86400) {
+    const hoursAgo = Math.floor(timeDifferenceInSeconds / 3600);
+    timeAgo = `${hoursAgo} ${hoursAgo === 1 ? "hour" : "hours"} ago`;
+  } else {
+    const daysAgo = Math.floor(timeDifferenceInSeconds / 86400);
+    timeAgo = `${daysAgo} ${daysAgo === 1 ? "day" : "days"} ago`;
+  }
+
+  const postedBy = post.anonymous ? "Anonymous" : user.name;
+
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2">
       <div class="bg-white p-4 rounded">
@@ -59,7 +113,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           <Vote votes={votes} voted={voted} postId={post.id} />
           <div class="flex flex-col">
             <h2 class="text-zinc-400 text-xs">
-              Posted by Lino Le Van 7 hours ago
+              Posted by {postedBy} {timeAgo}
             </h2>
             <h1 class="font-bold text-3xl">{post.title}</h1>
             <div class="flex gap-2 pt-2">
@@ -69,9 +123,13 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           </div>
         </div>
         <p class="pl-8">{post.content}</p>
-        {comments!.map((comment) => (
+        {comments!.map((comment, index) => (
           <div class="border px-4 py-2 flex items-center">
-            <CommentVote votes={votes} voted={voted} commentId={comment.id} />
+            <CommentVote
+              votes={votesComments[index]}
+              voted={voted}
+              commentId={comment.id}
+            />
             <p>{comment.content}</p>
           </div>
         ))}
