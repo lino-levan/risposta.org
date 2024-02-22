@@ -16,6 +16,7 @@ export function Vote(props: VoteProps) {
   return (
     <div class="flex items-center flex-col w-4">
       <button
+        class="hover:bg-gray-100 rounded"
         onClick={async () => {
           if (voted.value !== 1) {
             // if upvoted, effective vote total goes down by 2
@@ -47,6 +48,7 @@ export function Vote(props: VoteProps) {
       </button>
       <p>{votes}</p>
       <button
+        class="hover:bg-gray-100 rounded"
         onClick={async () => {
           if (voted.value !== -1) {
             // if upvoted, effective vote total goes down by 2

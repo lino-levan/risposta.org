@@ -14,8 +14,9 @@ export function CommentVote(props: VoteProps) {
   const voted = useSignal(props.voted);
 
   return (
-    <div class="flex items-center flex-col w-4">
+    <div class="flex gap-2 items-center w-4">
       <button
+        class="hover:bg-gray-100 rounded"
         onClick={async () => {
           if (voted.value !== 1) {
             // if upvoted, effective vote total goes down by 2
@@ -49,6 +50,7 @@ export function CommentVote(props: VoteProps) {
       </button>
       <p>{votes}</p>
       <button
+        class="hover:bg-gray-100 rounded"
         onClick={async () => {
           if (voted.value !== -1) {
             // if upvoted, effective vote total goes down by 2

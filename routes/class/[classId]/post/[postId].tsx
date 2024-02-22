@@ -2,6 +2,7 @@ import { RouteContext } from "$fresh/server.ts";
 import { getUser } from "lib/get_user.ts";
 import { redirect, unauthorized } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
+import { getReadableTime } from "lib/readable_time.ts";
 import { Vote } from "islands/Vote.tsx";
 import { CommentVote } from "islands/CommentVote.tsx";
 import { PostComment } from "islands/PostComment.tsx";
@@ -86,24 +87,6 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     return; // Or handle the error as appropriate for your application
   }
 
-  const postedTime = new Date(post.created_at).getTime();
-  const currentTime = new Date().getTime();
-  const timeDifferenceInSeconds = Math.floor((currentTime - postedTime) / 1000);
-
-  let timeAgo;
-  if (timeDifferenceInSeconds < 60) {
-    timeAgo = "just now";
-  } else if (timeDifferenceInSeconds < 3600) {
-    const minutesAgo = Math.floor(timeDifferenceInSeconds / 60);
-    timeAgo = `${minutesAgo} ${minutesAgo === 1 ? "minute" : "minutes"} ago`;
-  } else if (timeDifferenceInSeconds < 86400) {
-    const hoursAgo = Math.floor(timeDifferenceInSeconds / 3600);
-    timeAgo = `${hoursAgo} ${hoursAgo === 1 ? "hour" : "hours"} ago`;
-  } else {
-    const daysAgo = Math.floor(timeDifferenceInSeconds / 86400);
-    timeAgo = `${daysAgo} ${daysAgo === 1 ? "day" : "days"} ago`;
-  }
-
   const postedBy = post.anonymous ? "Anonymous" : user.name;
 
   return (
@@ -113,7 +96,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           <Vote votes={votes} voted={voted} postId={post.id} />
           <div class="flex flex-col">
             <h2 class="text-zinc-400 text-xs">
-              Posted by {postedBy} {timeAgo}
+              Posted by {postedBy} {getReadableTime(post.created_at)}
             </h2>
             <h1 class="font-bold text-3xl">{post.title}</h1>
             <div class="flex gap-2 pt-2">
@@ -123,18 +106,30 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
           </div>
         </div>
         <p class="pl-8">{post.content}</p>
-        {comments!.map((comment, index) => (
-          <div class="border px-4 py-2 flex items-center">
-            <CommentVote
-              votes={votesComments[index]}
-              voted={voted}
-              commentId={comment.id}
-            />
-            <p>{comment.content}</p>
-          </div>
-        ))}
-        <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       </div>
+      <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
+      {comments!.map((comment, index) => (
+        <div class="rounded px-4 py-2 flex bg-white gap-2">
+          <img
+            class="rounded-full w-6 h-6"
+            src="https://lh3.googleusercontent.com/a/ACg8ocI2KcNZCEPGNmAWTSUgnfFv94JOyFW_c2efdsVpBaCQRYw=s96-c"
+          />
+          <div class="flex flex-col gap-2">
+            <p class="text-zinc-400 text-xs">
+              <span class="text-black font-bold">{postedBy}</span> ·{" "}
+              {getReadableTime(comment.created_at)}
+            </p>
+            <p>{comment.content}</p>
+            <div class="flex gap-4">
+              <CommentVote
+                votes={votesComments[index]}
+                voted={voted}
+                commentId={comment.id}
+              />
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
