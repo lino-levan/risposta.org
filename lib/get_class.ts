@@ -1,6 +1,6 @@
 import { supabase } from "lib/db.ts";
 
-export async function getClass(class_id: string) {
+export async function getClass(class_id: number) {
   const { data: classData, error } = await supabase
     .from("classes")
     .select("*")

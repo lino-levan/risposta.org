@@ -1,4 +1,5 @@
 import { RouteContext } from "$fresh/server.ts";
+import { type QueryData } from "@supabase/supabase-js";
 import { getUser } from "lib/get_user.ts";
 import { redirect, unauthorized } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
@@ -28,19 +29,23 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   }).eq("upvote", false).eq("post_id", ctx.params.postId);
   const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
 
-  // Get comment votes
-  const { data: commentsData, error: commentsError } = await supabase
+  // Get comments
+  const { data: commentData, error: commentError } = await supabase
     .from("comments")
-    .select("*")
+    .select("*, member_id!inner(*, user_id!inner(*))")
     .eq("post_id", ctx.params.postId);
-
-  if (commentsError) {
-    throw ":(";
+  if (commentError) {
+    console.error("Failed to fetch comments:", error);
+    return; // Or handle the error as appropriate for your application
   }
+  const comments = commentData as unknown as {
+    id: number;
+    content: string;
+    created_at: string;
+    member_id: { user_id: { name: string; picture: string } };
+  }[];
 
-  const comment = commentsData ?? [];
-
-  const commentVotesPromises = comment!.map(async (comment) => {
+  const commentVotesPromises = comments!.map(async (comment) => {
     const { count: upvoteCountComment } = await supabase
       .from("votes")
       .select("*", { count: "exact" })
@@ -76,21 +81,10 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     ? 0
     : (data[0].upvote ? 1 : -1);
 
-  //comments for the current post
-  const { data: comments } = await supabase
-    .from("comments")
-    .select("*")
-    .eq("post_id", ctx.params.postId);
-
-  if (error) {
-    console.error("Failed to fetch comments:", error);
-    return; // Or handle the error as appropriate for your application
-  }
-
   const postedBy = post.anonymous ? "Anonymous" : user.name;
 
   return (
-    <div class="w-full h-full p-4 flex flex-col gap-2">
+    <div class="w-full h-full p-4 flex flex-col gap-2 overflow-hidden overflow-y-auto">
       <div class="bg-white p-4 rounded">
         <div class="flex items-center gap-4">
           <Vote votes={votes} voted={voted} postId={post.id} />
@@ -112,12 +106,14 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
         <div class="rounded px-4 py-2 flex bg-white gap-2">
           <img
             class="rounded-full w-6 h-6"
-            src="https://lh3.googleusercontent.com/a/ACg8ocI2KcNZCEPGNmAWTSUgnfFv94JOyFW_c2efdsVpBaCQRYw=s96-c"
+            src={comment.member_id.user_id.picture}
           />
           <div class="flex flex-col gap-2">
             <p class="text-zinc-400 text-xs">
-              <span class="text-black font-bold">{postedBy}</span> ·{" "}
-              {getReadableTime(comment.created_at)}
+              <span class="text-black font-bold">
+                {comment.member_id.user_id.name}
+              </span>{" "}
+              · {getReadableTime(comment.created_at)}
             </p>
             <p>{comment.content}</p>
             <div class="flex gap-4">

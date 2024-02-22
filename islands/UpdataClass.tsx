@@ -1,7 +1,7 @@
 import { useSignal } from "@preact/signals";
 
 export interface UpdataClassProps {
-  classId: string;
+  classId: number;
   name: string;
 }
 

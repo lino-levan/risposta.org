@@ -9,7 +9,7 @@ export const handler = [
     if (!user) return redirect("/login");
 
     //not a member of this class
-    const member = await getMembership(user.id, ctx.params.classId);
+    const member = await getMembership(user.id, parseInt(ctx.params.classId));
     if (!member) return redirect("./no_access");
 
     return await ctx.next();
