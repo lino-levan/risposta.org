@@ -1,4 +1,5 @@
 import { FreshContext } from "$fresh/server.ts";
+import { SearchablePostList } from "islands/SearchablePostList.tsx";
 import { getUser } from "lib/get_user.ts";
 import { redirect } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
@@ -40,17 +41,7 @@ export default async function Layout(req: Request, ctx: FreshContext) {
           >
             Create Post
           </a>
-          {data.map((item) => (
-            <a
-              href={`/class/${ctx.params.classId}/post/${item.id}`}
-              class="block py-2 px-3 rounded hover:bg-gray-100"
-            >
-              <h2 class="text-xl">{item.title}</h2>
-              <p class="text-sm text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">
-                {item.content}
-              </p>
-            </a>
-          ))}
+          <SearchablePostList classId={ctx.params.classId} posts={data} />
         </aside>
         <main class="flex-1 bg-gray-100 flex flex-col items-center justify-center">
           <ctx.Component />
