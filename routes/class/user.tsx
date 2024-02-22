@@ -1,10 +1,13 @@
 import IconLogout from "icons/logout.tsx";
-import { getUser } from "lib/get_user.ts";
-import { redirect } from "lib/response.ts";
+import { FreshContext } from "$fresh/server.ts";
+import type { DashboardState } from "lib/state.ts";
 
-export default async function Dashboard(req: Request) {
-  const user = await getUser(req);
-  if (!user) return redirect("/login");
+// deno-lint-ignore require-await
+export default async function Dashboard(
+  req: Request,
+  ctx: FreshContext<DashboardState>,
+) {
+  const user = ctx.state.user;
 
   return (
     <>

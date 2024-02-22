@@ -1,17 +1,22 @@
 import { FreshContext } from "$fresh/server.ts";
-import { getUser } from "lib/get_user.ts";
+import type { ClassState } from "lib/state.ts";
+import { getClass } from "lib/get_class.ts";
 import { getMembership } from "lib/get_member.ts";
-import { redirect } from "lib/response.ts";
 
-export const handler = [
-  async function classAccess(req: Request, ctx: FreshContext) {
-    const user = await getUser(req);
-    if (!user) return redirect("/login");
+export async function handler(
+  _: Request,
+  ctx: FreshContext<ClassState>,
+) {
+  const classId = parseInt(ctx.params.classId);
 
-    //not a member of this class
-    const member = await getMembership(user.id, parseInt(ctx.params.classId));
-    if (!member) return redirect("./no_access");
+  //not a member of this class
+  const member = await getMembership(ctx.state.user.id, classId);
+  if (!member) return ctx.renderNotFound();
+  ctx.state.member = member;
 
-    return await ctx.next();
-  },
-];
+  const classRes = await getClass(classId);
+  if (!classRes) return ctx.renderNotFound();
+  ctx.state.class = classRes;
+
+  return await ctx.next();
+}

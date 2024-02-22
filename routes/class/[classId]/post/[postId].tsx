@@ -1,5 +1,5 @@
-import { RouteContext } from "$fresh/server.ts";
-import { type QueryData } from "@supabase/supabase-js";
+import { FreshContext } from "$fresh/server.ts";
+import type { ClassState } from "lib/state.ts";
 import { getUser } from "lib/get_user.ts";
 import { redirect, unauthorized } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
@@ -8,11 +8,10 @@ import { Vote } from "islands/Vote.tsx";
 import { CommentVote } from "islands/CommentVote.tsx";
 import { PostComment } from "islands/PostComment.tsx";
 
-export default async function Dashboard(req: Request, ctx: RouteContext) {
-  // TODO(lino-levan): Clean up
-  const user = await getUser(req);
-  if (!user) return redirect("/login");
-
+export default async function Dashboard(
+  req: Request,
+  ctx: FreshContext<ClassState>,
+) {
   // Get post votes
   const { data: postData, error } = await supabase.from("posts").select("*").eq(
     "id",
@@ -68,7 +67,10 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
   // Get member who is opening the page
   const { data: memberData, error: memberError } = await supabase.from(
     "members",
-  ).select("*").eq("user_id", user.id).eq("class_id", ctx.params.classId);
+  ).select("*").eq("user_id", ctx.state.user.id).eq(
+    "class_id",
+    ctx.params.classId,
+  );
   if (memberError) return unauthorized();
   const member = memberData[0];
 
@@ -81,7 +83,7 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
     ? 0
     : (data[0].upvote ? 1 : -1);
 
-  const postedBy = post.anonymous ? "Anonymous" : user.name;
+  const postedBy = post.anonymous ? "Anonymous" : ctx.state.user.name;
 
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2 overflow-hidden overflow-y-auto">
