@@ -1,7 +1,5 @@
 import { FreshContext } from "$fresh/server.ts";
-import type { ClassState } from "lib/state.ts";
-import { getUser } from "lib/get_user.ts";
-import { redirect, unauthorized } from "lib/response.ts";
+import type { PostState } from "lib/state.ts";
 import { supabase } from "lib/db.ts";
 import { getReadableTime } from "lib/readable_time.ts";
 import { Vote } from "islands/Vote.tsx";
@@ -10,33 +8,22 @@ import { PostComment } from "islands/PostComment.tsx";
 
 export default async function Dashboard(
   req: Request,
-  ctx: FreshContext<ClassState>,
+  ctx: FreshContext<PostState>,
 ) {
-  // Get post votes
-  const { data: postData, error } = await supabase.from("posts").select("*").eq(
-    "id",
-    ctx.params.postId,
-  );
-  if (error) throw ":(";
-  const post = postData[0];
-
+  const post = ctx.state.post;
   const { count: upvoteCount } = await supabase.from("votes").select("*", {
     count: "exact",
-  }).eq("upvote", true).eq("post_id", ctx.params.postId);
+  }).eq("upvote", true).eq("post_id", post.id);
   const { count: downvoteCount } = await supabase.from("votes").select("*", {
     count: "exact",
-  }).eq("upvote", false).eq("post_id", ctx.params.postId);
+  }).eq("upvote", false).eq("post_id", post.id);
   const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
 
   // Get comments
-  const { data: commentData, error: commentError } = await supabase
+  const { data: commentData } = await supabase
     .from("comments")
     .select("*, member_id!inner(*, user_id!inner(*))")
-    .eq("post_id", ctx.params.postId);
-  if (commentError) {
-    console.error("Failed to fetch comments:", error);
-    return; // Or handle the error as appropriate for your application
-  }
+    .eq("post_id", post.id);
   const comments = commentData as unknown as {
     id: number;
     content: string;
@@ -64,21 +51,11 @@ export default async function Dashboard(
 
   const votesComments = await Promise.all(commentVotesPromises);
 
-  // Get member who is opening the page
-  const { data: memberData, error: memberError } = await supabase.from(
-    "members",
-  ).select("*").eq("user_id", ctx.state.user.id).eq(
-    "class_id",
-    ctx.params.classId,
-  );
-  if (memberError) return unauthorized();
-  const member = memberData[0];
-
   //Checked the voted state
   const { data } = await supabase.from("votes").select("*").eq(
     "member_id",
-    member.id,
-  ).eq("post_id", ctx.params.postId);
+    ctx.state.member.id,
+  ).eq("post_id", post.id);
   const voted = data === null || data.length === 0
     ? 0
     : (data[0].upvote ? 1 : -1);
