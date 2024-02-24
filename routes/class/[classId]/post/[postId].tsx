@@ -5,6 +5,8 @@ import { getReadableTime } from "lib/readable_time.ts";
 import { Vote } from "islands/Vote.tsx";
 import { CommentVote } from "islands/CommentVote.tsx";
 import { PostComment } from "islands/PostComment.tsx";
+import { EditPost } from "islands/edit.tsx";
+import { DeletePost } from "islands/delete.tsx";
 
 export default async function Dashboard(
   req: Request,
@@ -61,6 +63,16 @@ export default async function Dashboard(
     : (data[0].upvote ? 1 : -1);
 
   const postedBy = post.anonymous ? "Anonymous" : ctx.state.user.name;
+  //added to check for editing post
+  const { data: postData, error } = await supabase
+    .from("posts")
+    .select("*, member:member_id(user_id)")
+    .eq("id", ctx.params.postId)
+    .single();
+  if (error || !postData) {
+    throw new Error("Post not found or an error occurred.");
+  }
+  const postCreatorId = postData.member.user_id;
 
   const { data: tagData } = await supabase.from("post_tags").select(
     "*, tag_id!inner(*)",
@@ -93,6 +105,26 @@ export default async function Dashboard(
           </div>
         </div>
         <p class="pl-8">{post.content}</p>
+      </div>
+      <div>
+        <EditPost
+          postId={post.id}
+          initialTitle={post.title}
+          initialContent={post.content}
+          classId={ctx.params.classId}
+          userId={ctx.state.user.id}
+          postCreatorId={postCreatorId}
+        >
+        </EditPost>
+      </div>
+      <div>
+        <DeletePost
+          postId={post.id}
+          classId={ctx.params.classId}
+          userId={ctx.state.user.id}
+          postCreatorId={postCreatorId}
+        >
+        </DeletePost>
       </div>
       <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       {comments!.map((comment, index) => (
