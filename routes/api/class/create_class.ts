@@ -9,10 +9,11 @@ export const handler: Handlers = {
     if (!user) return new Response(null, { status: 401 });
 
     //insert new class
-    const { name } = await req.json();
+    const { name, _GPT, _access } = await req.json();
     const { error } = await supabase.from("classes").insert({ name });
+    //const { error } = await supabase.from("classes").insert({ name, enableGPT: GPT, access: access});
 
-    //get class_id
+    //get class_id (somehow I can't get classData from line 13)
     const { data: classData, error: classError } = await supabase.from(
       "classes",
     )

@@ -3,18 +3,18 @@ import ArrowUp from "icons/arrow-big-up.tsx";
 import ArrowUpFilled from "icons/arrow-big-up-filled.tsx";
 
 export interface VoteProps {
-  postId: number;
+  commentId: number;
   /** 0 if no vote, -1 if downvote, 1 if upvote */
   voted: number;
   votes: number;
 }
 
-export function Vote(props: VoteProps) {
+export function CommentVote(props: VoteProps) {
   const votes = useSignal(props.votes);
   const voted = useSignal(props.voted);
 
   return (
-    <div class="flex items-center flex-col w-4">
+    <div class="flex gap-2 items-center w-4">
       <button
         class="hover:bg-gray-100 rounded"
         onClick={async () => {
@@ -26,19 +26,21 @@ export function Vote(props: VoteProps) {
               votes.value++;
             }
             voted.value = 1;
-            const req = await fetch(`/api/posts/${props.postId}/vote`, {
+            const req = await fetch(`/api/comments/${props.commentId}/vote`, {
               method: "POST",
               body: JSON.stringify({
                 vote: 1,
+                commentId: props.commentId,
               }),
             });
           } else {
             voted.value = 0;
             votes.value--;
-            const req = await fetch(`/api/posts/${props.postId}/vote`, {
+            const req = await fetch(`/api/comments/${props.commentId}/vote`, {
               method: "POST",
               body: JSON.stringify({
                 vote: 0,
+                commentId: props.commentId,
               }),
             });
           }
@@ -58,19 +60,21 @@ export function Vote(props: VoteProps) {
               votes.value--;
             }
             voted.value = -1;
-            const req = await fetch(`/api/posts/${props.postId}/vote`, {
+            const req = await fetch(`/api/comments/${props.commentId}/vote`, {
               method: "POST",
               body: JSON.stringify({
                 vote: -1,
+                commentId: props.commentId,
               }),
             });
           } else {
             voted.value = 0;
             votes.value++;
-            const req = await fetch(`/api/posts/${props.postId}/vote`, {
+            const req = await fetch(`/api/comments/${props.commentId}/vote`, {
               method: "POST",
               body: JSON.stringify({
                 vote: 0,
+                commentId: props.commentId,
               }),
             });
           }

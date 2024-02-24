@@ -1,16 +1,18 @@
+import { FreshContext } from "$fresh/server.ts";
+import type { ClassState } from "lib/state.ts";
 import { UpdataClassForm } from "islands/UpdataClass.tsx";
-import { RouteContext } from "$fresh/server.ts";
-import { getClass } from "lib/get_class.ts";
 
-export default async function Dashboard(req: Request, ctx: RouteContext) {
-  const classData = await getClass(ctx.params.classId);
-
+// deno-lint-ignore require-await
+export default async function Dashboard(
+  req: Request,
+  ctx: FreshContext<ClassState>,
+) {
   return (
     <div class="bg-white p-4 rounded">
       <h1 class="text-4xl pb-4 font-bold">Update Class Details</h1>
       <UpdataClassForm
-        classId={ctx.params.classId}
-        name={classData?.name || "Class Name"}
+        classId={ctx.state.class.id}
+        name={ctx.state.class.name || "Class Name"}
       />
     </div>
   );

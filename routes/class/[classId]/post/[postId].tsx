@@ -1,65 +1,75 @@
-import { RouteContext } from "$fresh/server.ts";
-import { getUser } from "lib/get_user.ts";
-import { redirect, unauthorized } from "lib/response.ts";
+import { FreshContext } from "$fresh/server.ts";
+import type { PostState } from "lib/state.ts";
 import { supabase } from "lib/db.ts";
+import { getReadableTime } from "lib/readable_time.ts";
 import { Vote } from "islands/Vote.tsx";
-import { bad } from "lib/response.ts";
+import { CommentVote } from "islands/CommentVote.tsx";
 import { PostComment } from "islands/PostComment.tsx";
 
-export default async function Dashboard(req: Request, ctx: RouteContext) {
-  // TODO(lino-levan): Clean up
-  const user = await getUser(req);
-  if (!user) return redirect("/login");
-  const { data: postData, error } = await supabase.from("posts").select("*").eq(
-    "id",
-    ctx.params.postId,
-  );
-  if (error) throw ":(";
-  const post = postData[0];
-
+export default async function Dashboard(
+  req: Request,
+  ctx: FreshContext<PostState>,
+) {
+  const post = ctx.state.post;
   const { count: upvoteCount } = await supabase.from("votes").select("*", {
     count: "exact",
-  }).eq("upvote", true).eq("post_id", ctx.params.postId);
+  }).eq("upvote", true).eq("post_id", post.id);
   const { count: downvoteCount } = await supabase.from("votes").select("*", {
     count: "exact",
-  }).eq("upvote", false).eq("post_id", ctx.params.postId);
+  }).eq("upvote", false).eq("post_id", post.id);
   const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
 
-  // Get member who is opening the page
-  const { data: memberData, error: memberError } = await supabase.from(
-    "members",
-  ).select("*").eq("user_id", user.id).eq("class_id", ctx.params.classId);
-  if (memberError) return unauthorized();
-  const member = memberData[0];
+  // Get comments
+  const { data: commentData } = await supabase
+    .from("comments")
+    .select("*, member_id!inner(*, user_id!inner(*))")
+    .eq("post_id", post.id);
+  const comments = commentData as unknown as {
+    id: number;
+    content: string;
+    created_at: string;
+    member_id: { user_id: { name: string; picture: string } };
+  }[];
+
+  const commentVotesPromises = comments!.map(async (comment) => {
+    const { count: upvoteCountComment } = await supabase
+      .from("votes")
+      .select("*", { count: "exact" })
+      .eq("upvote", true)
+      .eq("comment_id", comment.id);
+
+    const { count: downvoteCountComment } = await supabase
+      .from("votes")
+      .select("*", { count: "exact" })
+      .eq("upvote", false)
+      .eq("comment_id", comment.id);
+    const votesComment = (upvoteCountComment ?? 0) -
+      (downvoteCountComment ?? 0);
+
+    return votesComment;
+  });
+
+  const votesComments = await Promise.all(commentVotesPromises);
 
   //Checked the voted state
   const { data } = await supabase.from("votes").select("*").eq(
     "member_id",
-    member.id,
-  ).eq("post_id", ctx.params.postId);
+    ctx.state.member.id,
+  ).eq("post_id", post.id);
   const voted = data === null || data.length === 0
     ? 0
     : (data[0].upvote ? 1 : -1);
 
-  //comments for the current post
-  const { data: comments } = await supabase
-    .from("comments")
-    .select("*")
-    .eq("post_id", ctx.params.postId);
-
-  if (error) {
-    console.error("Failed to fetch comments:", error);
-    return; // Or handle the error as appropriate for your application
-  }
+  const postedBy = post.anonymous ? "Anonymous" : ctx.state.user.name;
 
   return (
-    <div class="w-full h-full p-4 flex flex-col gap-2">
+    <div class="w-full h-full p-4 flex flex-col gap-2 overflow-hidden overflow-y-auto">
       <div class="bg-white p-4 rounded">
         <div class="flex items-center gap-4">
           <Vote votes={votes} voted={voted} postId={post.id} />
           <div class="flex flex-col">
             <h2 class="text-zinc-400 text-xs">
-              Posted by Lino Le Van 7 hours ago
+              Posted by {postedBy} {getReadableTime(post.created_at)}
             </h2>
             <h1 class="font-bold text-3xl">{post.title}</h1>
             <div class="flex gap-2 pt-2">
@@ -76,6 +86,31 @@ export default async function Dashboard(req: Request, ctx: RouteContext) {
         ))}
         <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       </div>
+      <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
+      {comments!.map((comment, index) => (
+        <div class="rounded px-4 py-2 flex bg-white gap-2">
+          <img
+            class="rounded-full w-6 h-6"
+            src={comment.member_id.user_id.picture}
+          />
+          <div class="flex flex-col gap-2">
+            <p class="text-zinc-400 text-xs">
+              <span class="text-black font-bold">
+                {comment.member_id.user_id.name}
+              </span>{" "}
+              · {getReadableTime(comment.created_at)}
+            </p>
+            <p>{comment.content}</p>
+            <div class="flex gap-4">
+              <CommentVote
+                votes={votesComments[index]}
+                voted={voted}
+                commentId={comment.id}
+              />
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

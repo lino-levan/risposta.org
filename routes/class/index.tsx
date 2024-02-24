@@ -1,19 +1,18 @@
-import { getUser } from "lib/get_user.ts";
-import { redirect } from "lib/response.ts";
-import { Database, Enums, Tables } from "lib/supabase_types.ts";
+import { FreshContext } from "$fresh/server.ts";
+import type { DashboardState } from "lib/state.ts";
+import { Tables } from "lib/supabase_types.ts";
 import { bad } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 
-export default async function Dashboard(req: Request) {
-  const user = await getUser(req);
-  if (!user) return redirect("/login");
-  console.log(user);
-
+export default async function Dashboard(
+  req: Request,
+  ctx: FreshContext<DashboardState>,
+) {
   // Get member who is opening the page
   const { data, error } = await supabase
     .from("members")
     .select("*, class_id!inner(*)")
-    .eq("user_id", user.id);
+    .eq("user_id", ctx.state.user.id);
   if (error) return bad();
 
   // This spooky code exists to extract classes from our join

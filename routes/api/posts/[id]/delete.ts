@@ -6,6 +6,7 @@ import { bad, unauthorized } from "lib/response.ts";
 export const handler: Handlers = {
   async POST(req, ctx) {
     const postId = parseInt(ctx.params.id);
+
     const user = await getUser(req);
     if (!user) return unauthorized();
 
@@ -20,14 +21,12 @@ export const handler: Handlers = {
       return unauthorized("You do not have permission to edit this post.");
     }
 
-    const { title, content }: { title: string; content: string } = await req
-      .json();
     const { error } = await supabase.from("posts")
-      .update({ title, content })
+      .delete()
       .eq("id", postId);
 
     if (error) return bad();
 
-    return new Response("Post updated successfully", { status: 200 });
+    return new Response(ctx.params.id);
   },
 };

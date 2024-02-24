@@ -2,12 +2,15 @@ import { useSignal } from "@preact/signals";
 
 export interface PostQuestionProps {
   classId: string;
+  username?: string;
 }
 
 export function PostQuestion(props: PostQuestionProps) {
   const title = useSignal("");
   const content = useSignal("");
   const loading = useSignal(false);
+  const anonymous = useSignal(false);
+
   return (
     <div class="flex flex-col gap-4">
       <div class="flex items-center gap-4">
@@ -47,10 +50,17 @@ export function PostQuestion(props: PostQuestionProps) {
       </div>
       <div class="flex items-center gap-4">
         <p class="font-bold w-36">Show my name as</p>
-        <select class="border rounded px-4 py-2 flex flex-row">
-          <option value="lab1">Lino</option>
-          <option value="lab2">Anonymous to Classmates</option>
-          <option value="lab3">Anonymous to Everyone</option>
+        <select
+          class="border rounded px-4 py-2 flex flex-row"
+          value={anonymous.value ? "anonymous" : "username"}
+          onChange={(e) => {
+            anonymous.value = e.currentTarget.value === "anonymous";
+          }}
+        >
+          <option value={props.username}>
+            {props.username}
+          </option>
+          <option value="anonymous">Anonymous</option>
         </select>
       </div>
       <div class="flex items-center gap-4 pl-40">
@@ -64,6 +74,7 @@ export function PostQuestion(props: PostQuestionProps) {
               body: JSON.stringify({
                 title: title.value,
                 content: content.value,
+                anonymous: anonymous.value,
               }),
             });
             if (req.ok) {
