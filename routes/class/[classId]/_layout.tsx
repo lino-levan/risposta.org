@@ -20,6 +20,12 @@ export default async function Layout(
     <>
       <div class="flex pt-16 w-screen h-screen">
         <aside class="h-full w-64 border-r p-4 flex flex-col gap-2">
+          <a
+            href={`/class/${classId}`}
+            class="px-4 py-2 rounded border text-center hover:bg-gray-100"
+          >
+            Home
+          </a>
           {ctx.state.member.role === "teacher" && (
             <a
               href={`/class/${classId}/settings`}
@@ -33,12 +39,6 @@ export default async function Layout(
             class="px-4 py-2 rounded border text-center hover:bg-gray-100"
           >
             Create Post
-          </a>
-          <a
-            href={`/class/${classId}`}
-            class="px-4 py-2 rounded border text-center hover:bg-gray-100"
-          >
-            FAQ
           </a>
           <SearchablePostList classId={classId} posts={data} />
         </aside>

@@ -92,9 +92,13 @@ export default async function Dashboard(
               <p class="text-xs bg-black text-white px-2 rounded">Lab 2</p>
             </div>
           </div>
-          <div class="ml-auto">
-            <AddToFAQ postId={post.id} classId={ctx.params.classId} />
-          </div>
+          {
+            ctx.state.member.role !== "student" && (
+              <div class="ml-auto">
+                <AddToFAQ postId={post.id} classId={ctx.params.classId} />
+              </div>
+            )
+          }
         </div>
         <p class="pl-8">{post.content}</p>
       </div>
