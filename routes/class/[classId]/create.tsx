@@ -1,19 +1,22 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { ClassState } from "lib/state.ts";
+import { getClassTags } from "lib/get_class_tags.ts";
 import { PostQuestion } from "islands/PostQuestion.tsx";
 
-// deno-lint-ignore require-await
 export default async function Create(
   req: Request,
   ctx: FreshContext<ClassState>,
 ) {
+  const tags = await getClassTags(ctx.state.class.id);
+  if (!tags) return ctx.renderNotFound();
+
   return (
     <div class="p-8 bg-white rounded">
       <h1 class="text-4xl pb-4 font-bold">Create Post</h1>
       <PostQuestion
         classId={ctx.params.classId}
         username={ctx.state.user.name}
-        tags={ctx.state.tags.map((t) => t.tag)}
+        tags={tags.map((t) => t.tag)}
       />
     </div>
   );

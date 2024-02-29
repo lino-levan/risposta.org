@@ -1,4 +1,5 @@
 import { useSignal } from "@preact/signals";
+import { Multiselect } from "islands/Multiselect.tsx";
 
 export interface PostQuestionProps {
   classId: string;
@@ -11,6 +12,7 @@ export function PostQuestion(props: PostQuestionProps) {
   const content = useSignal("");
   const loading = useSignal(false);
   const anonymous = useSignal(false);
+  const tags = useSignal<string[]>([]);
 
   return (
     <div class="flex flex-col gap-4">
@@ -24,9 +26,7 @@ export function PostQuestion(props: PostQuestionProps) {
       {props.tags.length > 0 && (
         <div class="flex items-center gap-4">
           <p class="font-bold w-36">Tags</p>
-          <select class="border rounded px-4 py-2 flex flex-row">
-            {props.tags.map((tag) => <option value={tag}>{tag}</option>)}
-          </select>
+          <Multiselect selected={tags} options={props.tags} />
         </div>
       )}
       <div class="flex items-center gap-4">
@@ -75,6 +75,7 @@ export function PostQuestion(props: PostQuestionProps) {
               body: JSON.stringify({
                 title: title.value,
                 content: content.value,
+                tags: tags.value,
                 anonymous: anonymous.value,
               }),
             });
