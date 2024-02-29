@@ -1,11 +1,11 @@
 import { useSignal } from "@preact/signals";
 
-export interface UpdataClassProps {
+export interface UpdateClassProps {
   classId: number;
   name: string;
 }
 
-export function UpdataClassForm(props: UpdataClassProps) {
+export function UpdateClassForm(props: UpdateClassProps) {
   const className = useSignal("");
   const loading = useSignal(false);
 

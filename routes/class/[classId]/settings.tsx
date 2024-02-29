@@ -1,6 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { ClassState } from "lib/state.ts";
-import { UpdataClassForm } from "islands/UpdataClass.tsx";
+import { UpdateClassForm } from "islands/UpdateClass.tsx";
 
 // deno-lint-ignore require-await
 export default async function Dashboard(
@@ -10,7 +10,7 @@ export default async function Dashboard(
   return (
     <div class="bg-white p-4 rounded">
       <h1 class="text-4xl pb-4 font-bold">Update Class Details</h1>
-      <UpdataClassForm
+      <UpdateClassForm
         classId={ctx.state.class.id}
         name={ctx.state.class.name || "Class Name"}
       />

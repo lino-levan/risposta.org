@@ -42,6 +42,13 @@ export function Vote(props: VoteProps) {
               }),
             });
           }
+          //update total vote count in posts
+          const req = await fetch(`/api/posts/${props.postId}/post_vote_cnt`, {
+            method: "POST",
+            body: JSON.stringify({
+              vote_cnt: votes.value,
+            }),
+          });
         }}
       >
         {voted.value === 1 ? <ArrowUpFilled /> : <ArrowUp />}
@@ -74,6 +81,13 @@ export function Vote(props: VoteProps) {
               }),
             });
           }
+          //update total vote count in posts
+          const req = await fetch(`/api/posts/${props.postId}/post_vote_cnt`, {
+            method: "POST",
+            body: JSON.stringify({
+              vote_cnt: votes,
+            }),
+          });
         }}
       >
         {voted.value === -1

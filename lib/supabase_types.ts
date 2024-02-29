@@ -123,6 +123,7 @@ export interface Database {
           member_id: number;
           title: string;
           anonymous: boolean;
+          votes: number;
         };
         Insert: {
           content: string;
@@ -131,6 +132,7 @@ export interface Database {
           member_id: number;
           title: string;
           anonymous: boolean;
+          votes?: number;
         };
         Update: {
           content?: string;
@@ -139,6 +141,7 @@ export interface Database {
           member_id?: number;
           title?: string;
           anonymous: boolean;
+          votes?: number;
         };
         Relationships: [
           {
