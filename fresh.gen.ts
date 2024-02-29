@@ -21,7 +21,6 @@ import * as $api_posts_id_vote from "./routes/api/posts/[id]/vote.ts";
 import * as $class_classId_layout from "./routes/class/[classId]/_layout.tsx";
 import * as $class_classId_middleware from "./routes/class/[classId]/_middleware.ts";
 import * as $class_classId_create from "./routes/class/[classId]/create.tsx";
-import * as $class_classId_faq from "./routes/class/[classId]/faq.tsx";
 import * as $class_classId_index from "./routes/class/[classId]/index.tsx";
 import * as $class_classId_post_postId_ from "./routes/class/[classId]/post/[postId].tsx";
 import * as $class_classId_post_middleware from "./routes/class/[classId]/post/_middleware.ts";
@@ -69,7 +68,6 @@ const manifest = {
     "./routes/class/[classId]/_layout.tsx": $class_classId_layout,
     "./routes/class/[classId]/_middleware.ts": $class_classId_middleware,
     "./routes/class/[classId]/create.tsx": $class_classId_create,
-    "./routes/class/[classId]/faq.tsx": $class_classId_faq,
     "./routes/class/[classId]/index.tsx": $class_classId_index,
     "./routes/class/[classId]/post/[postId].tsx": $class_classId_post_postId_,
     "./routes/class/[classId]/post/_middleware.ts":

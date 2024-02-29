@@ -18,7 +18,7 @@ export function AddToFAQ(props: AddToFAQProps) {
           method: "POST",
         });
         if (req.ok) {
-          location.href = `/class/${props.classId}/faq`;
+          location.href = `/class/${props.classId}`;
         }
       }}
     >
