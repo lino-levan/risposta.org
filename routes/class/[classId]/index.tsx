@@ -32,24 +32,24 @@ export default async function ClassDashboard(
       </h1>
 
       <h1 className="font-bold text-3xl mb-6">Frequently Asked Questions</h1>
-        {data.map((item) => (
-          item.faq
-            ? (
-              <a
-                href={`/class/${ctx.params.classId}/post/${item.id}`}
-                class="block py-2 px-3 mb-2 rounded rounded border"
-              >
-                <div class="flex justify-between">
-                  <h2 class="text-xl">{item.title}</h2>
-                  <RemoveFromFAQ
-                    postId={item.id}
-                    classId={ctx.params.classId}
-                  />
-                </div>
-              </a>
-            )
-            : null
-        ))}
+      {data.map((item) => (
+        item.faq
+          ? (
+            <a
+              href={`/class/${ctx.params.classId}/post/${item.id}`}
+              class="block py-2 px-3 mb-2 rounded rounded border"
+            >
+              <div class="flex justify-between">
+                <h2 class="text-xl">{item.title}</h2>
+                <RemoveFromFAQ
+                  postId={item.id}
+                  classId={ctx.params.classId}
+                />
+              </div>
+            </a>
+          )
+          : null
+      ))}
     </div>
   );
 }
