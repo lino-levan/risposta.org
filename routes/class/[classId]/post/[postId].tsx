@@ -7,6 +7,7 @@ import { CommentVote } from "islands/CommentVote.tsx";
 import { PostComment } from "islands/PostComment.tsx";
 import { EditPost } from "islands/edit.tsx";
 import { DeletePost } from "islands/delete.tsx";
+import { AddToFAQ } from "islands/FAQ/AddToFAQ.tsx";
 
 export default async function Dashboard(
   req: Request,
@@ -86,8 +87,10 @@ export default async function Dashboard(
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2 overflow-hidden overflow-y-auto">
       <div class="bg-white p-4 rounded">
-        <div class="flex items-center gap-4">
-          <Vote votes={votes} voted={voted} postId={post.id} />
+        <div class="flex items-start gap-4">
+          <div>
+            <Vote votes={votes} voted={voted} postId={post.id} />
+          </div>
           <div class="flex flex-col">
             <h2 class="text-zinc-400 text-xs">
               Posted by {postedBy} {getReadableTime(post.created_at)}
@@ -103,6 +106,13 @@ export default async function Dashboard(
               </div>
             )}
           </div>
+          {
+            ctx.state.member.role !== "student" && (
+              <div class="ml-auto">
+                <AddToFAQ postId={post.id} classId={ctx.params.classId} />
+              </div>
+            )
+          }
         </div>
         <p class="pl-8">{post.content}</p>
       </div>
