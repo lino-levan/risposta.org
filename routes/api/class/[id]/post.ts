@@ -7,10 +7,11 @@ export const handler: Handlers = {
   async POST(req, ctx) {
     // TODO(lino-levan): Validate input
     const classId = parseInt(ctx.params.id);
-    const { title, content, anonymous }: {
+    const { title, content, anonymous, faq }: {
       title: string;
       content: string;
       anonymous: boolean;
+      faq: boolean;
     } = await req
       .json();
 
@@ -33,6 +34,7 @@ export const handler: Handlers = {
       content,
       title,
       anonymous,
+      faq,
     }).select();
     if (error) return bad();
 
