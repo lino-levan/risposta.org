@@ -7,6 +7,7 @@ export interface DashboardState {
 export interface ClassState extends DashboardState {
   class: Database["public"]["Tables"]["classes"]["Row"];
   member: Database["public"]["Tables"]["members"]["Row"];
+  tags: Database["public"]["Tables"]["tags"]["Row"][];
 }
 
 export interface PostState extends ClassState {

@@ -13,6 +13,7 @@ export default async function Create(
       <PostQuestion
         classId={ctx.params.classId}
         username={ctx.state.user.name}
+        tags={ctx.state.tags.map((t) => t.tag)}
       />
     </div>
   );

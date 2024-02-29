@@ -3,6 +3,7 @@ import { useSignal } from "@preact/signals";
 export interface PostQuestionProps {
   classId: string;
   username?: string;
+  tags: string[];
 }
 
 export function PostQuestion(props: PostQuestionProps) {
@@ -20,14 +21,14 @@ export function PostQuestion(props: PostQuestionProps) {
           <option value="instructor">Instructor</option>
         </select>
       </div>
-      <div class="flex items-center gap-4">
-        <p class="font-bold w-36">Tags</p>
-        <select class="border rounded px-4 py-2 flex flex-row">
-          <option value="lab1">lab1</option>
-          <option value="lab2">lab2</option>
-          <option value="lab3">lab3</option>
-        </select>
-      </div>
+      {props.tags.length > 0 && (
+        <div class="flex items-center gap-4">
+          <p class="font-bold w-36">Tags</p>
+          <select class="border rounded px-4 py-2 flex flex-row">
+            {props.tags.map((tag) => <option value={tag}>{tag}</option>)}
+          </select>
+        </div>
+      )}
       <div class="flex items-center gap-4">
         <p class="font-bold w-36">Title</p>
         <input
