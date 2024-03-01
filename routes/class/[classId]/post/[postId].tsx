@@ -8,6 +8,8 @@ import { PostComment } from "islands/PostComment.tsx";
 import { EditPost } from "islands/edit.tsx";
 import { DeletePost } from "islands/delete.tsx";
 import { AddToFAQ } from "islands/FAQ/AddToFAQ.tsx";
+import { EditComment } from "islands/EditComment.tsx";
+import { DeleteComment } from "islands/DeleteComment.tsx";
 
 export default async function Dashboard(
   req: Request,
@@ -74,7 +76,6 @@ export default async function Dashboard(
     throw new Error("Post not found or an error occurred.");
   }
   const postCreatorId = postData.member.user_id;
-
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2 overflow-hidden overflow-y-auto">
       <div class="bg-white p-4 rounded">
@@ -92,13 +93,11 @@ export default async function Dashboard(
               <p class="text-xs bg-black text-white px-2 rounded">Lab 2</p>
             </div>
           </div>
-          {
-            ctx.state.member.role !== "student" && (
-              <div class="ml-auto">
-                <AddToFAQ postId={post.id} classId={ctx.params.classId} />
-              </div>
-            )
-          }
+          {ctx.state.member.role !== "student" && (
+            <div class="ml-auto">
+              <AddToFAQ postId={post.id} classId={ctx.params.classId} />
+            </div>
+          )}
         </div>
         <p class="pl-8">{post.content}</p>
       </div>
@@ -142,6 +141,24 @@ export default async function Dashboard(
                 votes={votesComments[index]}
                 voted={voted}
                 commentId={comment.id}
+              />
+            </div>
+            <div>
+              <EditComment
+                postId={post.id}
+                commentId={comment.id}
+                classId={ctx.params.classId}
+                userId={ctx.state.user.id}
+                commentCreatorId={postCreatorId}
+              />
+            </div>
+            <div>
+              <DeleteComment
+                postId={post.id}
+                commentId={comment.id}
+                classId={ctx.params.classId}
+                userId={ctx.state.user.id}
+                commentCreatorId={postCreatorId}
               />
             </div>
           </div>
