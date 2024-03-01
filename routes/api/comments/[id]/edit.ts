@@ -15,7 +15,6 @@ export const handler: Handlers = {
       .select("id, member_id, member:member_id (user_id)")
       .eq("id", commentId)
       .single();
-    console.log(commentId);
     if (commentError || !commentData) {
       return bad("Comment not found.");
     }
