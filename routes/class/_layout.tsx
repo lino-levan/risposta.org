@@ -8,7 +8,7 @@ export default async function Layout(
 ) {
   return (
     <>
-      <header class="w-screen py-2 px-4 shadow fixed flex items-center gap-4 bg-white">
+      <header class="w-screen py-2 px-4 shadow fixed flex items-center gap-4 bg-green-400">
         <a href="/" class="font-titan-one text-xl uppercase">Risposta</a>
         <div class="ml-auto" />
         <a

@@ -8,7 +8,7 @@ export default async function Create(
   ctx: FreshContext<ClassState>,
 ) {
   return (
-    <div class="p-8 bg-white rounded">
+    <div class="p-8 bg-green-200 rounded">
       <h1 class="text-4xl pb-4 font-bold">Create Post</h1>
       <PostQuestion
         classId={ctx.params.classId}

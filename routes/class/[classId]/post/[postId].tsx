@@ -5,6 +5,7 @@ import { getReadableTime } from "lib/readable_time.ts";
 import { Vote } from "islands/Vote.tsx";
 import { CommentVote } from "islands/CommentVote.tsx";
 import { PostComment } from "islands/PostComment.tsx";
+import { ThreadedComment } from "islands/ThreadedComment.tsx";
 
 export default async function Dashboard(
   req: Request,
@@ -22,14 +23,38 @@ export default async function Dashboard(
   // Get comments
   const { data: commentData } = await supabase
     .from("comments")
-    .select("*, member_id!inner(*, user_id!inner(*))")
+    .select("*, member_id!inner(*, user_id!inner(*)), parent_id")
     .eq("post_id", post.id);
+
   const comments = commentData as unknown as {
     id: number;
     content: string;
     created_at: string;
     member_id: { user_id: { name: string; picture: string } };
+    parent_id: number;
+    children: any[];
   }[];
+
+  function buildTree(comments, parent) {
+    let tree = [];
+  
+    for(let comment of comments) {
+      if(comment.parent_id === parent) {
+        let children = buildTree(comments, comment.id);
+  
+        if(children.length) {
+          comment.children = children;
+        }
+  
+        tree.push(comment);
+      }
+    }
+  
+    return tree;
+  }
+  
+  // Build a comment tree
+  const commentForest = buildTree(comments, null);
 
   const commentVotesPromises = comments!.map(async (comment) => {
     const { count: upvoteCountComment } = await supabase
@@ -62,6 +87,43 @@ export default async function Dashboard(
 
   const postedBy = post.anonymous ? "Anonymous" : ctx.state.user.name;
 
+  
+  function renderComment(comment, index) {
+    return (
+      <div class={`rounded px-4 py-2 flex bg-white gap-2 ${comment.parent_id ? 'pl-20' : ''}`}>
+        <img
+          class="rounded-full w-6 h-6"
+          src={comment.member_id.user_id.picture}
+        />
+        <div class="flex flex-col gap-2">
+          <p class="text-zinc-400 text-xs">
+            <span class="text-black font-bold">
+              {comment.member_id.user_id.name}
+            </span>{" "}
+            · {getReadableTime(comment.created_at)}
+          </p>
+          <p>{comment.content}</p>
+          <div class="flex gap-4">
+            <CommentVote
+              votes={votesComments[index]}
+              voted={voted}
+              commentId={comment.id}
+            />
+          </div>
+          <div class={`pl-8 ${comment.parent_id ? 'pl-20' : ''}`}>
+            <ThreadedComment
+              post_id={ctx.params.postId}
+              classId={ctx.params.classId}
+              commentId={comment.id}
+            />
+          </div>
+          {comment.children &&
+            comment.children.map(renderComment)}
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2 overflow-hidden overflow-y-auto">
       <div class="bg-white p-4 rounded">
@@ -79,38 +141,8 @@ export default async function Dashboard(
           </div>
         </div>
         <p class="pl-8">{post.content}</p>
-        {comments.map((comment) => (
-          <div class="border px-4 py-2 flex items-center justify-between">
-            <p>{comment.content}</p>
-          </div>
-        ))}
-        <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       </div>
       <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
-      {comments!.map((comment, index) => (
-        <div class="rounded px-4 py-2 flex bg-white gap-2">
-          <img
-            class="rounded-full w-6 h-6"
-            src={comment.member_id.user_id.picture}
-          />
-          <div class="flex flex-col gap-2">
-            <p class="text-zinc-400 text-xs">
-              <span class="text-black font-bold">
-                {comment.member_id.user_id.name}
-              </span>{" "}
-              · {getReadableTime(comment.created_at)}
-            </p>
-            <p>{comment.content}</p>
-            <div class="flex gap-4">
-              <CommentVote
-                votes={votesComments[index]}
-                voted={voted}
-                commentId={comment.id}
-              />
-            </div>
-          </div>
-        </div>
-      ))}
+      {commentForest && commentForest.map(renderComment)}
     </div>
-  );
-}
+  ); }
