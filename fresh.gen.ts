@@ -9,6 +9,8 @@ import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
 import * as $api_class_id_comment from "./routes/api/class/[id]/comment.ts";
 import * as $api_class_id_delete_class from "./routes/api/class/[id]/delete_class.ts";
+import * as $api_class_id_faq_add from "./routes/api/class/[id]/faq/add.ts";
+import * as $api_class_id_faq_remove from "./routes/api/class/[id]/faq/remove.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
 import * as $api_class_create_class from "./routes/api/class/create_class.ts";
@@ -34,6 +36,8 @@ import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
 import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
+import * as $FAQ_AddToFAQ from "./islands/FAQ/AddToFAQ.tsx";
+import * as $FAQ_RemoveFromFAQ from "./islands/FAQ/RemoveFromFAQ.tsx";
 import * as $PostComment from "./islands/PostComment.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
 import * as $SearchablePostList from "./islands/SearchablePostList.tsx";
@@ -52,6 +56,8 @@ const manifest = {
     "./routes/api/auth/logout.ts": $api_auth_logout,
     "./routes/api/class/[id]/comment.ts": $api_class_id_comment,
     "./routes/api/class/[id]/delete_class.ts": $api_class_id_delete_class,
+    "./routes/api/class/[id]/faq/add.ts": $api_class_id_faq_add,
+    "./routes/api/class/[id]/faq/remove.ts": $api_class_id_faq_remove,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
     "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
     "./routes/api/class/create_class.ts": $api_class_create_class,
@@ -80,6 +86,8 @@ const manifest = {
   islands: {
     "./islands/CommentVote.tsx": $CommentVote,
     "./islands/CreateClass.tsx": $CreateClass,
+    "./islands/FAQ/AddToFAQ.tsx": $FAQ_AddToFAQ,
+    "./islands/FAQ/RemoveFromFAQ.tsx": $FAQ_RemoveFromFAQ,
     "./islands/PostComment.tsx": $PostComment,
     "./islands/PostQuestion.tsx": $PostQuestion,
     "./islands/SearchablePostList.tsx": $SearchablePostList,

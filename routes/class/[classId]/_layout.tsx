@@ -18,8 +18,14 @@ export default async function Layout(
 
   return (
     <>
-      <div class="flex pt-16 w-screen h-screen bg-white">
-        <aside class="h-full w-64 border-r border-green-200 p-4 flex flex-col gap-2 bg-white">
+      <div class="flex pt-16 w-screen h-screen">
+        <aside class="h-full w-64 border-r p-4 flex flex-col gap-2">
+          <a
+            href={`/class/${classId}`}
+            class="px-4 py-2 rounded border text-center hover:bg-gray-100"
+          >
+            Home
+          </a>
           {ctx.state.member.role === "teacher" && (
             <a
               href={`/class/${classId}/settings`}

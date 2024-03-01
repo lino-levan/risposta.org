@@ -9,7 +9,6 @@ export async function getUser(request: Request) {
   const { data: session, error: sessionError } = await supabase
     .from("sessions")
     .select("*")
-    // Filters
     .eq("id", sessionId);
   if (sessionError || !session || session.length === 0) return null;
   const userId = session[0].user_id;
