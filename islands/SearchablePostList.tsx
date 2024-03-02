@@ -9,7 +9,8 @@ export function SearchablePostList(
       created_at: string;
       title: string;
       content: string;
-      votes: number;
+      upvotes: number;
+      downvotes: number;
     }[];
     classId: number;
   },
@@ -53,7 +54,9 @@ export function SearchablePostList(
 
     //sorted here
     if (sortRule.value === "votes") {
-      return postsToSort.sort((a, b) => b.votes - a.votes);
+      return postsToSort.sort((a, b) =>
+        (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes)
+      );
     } else {
       return postsToSort.sort((a, b) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
