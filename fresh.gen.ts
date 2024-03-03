@@ -14,6 +14,7 @@ import * as $api_class_id_faq_remove from "./routes/api/class/[id]/faq/remove.ts
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
 import * as $api_class_create_class from "./routes/api/class/create_class.ts";
+import * as $api_class_join_class from "./routes/api/class/join_class.ts";
 import * as $api_comments_id_vote from "./routes/api/comments/[id]/vote.ts";
 import * as $api_posts_id_delete from "./routes/api/posts/[id]/delete.ts";
 import * as $api_posts_id_edit from "./routes/api/posts/[id]/edit.ts";
@@ -29,6 +30,7 @@ import * as $class_layout from "./routes/class/_layout.tsx";
 import * as $class_middleware from "./routes/class/_middleware.ts";
 import * as $class_create_class from "./routes/class/create_class.tsx";
 import * as $class_index from "./routes/class/index.tsx";
+import * as $class_join_class from "./routes/class/join_class.tsx";
 import * as $class_no_access from "./routes/class/no_access.tsx";
 import * as $class_user from "./routes/class/user.tsx";
 import * as $index from "./routes/index.tsx";
@@ -38,6 +40,7 @@ import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
 import * as $FAQ_AddToFAQ from "./islands/FAQ/AddToFAQ.tsx";
 import * as $FAQ_RemoveFromFAQ from "./islands/FAQ/RemoveFromFAQ.tsx";
+import * as $JoinClass from "./islands/JoinClass.tsx";
 import * as $PostComment from "./islands/PostComment.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
 import * as $SearchablePostList from "./islands/SearchablePostList.tsx";
@@ -61,6 +64,7 @@ const manifest = {
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
     "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
     "./routes/api/class/create_class.ts": $api_class_create_class,
+    "./routes/api/class/join_class.ts": $api_class_join_class,
     "./routes/api/comments/[id]/vote.ts": $api_comments_id_vote,
     "./routes/api/posts/[id]/delete.ts": $api_posts_id_delete,
     "./routes/api/posts/[id]/edit.ts": $api_posts_id_edit,
@@ -77,6 +81,7 @@ const manifest = {
     "./routes/class/_middleware.ts": $class_middleware,
     "./routes/class/create_class.tsx": $class_create_class,
     "./routes/class/index.tsx": $class_index,
+    "./routes/class/join_class.tsx": $class_join_class,
     "./routes/class/no_access.tsx": $class_no_access,
     "./routes/class/user.tsx": $class_user,
     "./routes/index.tsx": $index,
@@ -88,6 +93,7 @@ const manifest = {
     "./islands/CreateClass.tsx": $CreateClass,
     "./islands/FAQ/AddToFAQ.tsx": $FAQ_AddToFAQ,
     "./islands/FAQ/RemoveFromFAQ.tsx": $FAQ_RemoveFromFAQ,
+    "./islands/JoinClass.tsx": $JoinClass,
     "./islands/PostComment.tsx": $PostComment,
     "./islands/PostQuestion.tsx": $PostQuestion,
     "./islands/SearchablePostList.tsx": $SearchablePostList,
