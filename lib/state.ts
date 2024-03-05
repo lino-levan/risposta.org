@@ -1,4 +1,4 @@
-import { Database } from "lib/supabase_types.ts";
+import type { Database } from "lib/supabase_types.ts";
 
 export interface DashboardState {
   user: Database["public"]["Tables"]["users"]["Row"];
