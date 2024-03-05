@@ -69,7 +69,7 @@ export function SearchablePostList(
   return (
     <>
       <select
-        class="border rounded p-2"
+        class="select select-bordered"
         onChange={(e) => {
           const value = e.currentTarget.value;
           if (value === "recent" || value === "votes") {
@@ -86,7 +86,7 @@ export function SearchablePostList(
         </option>
       </select>
       <input
-        class="w-full border-green-200 rounded p-2 bg-white text-black"
+        class="input input-bordered py-4"
         placeholder="Search for..."
         onInput={(e) => {
           const value = e.currentTarget.value.trim();
@@ -101,7 +101,7 @@ export function SearchablePostList(
       {sortedFilteredPosts.value.map((item) => (
         <a
           href={`/class/${props.classId}/post/${item.id}`}
-          class="block py-2 px-3 rounded bg-green-300 hover:bg-green-500 text-black"
+          class="block py-2 px-3 rounded bg-base-200 hover:bg-base-300"
         >
           <h2 class="text-xl">{item.title}</h2>
           <p class="text-sm text-black whitespace-nowrap overflow-hidden text-ellipsis">

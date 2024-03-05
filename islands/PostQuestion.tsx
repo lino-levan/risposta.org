@@ -86,10 +86,16 @@ export function PostQuestion(props: PostQuestionProps) {
         >
           Post
         </button>
-        <button class="rounded px-4 py-2 border-green-200 bg-white hover:bg-green-500 text-black" disabled={loading}>
+        <button
+          class="rounded px-4 py-2 border-green-200 bg-white hover:bg-green-500 text-black"
+          disabled={loading}
+        >
           Save Draft
         </button>
-        <a class="rounded px-4 py-2 border-green-200 bg-white hover:bg-green-500 text-black" href={`/class/${props.classId}`}>
+        <a
+          class="rounded px-4 py-2 border-green-200 bg-white hover:bg-green-500 text-black"
+          href={`/class/${props.classId}`}
+        >
           Cancel
         </a>
       </div>

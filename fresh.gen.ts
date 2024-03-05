@@ -50,6 +50,7 @@ import * as $Multiselect from "./islands/Multiselect.tsx";
 import * as $PostComment from "./islands/PostComment.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
 import * as $SearchablePostList from "./islands/SearchablePostList.tsx";
+import * as $ThreadedComment from "./islands/ThreadedComment.tsx";
 import * as $UpdateClass from "./islands/UpdateClass.tsx";
 import * as $Vote from "./islands/Vote.tsx";
 import * as $delete from "./islands/delete.tsx";
@@ -109,6 +110,7 @@ const manifest = {
     "./islands/PostComment.tsx": $PostComment,
     "./islands/PostQuestion.tsx": $PostQuestion,
     "./islands/SearchablePostList.tsx": $SearchablePostList,
+    "./islands/ThreadedComment.tsx": $ThreadedComment,
     "./islands/UpdateClass.tsx": $UpdateClass,
     "./islands/Vote.tsx": $Vote,
     "./islands/delete.tsx": $delete,

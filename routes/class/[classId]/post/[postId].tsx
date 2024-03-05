@@ -42,22 +42,22 @@ export default async function Dashboard(
 
   function buildTree(comments, parent) {
     let tree = [];
-  
-    for(let comment of comments) {
-      if(comment.parent_id === parent) {
+
+    for (let comment of comments) {
+      if (comment.parent_id === parent) {
         let children = buildTree(comments, comment.id);
-  
-        if(children.length) {
+
+        if (children.length) {
           comment.children = children;
         }
-  
+
         tree.push(comment);
       }
     }
-  
+
     return tree;
   }
-  
+
   // Build a comment tree
   const commentForest = buildTree(comments, null);
 
@@ -101,10 +101,14 @@ export default async function Dashboard(
     throw new Error("Post not found or an error occurred.");
   }
   const postCreatorId = postData.member.user_id;
-  
+
   function renderComment(comment, index) {
     return (
-      <div class={`rounded px-4 py-2 flex bg-white p-4 shadow-lg mb-4 ${comment.parent_id ? 'pl-4 border-l-2 border-gray-400' : ''}`}>
+      <div
+        class={`rounded px-4 py-2 flex bg-white p-4 shadow-lg mb-4 ${
+          comment.parent_id ? "pl-4 border-l-2 border-gray-400" : ""
+        }`}
+      >
         <img
           class="rounded-full w-6 h-6"
           src={comment.member_id.user_id.picture}
@@ -124,7 +128,7 @@ export default async function Dashboard(
               commentId={comment.id}
             />
           </div>
-          <div class={` ${comment.parent_id ? 'pl-1' : ''}`}>
+          <div class={` ${comment.parent_id ? "pl-1" : ""}`}>
             <ThreadedComment
               post_id={ctx.params.postId}
               classId={ctx.params.classId}
@@ -137,7 +141,7 @@ export default async function Dashboard(
       </div>
     );
   }
-    const { data: tagData } = await supabase.from("post_tags").select(
+  const { data: tagData } = await supabase.from("post_tags").select(
     "*, tag_id!inner(*)",
   ).eq("post_id", post.id);
   const tags = tagData as unknown as {
@@ -198,4 +202,5 @@ export default async function Dashboard(
       <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       {commentForest && commentForest.map(renderComment)}
     </div>
-  ); }
+  );
+}
