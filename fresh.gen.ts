@@ -13,6 +13,7 @@ import * as $api_class_id_faq_add from "./routes/api/class/[id]/faq/add.ts";
 import * as $api_class_id_faq_remove from "./routes/api/class/[id]/faq/remove.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
+import * as $api_class_id_tag from "./routes/api/class/[id]/tag.ts";
 import * as $api_class_create_class from "./routes/api/class/create_class.ts";
 import * as $api_comments_id_vote from "./routes/api/comments/[id]/vote.ts";
 import * as $api_posts_id_delete from "./routes/api/posts/[id]/delete.ts";
@@ -61,6 +62,7 @@ const manifest = {
     "./routes/api/class/[id]/faq/remove.ts": $api_class_id_faq_remove,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
     "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
+    "./routes/api/class/[id]/tag.ts": $api_class_id_tag,
     "./routes/api/class/create_class.ts": $api_class_create_class,
     "./routes/api/comments/[id]/vote.ts": $api_comments_id_vote,
     "./routes/api/posts/[id]/delete.ts": $api_posts_id_delete,

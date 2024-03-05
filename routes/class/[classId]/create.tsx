@@ -16,7 +16,7 @@ export default async function Create(
       <PostQuestion
         classId={ctx.params.classId}
         username={ctx.state.user.name}
-        tags={tags.map((t) => t.tag)}
+        tags={[...new Set(tags.map((t) => t.tag))]}
       />
     </div>
   );

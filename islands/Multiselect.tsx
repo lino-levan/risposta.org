@@ -24,15 +24,15 @@ export function Multiselect({ selected, options }: MultiselectProps) {
 
   return (
     <button
-      class="border rounded px-4 py-2 relative w-48"
+      class="border rounded px-1 py-1 relative w-96"
       onClick={(e) => {
         e.stopPropagation();
         open.value = !open.value;
       }}
     >
-      {selected.value.length === 0 && "None Selected"}
+      {selected.value.length === 0 && <p class="py-[2px]">None Selected</p>}
       {selected.value.map((value) => (
-        <div class="text-xs bg-black text-white pl-2 pr-1 py-1 rounded w-min flex gap-1">
+        <span class="text-xs bg-black text-white pl-2 pr-1 py-1 rounded w-max inline-flex gap-1 m-[2px]">
           {value}
           <button
             class="text-gray-500 hover:text-white"
@@ -43,10 +43,10 @@ export function Multiselect({ selected, options }: MultiselectProps) {
           >
             <IconX class="w-4 h-4" />
           </button>
-        </div>
+        </span>
       ))}
       {open.value && (
-        <div class="absolute bg-white w-48 left-0 top-10 shadow px-2 py-2 border rounded flex flex-col">
+        <div class="absolute bg-white w-48 left-0 top-10 shadow px-2 py-2 border rounded flex flex-col gap-1">
           {options.map((option) => (
             <button
               class="px-2 w-full bg-black bg-opacity-0 hover:bg-opacity-5 rounded flex"

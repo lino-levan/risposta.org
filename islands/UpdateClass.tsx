@@ -1,14 +1,30 @@
 import { useSignal } from "@preact/signals";
+import { debounce } from "$std/async/debounce.ts";
 import IconX from "icons/x.tsx";
+import type { Database } from "lib/supabase_types.ts";
 
 export interface UpdataClassProps {
   classId: number;
   name: string;
+  tags: Database["public"]["Tables"]["tags"]["Row"][];
 }
+
+const updateTags = debounce(
+  async (
+    classId: number,
+    tags: Database["public"]["Tables"]["tags"]["Row"][],
+  ) => {
+    await fetch(`/api/class/${classId}/tag`, {
+      method: "POST",
+      body: JSON.stringify(tags),
+    });
+  },
+  500,
+);
 
 export function UpdateClassForm(props: UpdataClassProps) {
   const className = useSignal("");
-  const tags = useSignal<string[]>([]);
+  const tags = useSignal(props.tags);
   const loading = useSignal(false);
 
   const updateClass = async () => {
@@ -68,17 +84,26 @@ export function UpdateClassForm(props: UpdataClassProps) {
           <div class="border rounded flex-grow flex">
             <input
               class="p-2 rounded flex-grow"
-              value={tag}
+              value={tag.tag}
               onInput={(e) => {
-                tags.value[i] = e.currentTarget.value;
+                tags.value[i].tag = e.currentTarget.value;
                 tags.value = [...tags.value];
+                updateTags(props.classId, tags.value);
               }}
               placeholder="Tag Name"
             />
             <button
               class="text-gray-500 hover:text-black"
-              onClick={() => {
-                tags.value = tags.value.filter((_, j) => i !== j);
+              onClick={async () => {
+                const req = await fetch(`/api/class/${props.classId}/tag`, {
+                  method: "DELETE",
+                  body: JSON.stringify({
+                    tagId: tag.id,
+                  }),
+                });
+                if (req.ok) {
+                  tags.value = tags.value.filter((_, j) => i !== j);
+                }
               }}
             >
               <IconX />
@@ -87,8 +112,13 @@ export function UpdateClassForm(props: UpdataClassProps) {
         ))}
         <button
           class="w-max rounded px-4 py-2 border"
-          onClick={() => {
-            tags.value = [...tags.value, ""];
+          onClick={async () => {
+            const req = await fetch(`/api/class/${props.classId}/tag`, {
+              method: "POST",
+              body: JSON.stringify([{ tag: "" }]),
+            });
+            const res = await req.json();
+            tags.value = [...tags.value, ...res];
           }}
         >
           New Tag
