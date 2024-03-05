@@ -13,6 +13,7 @@ import * as $api_class_id_faq_add from "./routes/api/class/[id]/faq/add.ts";
 import * as $api_class_id_faq_remove from "./routes/api/class/[id]/faq/remove.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
+import * as $api_class_id_tag from "./routes/api/class/[id]/tag.ts";
 import * as $api_class_create_class from "./routes/api/class/create_class.ts";
 import * as $api_comments_id_vote from "./routes/api/comments/[id]/vote.ts";
 import * as $api_posts_id_delete from "./routes/api/posts/[id]/delete.ts";
@@ -38,10 +39,11 @@ import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
 import * as $FAQ_AddToFAQ from "./islands/FAQ/AddToFAQ.tsx";
 import * as $FAQ_RemoveFromFAQ from "./islands/FAQ/RemoveFromFAQ.tsx";
+import * as $Multiselect from "./islands/Multiselect.tsx";
 import * as $PostComment from "./islands/PostComment.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
 import * as $SearchablePostList from "./islands/SearchablePostList.tsx";
-import * as $UpdataClass from "./islands/UpdataClass.tsx";
+import * as $UpdateClass from "./islands/UpdateClass.tsx";
 import * as $Vote from "./islands/Vote.tsx";
 import * as $delete from "./islands/delete.tsx";
 import * as $edit from "./islands/edit.tsx";
@@ -60,6 +62,7 @@ const manifest = {
     "./routes/api/class/[id]/faq/remove.ts": $api_class_id_faq_remove,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
     "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
+    "./routes/api/class/[id]/tag.ts": $api_class_id_tag,
     "./routes/api/class/create_class.ts": $api_class_create_class,
     "./routes/api/comments/[id]/vote.ts": $api_comments_id_vote,
     "./routes/api/posts/[id]/delete.ts": $api_posts_id_delete,
@@ -88,10 +91,11 @@ const manifest = {
     "./islands/CreateClass.tsx": $CreateClass,
     "./islands/FAQ/AddToFAQ.tsx": $FAQ_AddToFAQ,
     "./islands/FAQ/RemoveFromFAQ.tsx": $FAQ_RemoveFromFAQ,
+    "./islands/Multiselect.tsx": $Multiselect,
     "./islands/PostComment.tsx": $PostComment,
     "./islands/PostQuestion.tsx": $PostQuestion,
     "./islands/SearchablePostList.tsx": $SearchablePostList,
-    "./islands/UpdataClass.tsx": $UpdataClass,
+    "./islands/UpdateClass.tsx": $UpdateClass,
     "./islands/Vote.tsx": $Vote,
     "./islands/delete.tsx": $delete,
     "./islands/edit.tsx": $edit,
