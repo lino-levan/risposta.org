@@ -16,24 +16,21 @@ export const handler: Handlers = {
     if (!user) return unauthorized();
 
     // Get data on the post being upvoted
-    const { data: postData, error: postError } = await supabase.from(
+    const { data: post, error: postError } = await supabase.from(
       "posts",
-    ).select("*, member_id!inner(*)").eq("id", postId);
-    if (postError || postData.length === 0 || postData.length > 1) return bad();
-    const post = postData[0];
+    ).select("*, member_id!inner(*)").eq("id", postId).single();
+    if (postError) return bad();
 
     //get member row from user
-    const { data: memberData, error: memberError } = await supabase.from(
+    const { data: member, error: memberError } = await supabase.from(
       "members",
     ).select("*").eq("user_id", user.id).eq(
       "class_id",
-      post.member_id.class_id,
-    );
-    console.log(memberData);
-    if (memberError || memberData.length === 0 || memberData.length > 1) {
+      (post.member_id as unknown as { class_id: string }).class_id,
+    ).single();
+    if (memberError) {
       return bad();
     }
-    const member = memberData[0];
 
     // post comment
     const { error } = await supabase.from("comments").insert({
@@ -41,7 +38,7 @@ export const handler: Handlers = {
       post_id: postId,
       parent_id,
       content,
-    }).select();
+    }).select("*");
     if (error) return bad();
 
     // success :)

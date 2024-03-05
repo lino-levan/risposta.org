@@ -2,13 +2,10 @@ import { FreshContext } from "$fresh/server.ts";
 import type { PostState } from "lib/state.ts";
 import { supabase } from "lib/db.ts";
 import { getReadableTime } from "lib/readable_time.ts";
-import { Vote } from "islands/Vote.tsx";
 import { CommentVote } from "islands/CommentVote.tsx";
 import { PostComment } from "islands/PostComment.tsx";
 import { ThreadedComment } from "islands/ThreadedComment.tsx";
-import { EditPost } from "islands/edit.tsx";
-import { DeletePost } from "islands/delete.tsx";
-import { AddToFAQ } from "islands/FAQ/AddToFAQ.tsx";
+import { Post } from "islands/Post.tsx";
 
 export default async function Dashboard(
   req: Request,
@@ -39,11 +36,11 @@ export default async function Dashboard(
   }[];
 
   function buildTree(comments, parent) {
-    let tree = [];
+    const tree = [];
 
-    for (let comment of comments) {
+    for (const comment of comments) {
       if (comment.parent_id === parent) {
-        let children = buildTree(comments, comment.id);
+        const children = buildTree(comments, comment.id);
 
         if (children.length) {
           comment.children = children;
@@ -103,7 +100,7 @@ export default async function Dashboard(
   function renderComment(comment, index) {
     return (
       <div
-        class={`px-4 py-2 flex bg-base-200 p-4 shadow-lg ${
+        class={`px-4 py-2 flex p-4 ${
           comment.parent_id ? "pl-4 border-l-2 border-gray-400" : ""
         }`}
       >
@@ -149,34 +146,20 @@ export default async function Dashboard(
   }[];
   return (
     <div class="w-full h-full p-4 flex flex-col overflow-hidden overflow-y-auto">
-      <div class="bg-base-200 p-4 rounded-t-lg">
-        <div class="flex items-start gap-4">
-          <div>
-            <Vote votes={votes} voted={voted} postId={post.id} />
-          </div>
-          <div class="flex flex-col">
-            <h2 class="text-zinc-400 text-xs">
-              Posted by {postedBy} {getReadableTime(post.created_at)}
-            </h2>
-            <h1 class="font-bold text-3xl">{post.title}</h1>
-            {tags && tags.length > 0 && (
-              <div class="flex gap-2 pt-2">
-                {tags!.map((tag) => (
-                  <p class="text-xs bg-black text-white px-2 rounded">
-                    {tag.tag_id.tag}
-                  </p>
-                ))}
-              </div>
-            )}
-          </div>
-          {ctx.state.member.role !== "student" && (
-            <div class="ml-auto">
-              <AddToFAQ postId={post.id} classId={ctx.params.classId} />
-            </div>
-          )}
-        </div>
-        <p class="pl-8">{post.content}</p>
-      </div>
+      <Post
+        inFAQ={post.faq}
+        classId={ctx.state.class.id}
+        isAuthor={post.member_id === ctx.state.member.id}
+        isTeacher={ctx.state.member.role !== "student"}
+        createdAt={post.created_at}
+        votes={votes}
+        voted={voted}
+        postId={post.id}
+        title={post.title}
+        content={post.content}
+        tags={tags}
+        postedBy={postedBy}
+      />
       <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       {commentForest && commentForest.map(renderComment)}
     </div>

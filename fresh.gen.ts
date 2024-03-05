@@ -42,10 +42,9 @@ import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
 import * as $DeleteComment from "./islands/DeleteComment.tsx";
 import * as $EditComment from "./islands/EditComment.tsx";
-import * as $FAQ_AddToFAQ from "./islands/FAQ/AddToFAQ.tsx";
-import * as $FAQ_RemoveFromFAQ from "./islands/FAQ/RemoveFromFAQ.tsx";
 import * as $JoinClass from "./islands/JoinClass.tsx";
 import * as $Multiselect from "./islands/Multiselect.tsx";
+import * as $Post from "./islands/Post.tsx";
 import * as $PostComment from "./islands/PostComment.tsx";
 import * as $PostQuestion from "./islands/PostQuestion.tsx";
 import * as $SearchablePostList from "./islands/SearchablePostList.tsx";
@@ -101,10 +100,9 @@ const manifest = {
     "./islands/CreateClass.tsx": $CreateClass,
     "./islands/DeleteComment.tsx": $DeleteComment,
     "./islands/EditComment.tsx": $EditComment,
-    "./islands/FAQ/AddToFAQ.tsx": $FAQ_AddToFAQ,
-    "./islands/FAQ/RemoveFromFAQ.tsx": $FAQ_RemoveFromFAQ,
     "./islands/JoinClass.tsx": $JoinClass,
     "./islands/Multiselect.tsx": $Multiselect,
+    "./islands/Post.tsx": $Post,
     "./islands/PostComment.tsx": $PostComment,
     "./islands/PostQuestion.tsx": $PostQuestion,
     "./islands/SearchablePostList.tsx": $SearchablePostList,

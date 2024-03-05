@@ -11,17 +11,26 @@ export type Database = {
     Tables: {
       classes: {
         Row: {
+          ai: boolean;
+          code: string | null;
           created_at: string;
+          description: string;
           id: number;
           name: string;
         };
         Insert: {
+          ai?: boolean;
+          code?: string | null;
           created_at?: string;
+          description?: string;
           id?: number;
           name: string;
         };
         Update: {
+          ai?: boolean;
+          code?: string | null;
           created_at?: string;
+          description?: string;
           id?: number;
           name?: string;
         };
@@ -188,28 +197,28 @@ export type Database = {
       };
       posts: {
         Row: {
-          anonymous: boolean | null;
+          anonymous: boolean;
           content: string;
           created_at: string;
-          faq: boolean | null;
+          faq: boolean;
           id: number;
           member_id: number;
           title: string;
         };
         Insert: {
-          anonymous?: boolean | null;
+          anonymous: boolean;
           content: string;
           created_at?: string;
-          faq?: boolean | null;
+          faq?: boolean;
           id?: number;
           member_id: number;
           title: string;
         };
         Update: {
-          anonymous?: boolean | null;
+          anonymous?: boolean;
           content?: string;
           created_at?: string;
-          faq?: boolean | null;
+          faq?: boolean;
           id?: number;
           member_id?: number;
           title?: string;

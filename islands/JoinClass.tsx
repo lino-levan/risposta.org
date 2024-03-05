@@ -26,17 +26,15 @@ export default function CreateClassForm() {
     }
   };
 
-  const handleChange = (event) => {
-    setClassId(event.target.value); // Update class ID when input changes
-  };
-
   return (
     <div class="flex flex-col gap-4">
       <input
         type="text"
         placeholder="Enter Class ID"
         value={classId}
-        onChange={handleChange}
+        onChange={(e) => {
+          setClassId(e.currentTarget.value);
+        }}
         class="input input-bordered w-full"
       />
       <button

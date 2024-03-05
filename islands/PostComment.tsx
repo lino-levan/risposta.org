@@ -11,7 +11,7 @@ export function PostComment(props: PostCommentProps) {
   const comment = useSignal("");
   const disabled = useSignal(false);
   return (
-    <div class="px-4 py-2 flex flex-col gap-4 bg-base-200 p-4 shadow-lg">
+    <div class="px-4 py-2 flex flex-col gap-4 p-4">
       <textarea
         className="textarea textarea-bordered w-full h-24 resize-none"
         value={comment.value}

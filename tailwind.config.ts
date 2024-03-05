@@ -6,7 +6,8 @@ export default {
     "{routes,islands,components}/**/*.{ts,tsx}",
   ],
   plugins: [
-    DaisyUI,
+    // deno-lint-ignore no-explicit-any
+    DaisyUI as any,
   ],
   daisyui: {
     themes: ["cupcake"],

@@ -1,17 +1,11 @@
 import { useComputed, useSignal } from "@preact/signals";
 import { useMemo } from "preact/hooks";
 import MiniSearch from "https://esm.sh/minisearch@v6.3.0";
+import type { Database } from "lib/supabase_types.ts";
 
 export function SearchablePostList(
   props: {
-    posts: {
-      id: number;
-      created_at: string;
-      title: string;
-      content: string;
-      upvotes: number;
-      downvotes: number;
-    }[];
+    posts: Database["public"]["Views"]["expanded_posts"]["Row"][];
     classId: number;
   },
 ) {
@@ -33,15 +27,6 @@ export function SearchablePostList(
 
   const filter = useSignal<number[] | null>(null);
 
-  /*----Original post list
-  const filteredPosts = props.posts.filter((item) => {
-    if (filter.value === null) {
-      return true;
-    }
-    return filter.value.includes(item.id);
-  });
-  */
-  /*----Updated----*/
   const sortRule = useSignal(
     globalThis?.localStorage?.getItem("sortRule") ?? "recent",
   );
@@ -51,17 +36,17 @@ export function SearchablePostList(
     //filtered here
     const postsToSort = props.posts.filter((post) => {
       if (currentFilter === null) return true;
-      return currentFilter.includes(post.id);
+      return currentFilter.includes(post.id!);
     });
 
     //sorted here
     if (sortRule.value === "votes") {
       return postsToSort.sort((a, b) =>
-        (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes)
+        (b.upvotes! - b.downvotes!) - (a.upvotes! - a.downvotes!)
       );
     } else {
       return postsToSort.sort((a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime()
       );
     }
   });

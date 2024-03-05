@@ -1,7 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
-import { RemoveFromFAQ } from "islands/FAQ/RemoveFromFAQ.tsx";
 import type { ClassState } from "lib/state.ts";
 
 export default async function ClassDashboard(
@@ -27,21 +26,10 @@ export default async function ClassDashboard(
         </h1>
       )}
       {data.map((item) => (
-        <a
-          href={`/class/${ctx.params.classId}/post/${item.id}`}
-          class="block py-2 px-3 mb-2 rounded bg-base-300 border"
-        >
-          <div class="flex flex-col gap-2 justify-between">
-            <h2 class="text-xl">{item.title}</h2>
-            <p>{item.content}</p>
-            {ctx.state.member.role !== "student" && (
-              <RemoveFromFAQ
-                postId={item.id}
-                classId={ctx.params.classId}
-              />
-            )}
-          </div>
-        </a>
+        <div class="flex flex-col gap-2 justify-between">
+          <h2 class="text-xl">{item.title}</h2>
+          <p>{item.content}</p>
+        </div>
       ))}
     </div>
   );
