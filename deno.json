@@ -7,7 +7,8 @@
     "start": "deno run --unstable-kv -A --watch=static/,routes/ dev.ts",
     "build": "BUILD=true deno run --unstable-kv -A dev.ts build",
     "preview": "deno run --unstable-kv -A main.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update ."
+    "update": "deno run -A -r https://fresh.deno.dev/update .",
+    "generate_types": "deno run npm:supabase gen types typescript --project-id \"tagbdsskikxmxzdznifn\" --schema public > lib/supabase_types.ts"
   },
   "lint": {
     "rules": {

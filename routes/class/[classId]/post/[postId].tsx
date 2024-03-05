@@ -76,6 +76,16 @@ export default async function Dashboard(
     throw new Error("Post not found or an error occurred.");
   }
   const postCreatorId = postData.member.user_id;
+
+  const { data: tagData } = await supabase.from("post_tags").select(
+    "*, tag_id!inner(*)",
+  ).eq("post_id", post.id);
+  const tags = tagData as unknown as {
+    tag_id: {
+      tag: string;
+    };
+  }[];
+
   return (
     <div class="w-full h-full p-4 flex flex-col gap-2 overflow-hidden overflow-y-auto">
       <div class="bg-white p-4 rounded">
@@ -88,10 +98,15 @@ export default async function Dashboard(
               Posted by {postedBy} {getReadableTime(post.created_at)}
             </h2>
             <h1 class="font-bold text-3xl">{post.title}</h1>
-            <div class="flex gap-2 pt-2">
-              <p class="text-xs bg-black text-white px-2 rounded">Lab 1</p>
-              <p class="text-xs bg-black text-white px-2 rounded">Lab 2</p>
-            </div>
+            {tags && tags.length > 0 && (
+              <div class="flex gap-2 pt-2">
+                {tags!.map((tag) => (
+                  <p class="text-xs bg-black text-white px-2 rounded">
+                    {tag.tag_id.tag}
+                  </p>
+                ))}
+              </div>
+            )}
           </div>
           {ctx.state.member.role !== "student" && (
             <div class="ml-auto">

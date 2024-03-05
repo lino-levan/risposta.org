@@ -1,9 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
-import { getUser } from "lib/get_user.ts";
-import { redirect } from "lib/response.ts";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
-import { getMembership } from "lib/get_member.ts";
 import { RemoveFromFAQ } from "islands/FAQ/RemoveFromFAQ.tsx";
 import type { ClassState } from "lib/state.ts";
 

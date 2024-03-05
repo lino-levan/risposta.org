@@ -11,9 +11,9 @@ export default async function Layout(
   const classId = ctx.state.class.id;
 
   const { data, error } = await supabase
-    .from("posts")
-    .select("*, member_id!inner(*)")
-    .eq("member_id.class_id", classId);
+    .from("expanded_posts")
+    .select("*")
+    .eq("class_id", classId);
   if (error) return bad();
 
   return (
