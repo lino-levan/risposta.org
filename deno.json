@@ -32,6 +32,7 @@
     "tailwindcss": "npm:tailwindcss@3.3.5",
     "tailwindcss/": "npm:/tailwindcss@3.3.5/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.3.5/plugin.js",
+    "daisyui": "npm:daisyui@4.7.2",
     "$std/": "https://deno.land/std@0.211.0/",
     "icons/": "https://deno.land/x/tabler_icons_tsx@0.0.6/tsx/",
     "deno_kv_oauth": "https://deno.land/x/deno_kv_oauth@v0.10.0/mod.ts",

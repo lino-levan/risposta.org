@@ -6,27 +6,27 @@ export default async function Home(req: Request) {
   if (user) return redirect("/class");
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <header className="w-screen p-4 fixed flex items-center justify-between bg-green-100 z-10">
+    <>
+      <header className="w-screen p-4 fixed flex items-center justify-between bg-base-100 z-10">
         <div className="flex items-center max-w-screen-md">
           <a href="/" className="font-titan-one text-xl uppercase ml-12">
             Risposta
           </a>
         </div>
         <div className="mr-4 flex gap-4">
+          <a href="/login" className="btn btn-secondary">
+            Log In
+          </a>
           <a
             href="/signup"
-            className="text-gray-700 hover:text-gray-500"
+            className="btn btn-primary"
           >
             Sign Up
-          </a>
-          <a href="/login" className="text-gray-700 hover:text-gray-500">
-            Log In
           </a>
         </div>
       </header>
 
-      <section className="bg-green-100 text-green-800 py-72 px-12 text-center lg:text-left w-screen overflow-hidden relative">
+      <section className="bg-base-100 text-primary py-72 px-12 text-center lg:text-left w-screen overflow-hidden relative">
         <div className="container max-w-screen-md">
           <h1 className="text-6xl font-bold mb-8">Welcome to Risposta</h1>
           <p className="text-2xl mb-10">
@@ -35,13 +35,13 @@ export default async function Home(req: Request) {
           <div className="flex space-x-8 justify-center lg:justify-start">
             <a
               href="/signup"
-              className="rounded-lg flex items-center px-8 py-2 text-xl font-semibold text-black bg-white hover:bg-gray-300"
+              className="btn"
             >
               Continue as Student
             </a>
             <a
               href="/signup"
-              className="rounded-lg flex items-center px-8 py-2 text-xl font-semibold text-black bg-white hover:bg-gray-300"
+              className="btn"
             >
               Continue as Teacher
             </a>
@@ -53,7 +53,7 @@ export default async function Home(req: Request) {
         />
       </section>
 
-      <section className="py-16 px-8 text-center bg-white">
+      <section className="py-16 px-8 text-center bg-base-200">
         <div className="container mx-auto max-w-screen-md">
           <h2 className="text-3xl font-bold mb-4">Key Features</h2>
           <div className="flex justify-between">
@@ -73,7 +73,7 @@ export default async function Home(req: Request) {
         </div>
       </section>
 
-      <section className="py-16 px-8 text-center">
+      <section className="py-16 px-8 text-center bg-base-100">
         <div className="container mx-auto max-w-screen-md">
           <h2 className="text-3xl font-bold mb-4">About Us</h2>
           <p className="text-lg mb-8">
@@ -83,11 +83,11 @@ export default async function Home(req: Request) {
           </p>
         </div>
       </section>
-      <footer className="bg-green-100 text-gray-700 py-8 px-4 text-center">
-        <div className="container mx-auto max-w-screen-md">
+      <footer className="footer footer-center p-4 bg-base-300 text-base-content">
+        <aside>
           <p>© 2024 Risposta Authors. All rights reserved.</p>
-        </div>
+        </aside>
       </footer>
-    </div>
+    </>
   );
 }
