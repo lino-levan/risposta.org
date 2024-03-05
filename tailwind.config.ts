@@ -10,5 +10,6 @@ export default {
   ],
   daisyui: {
     themes: ["cupcake"],
+    logs: false,
   },
 } satisfies Config;
