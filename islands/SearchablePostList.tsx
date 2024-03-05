@@ -42,7 +42,9 @@ export function SearchablePostList(
   });
   */
   /*----Updated----*/
-  const sortRule = useSignal(localStorage.getItem("sortRule") || "recent");
+  const sortRule = useSignal(
+    globalThis?.localStorage?.getItem("sortRule") ?? "recent",
+  );
 
   const sortedFilteredPosts = useComputed(() => {
     const currentFilter = filter.value;
