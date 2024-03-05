@@ -14,8 +14,14 @@ export function ThreadedComment(props: ThreadedCommentProps) {
   const showCommentForm = useSignal(false);
 
   return (
-    <div class="flex flex-col gap-4 rounded bg-white px-4 py-2 pl-8"> {/* Add left padding here */}
-      <button onClick={() => showCommentForm.value = !showCommentForm.value}>Reply</button>
+    <div class="flex flex-col gap-4 rounded bg-white px-4 py-2 pl-8">
+      {/* Add left padding here */}
+      <button
+        className="bg-green-400 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-max"
+        onClick={() => showCommentForm.value = !showCommentForm.value}
+      >
+        Reply
+      </button>
       {showCommentForm.value && (
         <>
           <p className="font-bold">Comment</p>
@@ -27,7 +33,7 @@ export function ThreadedComment(props: ThreadedCommentProps) {
             }}
           />
           <button
-             className="bg-green-400 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-max"
+            className="bg-green-400 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-max"
             disabled={disabled.value}
             onClick={async () => {
               disabled.value = true;
@@ -51,7 +57,7 @@ export function ThreadedComment(props: ThreadedCommentProps) {
               }
             }}
           >
-            Post Comment
+            Post Reply
           </button>
         </>
       )}

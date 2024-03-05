@@ -103,7 +103,7 @@ export default async function Dashboard(
   
   function renderComment(comment, index) {
     return (
-      <div class={`rounded px-4 py-2 flex bg-white gap-2 ${comment.parent_id ? 'pl-20' : ''}`}>
+      <div class={`rounded px-4 py-2 flex bg-white p-4 shadow-lg mb-4 ${comment.parent_id ? 'pl-4 border-l-2 border-gray-400' : ''}`}>
         <img
           class="rounded-full w-6 h-6"
           src={comment.member_id.user_id.picture}
@@ -123,7 +123,7 @@ export default async function Dashboard(
               commentId={comment.id}
             />
           </div>
-          <div class={`pl-8 ${comment.parent_id ? 'pl-20' : ''}`}>
+          <div class={` ${comment.parent_id ? 'pl-1' : ''}`}>
             <ThreadedComment
               post_id={ctx.params.postId}
               classId={ctx.params.classId}
