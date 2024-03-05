@@ -15,6 +15,8 @@ import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
 import * as $api_class_id_tag from "./routes/api/class/[id]/tag.ts";
 import * as $api_class_create_class from "./routes/api/class/create_class.ts";
+import * as $api_comments_id_delete from "./routes/api/comments/[id]/delete.ts";
+import * as $api_comments_id_edit from "./routes/api/comments/[id]/edit.ts";
 import * as $api_comments_id_vote from "./routes/api/comments/[id]/vote.ts";
 import * as $api_posts_id_delete from "./routes/api/posts/[id]/delete.ts";
 import * as $api_posts_id_edit from "./routes/api/posts/[id]/edit.ts";
@@ -37,6 +39,8 @@ import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
 import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
+import * as $DeleteComment from "./islands/DeleteComment.tsx";
+import * as $EditComment from "./islands/EditComment.tsx";
 import * as $FAQ_AddToFAQ from "./islands/FAQ/AddToFAQ.tsx";
 import * as $FAQ_RemoveFromFAQ from "./islands/FAQ/RemoveFromFAQ.tsx";
 import * as $Multiselect from "./islands/Multiselect.tsx";
@@ -64,6 +68,8 @@ const manifest = {
     "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
     "./routes/api/class/[id]/tag.ts": $api_class_id_tag,
     "./routes/api/class/create_class.ts": $api_class_create_class,
+    "./routes/api/comments/[id]/delete.ts": $api_comments_id_delete,
+    "./routes/api/comments/[id]/edit.ts": $api_comments_id_edit,
     "./routes/api/comments/[id]/vote.ts": $api_comments_id_vote,
     "./routes/api/posts/[id]/delete.ts": $api_posts_id_delete,
     "./routes/api/posts/[id]/edit.ts": $api_posts_id_edit,
@@ -89,6 +95,8 @@ const manifest = {
   islands: {
     "./islands/CommentVote.tsx": $CommentVote,
     "./islands/CreateClass.tsx": $CreateClass,
+    "./islands/DeleteComment.tsx": $DeleteComment,
+    "./islands/EditComment.tsx": $EditComment,
     "./islands/FAQ/AddToFAQ.tsx": $FAQ_AddToFAQ,
     "./islands/FAQ/RemoveFromFAQ.tsx": $FAQ_RemoveFromFAQ,
     "./islands/Multiselect.tsx": $Multiselect,

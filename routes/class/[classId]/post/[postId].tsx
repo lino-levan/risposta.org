@@ -8,6 +8,8 @@ import { PostComment } from "islands/PostComment.tsx";
 import { EditPost } from "islands/edit.tsx";
 import { DeletePost } from "islands/delete.tsx";
 import { AddToFAQ } from "islands/FAQ/AddToFAQ.tsx";
+import { EditComment } from "islands/EditComment.tsx";
+import { DeleteComment } from "islands/DeleteComment.tsx";
 
 export default async function Dashboard(
   req: Request,
@@ -154,6 +156,24 @@ export default async function Dashboard(
                 votes={votesComments[index]}
                 voted={voted}
                 commentId={comment.id}
+              />
+            </div>
+            <div>
+              <EditComment
+                postId={post.id}
+                commentId={comment.id}
+                classId={ctx.params.classId}
+                userId={ctx.state.user.id}
+                commentCreatorId={postCreatorId}
+              />
+            </div>
+            <div>
+              <DeleteComment
+                postId={post.id}
+                commentId={comment.id}
+                classId={ctx.params.classId}
+                userId={ctx.state.user.id}
+                commentCreatorId={postCreatorId}
               />
             </div>
           </div>
