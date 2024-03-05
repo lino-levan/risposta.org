@@ -31,21 +31,21 @@ export default function CreateClassForm() {
   };
 
   return (
-    <div>
+    <div class="flex flex-col gap-4">
       <input
         type="text"
         placeholder="Enter Class ID"
         value={classId}
         onChange={handleChange}
-        class="border rounded px-4 py-2"
+        class="input input-bordered w-full"
       />
       <button
         onClick={handleJoinClass}
-        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
+        class="btn btn-primary"
       >
         Join Class
       </button>
-      {message && <p class="mt-4">{message}</p>}
+      {message && <p class="text-error">{message}</p>}
     </div>
   );
 }

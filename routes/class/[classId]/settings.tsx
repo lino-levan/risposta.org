@@ -14,7 +14,7 @@ export default async function Dashboard(
     .eq("class_id", ctx.state.class.id);
   if (error) return ctx.renderNotFound();
   return (
-    <div class="bg-white p-4 rounded w-full max-w-md">
+    <div class="bg-base-200 p-4 rounded w-full max-w-md">
       <h1 class="text-2xl pb-4 font-bold w-full">Update Class Details</h1>
       <UpdateClassForm
         classId={ctx.state.class.id}

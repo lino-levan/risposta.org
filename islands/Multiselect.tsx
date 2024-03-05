@@ -24,7 +24,13 @@ export function Multiselect({ selected, options }: MultiselectProps) {
 
   return (
     <button
-      class="border rounded px-1 py-1 relative w-96"
+      class="border px-1 py-2 relative w-full"
+      style={{
+        borderRadius: "var(--rounded-btn, 0.5rem)",
+        borderColor: "var(--fallback-bc,oklch(var(--bc)/0.2))",
+        backgroundColor:
+          "var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)))",
+      }}
       onClick={(e) => {
         e.stopPropagation();
         open.value = !open.value;

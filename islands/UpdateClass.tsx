@@ -22,34 +22,28 @@ const updateTags = debounce(
   500,
 );
 
-export function UpdateClassForm(props: UpdataClassProps) {
-  const className = useSignal("");
-  const tags = useSignal(props.tags);
-  const loading = useSignal(false);
+const updateClass = debounce(async (classId: number, className: string) => {
+  if (!className.trim()) {
+    alert("Class name cannot be empty!");
+    return;
+  }
+  const req = await fetch(`/api/class/${classId}/rename`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: className,
+    }),
+  });
+}, 200);
 
-  const updateClass = async () => {
-    if (!className.value.trim()) {
-      alert("Class name cannot be empty!");
-      return;
-    }
-    loading.value = true;
-    const req = await fetch(`/api/class/${props.classId}/rename`, {
-      method: "POST",
-      body: JSON.stringify({
-        name: className.value,
-      }),
-    });
-    if (req.ok) {
-      location.href = `/class/${props.classId}`;
-    }
-  };
+export function UpdateClassForm(props: UpdataClassProps) {
+  const className = useSignal(props.name);
+  const tags = useSignal(props.tags);
 
   const deleteClass = async () => {
     const confirmation = confirm(
       "Are you sure you want to delete this class?\nThis action cannot be reverted.",
     );
     if (confirmation) {
-      loading.value = true;
       const req = await fetch(`/api/class/${props.classId}/delete_class`, {
         method: "POST",
       });
@@ -62,28 +56,21 @@ export function UpdateClassForm(props: UpdataClassProps) {
   return (
     <div class="flex gap-2 flex-col items-center">
       <p class="text-xl w-full">Name</p>
-      <div class="w-full flex gap-2">
-        <input
-          class="border p-2 rounded flex-grow"
-          value={className.value}
-          onInput={(e) => className.value = e.currentTarget.value}
-          placeholder={props.name}
-          disabled={loading.value}
-        />
-        <button
-          class="bg-blue-500 text-white p-2 rounded"
-          onClick={updateClass}
-          disabled={loading.value}
-        >
-          {loading.value ? "Updating..." : "Update"}
-        </button>
-      </div>
+      <input
+        class="input input-bordered w-full"
+        value={className.value}
+        placeholder="Your class name..."
+        onInput={(e) => {
+          className.value = e.currentTarget.value;
+          updateClass(props.classId, className.value);
+        }}
+      />
       <p class="text-xl w-full">Tags</p>
       <div class="w-full flex flex-col gap-2">
         {tags.value.map((tag, i) => (
           <div class="border rounded flex-grow flex">
             <input
-              class="p-2 rounded flex-grow"
+              class="input input-bordered flex-grow"
               value={tag.tag}
               onInput={(e) => {
                 tags.value[i].tag = e.currentTarget.value;
@@ -111,7 +98,7 @@ export function UpdateClassForm(props: UpdataClassProps) {
           </div>
         ))}
         <button
-          class="w-max rounded px-4 py-2 border"
+          class="btn btn-primary"
           onClick={async () => {
             const req = await fetch(`/api/class/${props.classId}/tag`, {
               method: "POST",
@@ -126,9 +113,8 @@ export function UpdateClassForm(props: UpdataClassProps) {
       </div>
       <p class="text-xl w-full">Danger Zone</p>
       <button
-        class="bg-red-500 text-white p-2 rounded w-full"
+        class="btn btn-error w-full"
         onClick={deleteClass}
-        disabled={loading.value}
       >
         Delete Class
       </button>

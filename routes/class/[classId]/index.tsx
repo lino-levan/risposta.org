@@ -16,7 +16,7 @@ export default async function ClassDashboard(
   if (error) return bad();
 
   return (
-    <div class="bg-white p-20 rounded">
+    <div class="bg-base-200 p-20 rounded max-w-screen-sm">
       <h1 class="text-2xl font-bold">
         Welcome to {ctx.state.class.name}!
       </h1>
@@ -29,7 +29,7 @@ export default async function ClassDashboard(
       {data.map((item) => (
         <a
           href={`/class/${ctx.params.classId}/post/${item.id}`}
-          class="block py-2 px-3 mb-2 rounded border"
+          class="block py-2 px-3 mb-2 rounded bg-base-300 border"
         >
           <div class="flex flex-col gap-2 justify-between">
             <h2 class="text-xl">{item.title}</h2>

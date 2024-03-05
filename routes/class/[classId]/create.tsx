@@ -11,7 +11,7 @@ export default async function Create(
   if (!tags) return ctx.renderNotFound();
 
   return (
-    <div class="p-8 bg-green-200 rounded">
+    <div class="p-8 bg-base-200 rounded-lg">
       <h1 class="text-4xl pb-4 font-bold">Create Post</h1>
       <PostQuestion
         classId={ctx.params.classId}

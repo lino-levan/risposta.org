@@ -42,7 +42,7 @@ export default async function Layout(
           </a>
           <SearchablePostList classId={classId} posts={data} />
         </aside>
-        <main class="flex-1 bg-white flex flex-col items-center justify-center">
+        <main class="flex-1 bg-base-100 flex flex-col items-center justify-center">
           <ctx.Component />
         </main>
       </div>

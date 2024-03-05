@@ -34,7 +34,6 @@ import * as $class_middleware from "./routes/class/_middleware.ts";
 import * as $class_create_class from "./routes/class/create_class.tsx";
 import * as $class_index from "./routes/class/index.tsx";
 import * as $class_join_class from "./routes/class/join_class.tsx";
-import * as $class_no_access from "./routes/class/no_access.tsx";
 import * as $class_user from "./routes/class/user.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
@@ -92,7 +91,6 @@ const manifest = {
     "./routes/class/create_class.tsx": $class_create_class,
     "./routes/class/index.tsx": $class_index,
     "./routes/class/join_class.tsx": $class_join_class,
-    "./routes/class/no_access.tsx": $class_no_access,
     "./routes/class/user.tsx": $class_user,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,

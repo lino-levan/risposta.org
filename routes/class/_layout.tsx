@@ -13,7 +13,7 @@ export default async function Layout(
         <div class="ml-auto" />
         <a
           href="/class/user"
-          class="w-40 flex items-center justify-center gap-2 p-2 hover:bg-primary hover:text-primary-content rounded group"
+          class="w-40 flex items-center justify-center gap-2 p-2 hover:bg-base-200 rounded group"
         >
           <p>{ctx.state.user.name}</p>
           <img class="w-8 h-8 rounded-full" src={ctx.state.user.picture} />
