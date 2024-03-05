@@ -86,7 +86,7 @@ export function SearchablePostList(
         </option>
       </select>
       <input
-        class="w-full border rounded p-2"
+        class="w-full border-green-200 rounded p-2 bg-white text-black"
         placeholder="Search for..."
         onInput={(e) => {
           const value = e.currentTarget.value.trim();
@@ -101,16 +101,16 @@ export function SearchablePostList(
       {sortedFilteredPosts.value.map((item) => (
         <a
           href={`/class/${props.classId}/post/${item.id}`}
-          class="block py-2 px-3 rounded hover:bg-gray-100"
+          class="block py-2 px-3 rounded bg-green-300 hover:bg-green-500 text-black"
         >
           <h2 class="text-xl">{item.title}</h2>
-          <p class="text-sm text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis">
+          <p class="text-sm text-black whitespace-nowrap overflow-hidden text-ellipsis">
             {item.content}
           </p>
         </a>
       ))}
       {props.posts.length === 0 && (
-        <p class="text-sm text-gray-500">No posts yet...</p>
+        <p class="text-sm text-black">No posts yet...</p>
       )}
       {props.posts.length !== 0 && sortedFilteredPosts.value.length === 0 && (
         <p class="text-sm text-gray-500">No posts matching search...</p>

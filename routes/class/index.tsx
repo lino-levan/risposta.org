@@ -23,18 +23,18 @@ export default async function Dashboard(
 
   return (
     <>
-      <div class="flex flex-col items-center justify-center pt-16 w-screen h-screen bg-gray-100">
-        <div class="p-20 bg-white rounded flex flex-col gap-2">
-          <h1 class="text-2xl font-bold">Welcome to the Dashboard</h1>
+      <div class="flex flex-col items-center justify-center pt-16 w-screen h-screen bg-white">
+        <div class="p-20 bg-green-200 rounded flex flex-col gap-2 shadow-lg">
+          <h1 class="font-titan-one text-xl text-black">Welcome to the Dashboard</h1>
           <div class="grid grid-cols-2 gap-2">
             <a
-              class="border flex-grow px-4 py-2 flex justify-center hover:bg-gray-100"
+              class="border-green-200 flex-grow px-4 py-2 flex justify-center bg-green-300 hover:bg-green-500 text-black rounded"
               href="/class/create_class"
             >
               Create class
             </a>
             <a
-              class="border flex-grow px-4 py-2 flex justify-center hover:bg-gray-100"
+              class="border-green-200 flex-grow px-4 py-2 flex justify-center bg-green-300 hover:bg-green-500 text-black rounded"
               href="/class/join_class"
             >
               Join class
@@ -43,7 +43,7 @@ export default async function Dashboard(
           {classes.map((course) => (
             <a
               href={`/class/${course.id}`}
-              class="border px-4 py-2 flex items-center justify-between hover:bg-gray-100"
+              class="border-green-200 px-4 py-2 flex items-center justify-between bg-green-300 hover:bg-green-500 text-black rounded"
             >
               <img
                 class="w-8 h-8 rounded-full"

@@ -6,7 +6,10 @@ import { bad, success, unauthorized } from "lib/response.ts";
 export const handler: Handlers = {
   async POST(req, ctx) {
     const postId = parseInt(ctx.params.id);
-    const { content }: { content: string } = await req.json();
+    const { content, parent_id }: {
+      content: string;
+      parent_id: number | null;
+    } = await req.json();
 
     // get user for request
     const user = await getUser(req);
@@ -36,6 +39,7 @@ export const handler: Handlers = {
     const { error } = await supabase.from("comments").insert({
       member_id: member.id,
       post_id: postId,
+      parent_id,
       content,
     }).select();
     if (error) return bad();

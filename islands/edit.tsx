@@ -44,10 +44,10 @@ export function EditPost(props: EditPostProps) {
   }
 
   return (
-    <div class="flex flex-col">
+    <div class="rounded px-4 py-2 flex flex-col gap-4 bg-white p-4 shadow-lg mb-4">
       {!isEditing.value && (
         <button
-          class="bg-blue-500 text-white p-2 rounded"
+          class="bg-green-400 hover:bg-green-800 text-white font-bold py-1 px-2 rounded w-max"
           onClick={() => isEditing.value = true}
         >
           Click to Edit
@@ -56,14 +56,14 @@ export function EditPost(props: EditPostProps) {
       {isEditing.value && (
         <>
           <input
-            class="border p-2 my-2"
+            class="border rounded px-4 py-2 w-96 h-12 resize-none"
             value={title.value}
             onInput={(e) => title.value = e.currentTarget.value}
             placeholder="Post Title"
             disabled={loading.value}
           />
           <textarea
-            class="border p-2 my-2"
+            class="border rounded px-4 py-2 w-96 h-12 resize-none"
             value={content.value}
             onInput={(e) => content.value = e.currentTarget.value}
             placeholder="Post Content"
@@ -72,7 +72,7 @@ export function EditPost(props: EditPostProps) {
           >
           </textarea>
           <button
-            class="bg-blue-500 text-white p-2 rounded"
+            class="bg-green-400 hover:bg-green-800 text-white font-bold py-1 px-2 rounded w-max"
             onClick={updatePost}
             disabled={loading.value}
           >

@@ -27,9 +27,9 @@ export function DeletePost(props: DeletePostProps) {
     return <div>You do not have permission to edit this post</div>;
   }
   return (
-    <div class="flex flex-col">
+    <div class="rounded px-4 py-2 flex flex-col gap-4 bg-white p-4 shadow-lg mb-4">
       <button
-        class="bg-red-500 text-white p-2 rounded"
+        class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded w-max"
         onClick={deletePost}
       >
         Delete Post
