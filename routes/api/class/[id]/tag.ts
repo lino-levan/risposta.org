@@ -1,8 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
 import { getUser } from "lib/get_user.ts";
-import { getClassTags } from "lib/get_class_tags.ts";
-import { getMembership } from "lib/get_member.ts";
 import { bad, success, unauthorized } from "lib/response.ts";
 
 export const handler: Handlers = {
