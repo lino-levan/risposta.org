@@ -9,9 +9,8 @@ import * as $api_auth_callback from "./routes/api/auth/callback.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
 import * as $api_class_id_comment from "./routes/api/class/[id]/comment.ts";
-import * as $api_class_id_delete_class from "./routes/api/class/[id]/delete_class.ts";
+import * as $api_class_id_index from "./routes/api/class/[id]/index.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
-import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
 import * as $api_class_id_tag from "./routes/api/class/[id]/tag.ts";
 import * as $api_class_create_class from "./routes/api/class/create_class.ts";
 import * as $api_class_join_class from "./routes/api/class/join_class.ts";
@@ -62,9 +61,8 @@ const manifest = {
     "./routes/api/auth/login.ts": $api_auth_login,
     "./routes/api/auth/logout.ts": $api_auth_logout,
     "./routes/api/class/[id]/comment.ts": $api_class_id_comment,
-    "./routes/api/class/[id]/delete_class.ts": $api_class_id_delete_class,
+    "./routes/api/class/[id]/index.ts": $api_class_id_index,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
-    "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
     "./routes/api/class/[id]/tag.ts": $api_class_id_tag,
     "./routes/api/class/create_class.ts": $api_class_create_class,
     "./routes/api/class/join_class.ts": $api_class_join_class,

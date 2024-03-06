@@ -144,7 +144,6 @@ export default async function Dashboard(
       tag: string;
     };
   }[];
-  console.log(post.pinned);
   return (
     <div class="w-full h-full p-4 flex flex-col overflow-hidden overflow-y-auto">
       <Post

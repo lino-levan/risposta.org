@@ -27,8 +27,8 @@ const updateClass = debounce(async (classId: number, className: string) => {
     alert("Class name cannot be empty!");
     return;
   }
-  const req = await fetch(`/api/class/${classId}/rename`, {
-    method: "POST",
+  const req = await fetch(`/api/class/${classId}`, {
+    method: "PATCH",
     body: JSON.stringify({
       name: className,
     }),
@@ -44,8 +44,8 @@ export function UpdateClassForm(props: UpdataClassProps) {
       "Are you sure you want to delete this class?\nThis action cannot be reverted.",
     );
     if (confirmation) {
-      const req = await fetch(`/api/class/${props.classId}/delete_class`, {
-        method: "POST",
+      const req = await fetch(`/api/class/${props.classId}`, {
+        method: "DELETE",
       });
       if (req.ok) {
         location.href = "/";
