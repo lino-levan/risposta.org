@@ -1,11 +1,11 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
-import { getUser } from "lib/get_user.ts";
 import { getClassTags } from "lib/get_class_tags.ts";
 import { getMembership } from "lib/get_member.ts";
 import { bad, success, unauthorized } from "lib/response.ts";
+import { APIState } from "lib/state.ts";
 
-export const handler: Handlers = {
+export const handler: Handlers<unknown, APIState> = {
   async POST(req, ctx) {
     // TODO(lino-levan): Validate input
     const classId = parseInt(ctx.params.id);
@@ -18,8 +18,7 @@ export const handler: Handlers = {
       .json();
 
     // get user for request
-    const user = await getUser(req);
-    if (!user) return unauthorized();
+    const user = ctx.state.user;
 
     const member = await getMembership(user.id, classId);
     if (!member) return ctx.renderNotFound();

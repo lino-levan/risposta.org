@@ -1,6 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
 
+// TODO(lino-levan): Validate inputs
 export const handler: Handlers = {
   async POST(_req, ctx) {
     const { error } = await supabase.from("classes").delete().eq(

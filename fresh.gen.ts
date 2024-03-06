@@ -4,13 +4,12 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_middleware from "./routes/api/_middleware.ts";
 import * as $api_auth_callback from "./routes/api/auth/callback.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
 import * as $api_class_id_comment from "./routes/api/class/[id]/comment.ts";
 import * as $api_class_id_delete_class from "./routes/api/class/[id]/delete_class.ts";
-import * as $api_class_id_faq_add from "./routes/api/class/[id]/faq/add.ts";
-import * as $api_class_id_faq_remove from "./routes/api/class/[id]/faq/remove.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
 import * as $api_class_id_tag from "./routes/api/class/[id]/tag.ts";
@@ -19,8 +18,8 @@ import * as $api_class_join_class from "./routes/api/class/join_class.ts";
 import * as $api_comments_id_delete from "./routes/api/comments/[id]/delete.ts";
 import * as $api_comments_id_edit from "./routes/api/comments/[id]/edit.ts";
 import * as $api_comments_id_vote from "./routes/api/comments/[id]/vote.ts";
-import * as $api_posts_id_delete from "./routes/api/posts/[id]/delete.ts";
-import * as $api_posts_id_edit from "./routes/api/posts/[id]/edit.ts";
+import * as $api_posts_id_index from "./routes/api/posts/[id]/index.ts";
+import * as $api_posts_id_pin from "./routes/api/posts/[id]/pin.ts";
 import * as $api_posts_id_vote from "./routes/api/posts/[id]/vote.ts";
 import * as $class_classId_layout from "./routes/class/[classId]/_layout.tsx";
 import * as $class_classId_middleware from "./routes/class/[classId]/_middleware.ts";
@@ -51,7 +50,6 @@ import * as $SearchablePostList from "./islands/SearchablePostList.tsx";
 import * as $ThreadedComment from "./islands/ThreadedComment.tsx";
 import * as $UpdateClass from "./islands/UpdateClass.tsx";
 import * as $Vote from "./islands/Vote.tsx";
-import * as $delete from "./islands/delete.tsx";
 import * as $edit from "./islands/edit.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -59,13 +57,12 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/_middleware.ts": $api_middleware,
     "./routes/api/auth/callback.ts": $api_auth_callback,
     "./routes/api/auth/login.ts": $api_auth_login,
     "./routes/api/auth/logout.ts": $api_auth_logout,
     "./routes/api/class/[id]/comment.ts": $api_class_id_comment,
     "./routes/api/class/[id]/delete_class.ts": $api_class_id_delete_class,
-    "./routes/api/class/[id]/faq/add.ts": $api_class_id_faq_add,
-    "./routes/api/class/[id]/faq/remove.ts": $api_class_id_faq_remove,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
     "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
     "./routes/api/class/[id]/tag.ts": $api_class_id_tag,
@@ -74,8 +71,8 @@ const manifest = {
     "./routes/api/comments/[id]/delete.ts": $api_comments_id_delete,
     "./routes/api/comments/[id]/edit.ts": $api_comments_id_edit,
     "./routes/api/comments/[id]/vote.ts": $api_comments_id_vote,
-    "./routes/api/posts/[id]/delete.ts": $api_posts_id_delete,
-    "./routes/api/posts/[id]/edit.ts": $api_posts_id_edit,
+    "./routes/api/posts/[id]/index.ts": $api_posts_id_index,
+    "./routes/api/posts/[id]/pin.ts": $api_posts_id_pin,
     "./routes/api/posts/[id]/vote.ts": $api_posts_id_vote,
     "./routes/class/[classId]/_layout.tsx": $class_classId_layout,
     "./routes/class/[classId]/_middleware.ts": $class_classId_middleware,
@@ -109,7 +106,6 @@ const manifest = {
     "./islands/ThreadedComment.tsx": $ThreadedComment,
     "./islands/UpdateClass.tsx": $UpdateClass,
     "./islands/Vote.tsx": $Vote,
-    "./islands/delete.tsx": $delete,
     "./islands/edit.tsx": $edit,
   },
   baseUrl: import.meta.url,

@@ -1,14 +1,14 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
-import { getUser } from "lib/get_user.ts";
 import { bad, unauthorized } from "lib/response.ts";
+import { APIState } from "lib/state.ts";
 
-export const handler: Handlers = {
+export const handler: Handlers<unknown, APIState> = {
   async POST(req, ctx) {
+    // TODO(lino-levan): Validate input
     const commentId = parseInt(ctx.params.id);
     const { content }: { content: string } = await req.json();
-    const user = await getUser(req);
-    if (!user) return unauthorized();
+    const user = ctx.state.user;
 
     const { data: commentData, error: commentError } = await supabase
       .from("comments")

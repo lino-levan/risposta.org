@@ -1,13 +1,12 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
-import { getUser } from "lib/get_user.ts";
 import { bad, success, unauthorized } from "lib/response.ts";
+import { APIState } from "lib/state.ts";
 
-export const handler: Handlers = {
-  async POST(req) {
-    //get user
-    const user = await getUser(req);
-    if (!user) return unauthorized();
+// TODO(lino-levan): Validate inputs
+export const handler: Handlers<unknown, APIState> = {
+  async POST(req, ctx) {
+    const user = ctx.state.user;
 
     //insert new class
     const { name, description, enableAI } = await req.json();

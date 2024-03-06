@@ -11,7 +11,7 @@ export default async function ClassDashboard(
     .from("posts")
     .select("*, member_id!inner(*)")
     .eq("member_id.class_id", ctx.params.classId)
-    .eq("faq", true);
+    .eq("pinned", true);
   if (error) return bad();
 
   return (

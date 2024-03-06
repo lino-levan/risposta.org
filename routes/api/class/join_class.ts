@@ -1,15 +1,14 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
-import { getUser } from "lib/get_user.ts";
+import { APIState } from "lib/state.ts";
 
-export const handler: Handlers = {
-  async POST(req) {
+// TODO(lino-levan): Validate inputs
+export const handler: Handlers<unknown, APIState> = {
+  async POST(req, ctx) {
     // Get user information
-    const user = await getUser(req);
-    if (!user) return new Response(null, { status: 401 });
+    const user = ctx.state.user;
 
     // Hardcoded class ID for testing (replace with actual logic)
-    //const class_id = 411; // Replace this with your actual class ID or logic to obtain class ID
     const { class_id } = await req.json();
 
     // Insert new member

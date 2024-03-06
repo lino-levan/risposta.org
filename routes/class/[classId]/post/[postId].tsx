@@ -144,10 +144,11 @@ export default async function Dashboard(
       tag: string;
     };
   }[];
+  console.log(post.pinned);
   return (
     <div class="w-full h-full p-4 flex flex-col overflow-hidden overflow-y-auto">
       <Post
-        inFAQ={post.faq}
+        pinned={post.pinned}
         classId={ctx.state.class.id}
         isAuthor={post.member_id === ctx.state.member.id}
         isTeacher={ctx.state.member.role !== "student"}

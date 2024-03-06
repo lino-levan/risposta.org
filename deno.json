@@ -24,6 +24,7 @@
   "imports": {
     "lib/": "./lib/",
     "islands/": "./islands/",
+    "components/": "./components/",
     "$fresh/": "https://deno.land/x/fresh@1.6.3/",
     "preact": "https://esm.sh/preact@10.19.2",
     "preact/": "https://esm.sh/preact@10.19.2/",

@@ -1,8 +1,72 @@
-import { useSignal } from "@preact/signals";
-import { useEffect } from "preact/hooks";
-import IconDotsVertical from "icons/dots-vertical.tsx";
 import { getReadableTime } from "lib/readable_time.ts";
 import { Vote } from "islands/Vote.tsx";
+import { IS_BROWSER } from "$fresh/runtime.ts";
+import { DotMenu } from "components/DotMenu.tsx";
+
+export function getMenuItems(
+  isAuthor: boolean,
+  isTeacher: boolean,
+  pinned: boolean,
+  postId: number,
+  classId: number,
+) {
+  if (!IS_BROWSER) {
+    return [];
+  }
+
+  const menuItems = [];
+
+  if (isAuthor) {
+    menuItems.push({
+      name: "Edit Post",
+      onClick: () => {},
+    });
+  }
+  if (isAuthor || isTeacher) {
+    menuItems.push({
+      name: "Delete Post",
+      onClick: async () => {
+        const req = await fetch(`/api/posts/${postId}`, {
+          method: "DELETE",
+        });
+        if (req.ok) {
+          location.href = `/class/${classId}`;
+        }
+      },
+    });
+  }
+  if (isTeacher && !pinned) {
+    menuItems.push({
+      name: "Pin Post",
+      onClick: async () => {
+        const req = await fetch(`/api/posts/${postId}/pin`, {
+          method: "POST",
+        });
+        if (req.ok) {
+          location.href = `/class/${classId}`;
+        }
+      },
+    });
+  }
+  if (isTeacher && pinned) {
+    menuItems.push({
+      name: "Unpin Post",
+      onClick: async () => {
+        const req = await fetch(
+          `/api/posts/${postId}/pin`,
+          {
+            method: "DELETE",
+          },
+        );
+        if (req.ok) {
+          location.href = `/class/${classId}`;
+        }
+      },
+    });
+  }
+
+  return menuItems;
+}
 
 interface PostProps {
   votes: number;
@@ -11,7 +75,7 @@ interface PostProps {
   postId: number;
   postedBy: string;
   createdAt: string;
-  inFAQ: boolean;
+  pinned: boolean;
 
   title: string;
   content: string;
@@ -38,22 +102,9 @@ export function Post(
     tags,
     isAuthor,
     isTeacher,
-    inFAQ,
+    pinned,
   }: PostProps,
 ) {
-  const dotMenuOpen = useSignal(false);
-
-  useEffect(() => {
-    const effect = () => {
-      dotMenuOpen.value = false;
-    };
-    document.addEventListener("click", effect);
-
-    return () => {
-      document.removeEventListener("click", effect);
-    };
-  }, []);
-
   return (
     <div class="p-4">
       <div class="flex items-start gap-4">
@@ -77,83 +128,9 @@ export function Post(
             </div>
           )}
         </div>
-        {(isAuthor || isTeacher) && (
-          <button
-            class="ml-auto hover:bg-base-300 rounded-full p-1 relative"
-            onClick={(e) => {
-              e.stopPropagation();
-              dotMenuOpen.value = !dotMenuOpen.value;
-            }}
-          >
-            <IconDotsVertical />
-            {dotMenuOpen.value && (
-              <div
-                style={{
-                  borderRadius: "var(--rounded-btn, 0.5rem)",
-                  borderColor: "var(--fallback-bc,oklch(var(--bc)/0.2))",
-                  backgroundColor:
-                    "var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)))",
-                }}
-                class="absolute border shadow w-48 right-0 top-10 p-2 rounded-lg flex flex-col gap-2 bg-base-100"
-              >
-                {isAuthor && <button class="btn btn-ghost">Edit Post</button>}
-                <div class="border-b" />
-                {(isAuthor || isTeacher) && (
-                  <button
-                    class="btn btn-ghost"
-                    onClick={async () => {
-                      const req = await fetch(`/api/posts/${postId}/delete`, {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                      });
-                      if (req.ok) {
-                        location.href = `/class/${classId}`;
-                      }
-                    }}
-                  >
-                    Delete Post
-                  </button>
-                )}
-                {isTeacher && <div class="border-b" />}
-                {isTeacher && !inFAQ && (
-                  <button
-                    class="btn btn-ghost"
-                    onClick={async () => {
-                      const req = await fetch(`/api/class/${postId}/faq/add`, {
-                        method: "POST",
-                      });
-                      if (req.ok) {
-                        location.href = `/class/${classId}`;
-                      }
-                    }}
-                  >
-                    Add to FAQ
-                  </button>
-                )}
-                {isTeacher && inFAQ && (
-                  <button
-                    class="btn btn-ghost"
-                    onClick={async () => {
-                      const req = await fetch(
-                        `/api/class/${postId}/faq/remove`,
-                        {
-                          method: "POST",
-                        },
-                      );
-                      if (req.ok) {
-                        location.href = `/class/${classId}`;
-                      }
-                    }}
-                  >
-                    Remove to FAQ
-                  </button>
-                )}
-              </div>
-            )}
-          </button>
-        )}
+        <DotMenu
+          items={getMenuItems(isAuthor, isTeacher, pinned, postId, classId)}
+        />
       </div>
       <p class="pl-8">{content}</p>
     </div>

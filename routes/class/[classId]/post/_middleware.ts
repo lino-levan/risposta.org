@@ -1,5 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { PostState } from "lib/state.ts";
+import type { NoNullFields } from "lib/type_helpers.ts";
 import { supabase } from "lib/db.ts";
 
 export async function handler(
@@ -10,8 +11,8 @@ export async function handler(
     .select("*").eq(
       "id",
       ctx.params.postId,
-    ).eq("class_id", ctx.params.classId);
-  if (error || !postData || postData.length === 0) return ctx.renderNotFound();
-  ctx.state.post = postData[0];
+    ).eq("class_id", ctx.params.classId).single();
+  if (error) return ctx.renderNotFound();
+  ctx.state.post = postData as NoNullFields<typeof postData>;
   return await ctx.next();
 }

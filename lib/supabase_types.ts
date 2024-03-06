@@ -200,27 +200,27 @@ export type Database = {
           anonymous: boolean;
           content: string;
           created_at: string;
-          faq: boolean;
           id: number;
           member_id: number;
+          pinned: boolean;
           title: string;
         };
         Insert: {
           anonymous: boolean;
           content: string;
           created_at?: string;
-          faq?: boolean;
           id?: number;
           member_id: number;
+          pinned?: boolean;
           title: string;
         };
         Update: {
           anonymous?: boolean;
           content?: string;
           created_at?: string;
-          faq?: boolean;
           id?: number;
           member_id?: number;
+          pinned?: boolean;
           title?: string;
         };
         Relationships: [
@@ -410,9 +410,9 @@ export type Database = {
           content: string | null;
           created_at: string | null;
           downvotes: number | null;
-          faq: boolean | null;
           id: number | null;
           member_id: number | null;
+          pinned: boolean | null;
           title: string | null;
           upvotes: number | null;
           user_id: number | null;
