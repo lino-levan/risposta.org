@@ -28,7 +28,7 @@ export default async function Dashboard(
         <div class="flex gap-2">
           <a
             class="btn"
-            href="/class/create_class"
+            href="/class/create"
           >
             Create class
           </a>

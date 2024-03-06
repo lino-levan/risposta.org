@@ -12,7 +12,7 @@ export default function CreateClassForm() {
     const classData = { name: className, description, enableAI };
 
     try {
-      const response = await fetch("/api/class/create_class", {
+      const response = await fetch("/api/class", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
