@@ -37,3 +37,4 @@ export function DeletePost(props: DeletePostProps) {
     </div>
   );
 }
+

@@ -1,10 +1,11 @@
-import { useSignal } from "@preact/signals";
+import { useComputed, useSignal } from "@preact/signals";
 import { useMemo } from "preact/hooks";
 import MiniSearch from "https://esm.sh/minisearch@v6.3.0";
+import type { Database } from "lib/supabase_types.ts";
 
 export function SearchablePostList(
   props: {
-    posts: { id: number; title: string; content: string }[];
+    posts: Database["public"]["Views"]["expanded_posts"]["Row"][];
     classId: number;
   },
 ) {
@@ -26,17 +27,51 @@ export function SearchablePostList(
 
   const filter = useSignal<number[] | null>(null);
 
-  const filteredPosts = props.posts.filter((item) => {
-    if (filter.value === null) {
-      return true;
+  const sortRule = useSignal(
+    globalThis?.localStorage?.getItem("sortRule") ?? "recent",
+  );
+
+  const sortedFilteredPosts = useComputed(() => {
+    const currentFilter = filter.value;
+    //filtered here
+    const postsToSort = props.posts.filter((post) => {
+      if (currentFilter === null) return true;
+      return currentFilter.includes(post.id!);
+    });
+
+    //sorted here
+    if (sortRule.value === "votes") {
+      return postsToSort.sort((a, b) =>
+        (b.upvotes! - b.downvotes!) - (a.upvotes! - a.downvotes!)
+      );
+    } else {
+      return postsToSort.sort((a, b) =>
+        new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime()
+      );
     }
-    return filter.value.includes(item.id);
   });
 
   return (
     <>
+      <select
+        class="select select-bordered"
+        onChange={(e) => {
+          const value = e.currentTarget.value;
+          if (value === "recent" || value === "votes") {
+            sortRule.value = value;
+            localStorage.setItem("sortRule", value);
+          }
+        }}
+      >
+        <option value="recent" selected={sortRule.value === "recent"}>
+          By Recent
+        </option>
+        <option value="votes" selected={sortRule.value === "votes"}>
+          By High Votes
+        </option>
+      </select>
       <input
-        class="w-full border-green-200 rounded p-2 bg-white text-black"
+        class="input input-bordered py-4"
         placeholder="Search for..."
         onInput={(e) => {
           const value = e.currentTarget.value.trim();
@@ -48,10 +83,10 @@ export function SearchablePostList(
         }}
       >
       </input>
-      {filteredPosts.map((item) => (
+      {sortedFilteredPosts.value.map((item) => (
         <a
           href={`/class/${props.classId}/post/${item.id}`}
-          class="block py-2 px-3 rounded bg-green-300 hover:bg-green-500 text-black"
+          class="block py-2 px-3 rounded bg-base-200 hover:bg-base-300"
         >
           <h2 class="text-xl">{item.title}</h2>
           <p class="text-sm text-black whitespace-nowrap overflow-hidden text-ellipsis">
@@ -62,8 +97,8 @@ export function SearchablePostList(
       {props.posts.length === 0 && (
         <p class="text-sm text-black">No posts yet...</p>
       )}
-      {props.posts.length !== 0 && filteredPosts.length === 0 && (
-        <p class="text-sm text-black">No posts matching search...</p>
+      {props.posts.length !== 0 && sortedFilteredPosts.value.length === 0 && (
+        <p class="text-sm text-gray-500">No posts matching search...</p>
       )}
     </>
   );

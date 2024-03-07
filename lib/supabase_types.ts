@@ -6,22 +6,31 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       classes: {
         Row: {
+          ai: boolean;
+          code: string | null;
           created_at: string;
+          description: string;
           id: number;
           name: string;
         };
         Insert: {
+          ai?: boolean;
+          code?: string | null;
           created_at?: string;
+          description?: string;
           id?: number;
           name: string;
         };
         Update: {
+          ai?: boolean;
+          code?: string | null;
           created_at?: string;
+          description?: string;
           id?: number;
           name?: string;
         };
@@ -57,6 +66,13 @@ export interface Database {
             foreignKeyName: "comments_member_id_fkey";
             columns: ["member_id"];
             isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["member_id"];
+          },
+          {
+            foreignKeyName: "comments_member_id_fkey";
+            columns: ["member_id"];
+            isOneToOne: false;
             referencedRelation: "members";
             referencedColumns: ["id"];
           },
@@ -65,6 +81,13 @@ export interface Database {
             columns: ["parent_id"];
             isOneToOne: false;
             referencedRelation: "comments";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comments_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
             referencedColumns: ["id"];
           },
           {
@@ -107,6 +130,20 @@ export interface Database {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "members_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["class_id"];
+          },
+          {
+            foreignKeyName: "members_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["user_id"];
+          },
+          {
             foreignKeyName: "members_user_id_fkey";
             columns: ["user_id"];
             isOneToOne: false;
@@ -115,35 +152,85 @@ export interface Database {
           },
         ];
       };
+      post_tags: {
+        Row: {
+          created_at: string;
+          id: number;
+          post_id: number;
+          tag_id: number;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          post_id: number;
+          tag_id: number;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          post_id?: number;
+          tag_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_post_tags_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_post_tags_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "posts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_post_tags_tag_id_fkey";
+            columns: ["tag_id"];
+            isOneToOne: false;
+            referencedRelation: "tags";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       posts: {
         Row: {
+          anonymous: boolean;
           content: string;
           created_at: string;
           id: number;
           member_id: number;
+          pinned: boolean;
           title: string;
-          anonymous: boolean;
-          faq: boolean;
         };
         Insert: {
+          anonymous: boolean;
           content: string;
           created_at?: string;
           id?: number;
           member_id: number;
+          pinned?: boolean;
           title: string;
-          anonymous: boolean;
-          faq: boolean;
         };
         Update: {
+          anonymous?: boolean;
           content?: string;
           created_at?: string;
           id?: number;
           member_id?: number;
+          pinned?: boolean;
           title?: string;
-          anonymous: boolean;
-          faq: boolean;
         };
         Relationships: [
+          {
+            foreignKeyName: "posts_member_id_fkey";
+            columns: ["member_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["member_id"];
+          },
           {
             foreignKeyName: "posts_member_id_fkey";
             columns: ["member_id"];
@@ -174,8 +261,51 @@ export interface Database {
             foreignKeyName: "sessions_user_id_fkey";
             columns: ["user_id"];
             isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["user_id"];
+          },
+          {
+            foreignKeyName: "sessions_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
+          },
+        ];
+      };
+      tags: {
+        Row: {
+          class_id: number;
+          created_at: string;
+          id: number;
+          tag: string;
+        };
+        Insert: {
+          class_id: number;
+          created_at?: string;
+          id?: number;
+          tag: string;
+        };
+        Update: {
+          class_id?: number;
+          created_at?: string;
+          id?: number;
+          tag?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_classes_tags_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "classes";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_classes_tags_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["class_id"];
           },
         ];
       };
@@ -209,7 +339,7 @@ export interface Database {
           created_at: string;
           id: number;
           member_id: number;
-          post_id: number;
+          post_id: number | null;
           upvote: boolean;
         };
         Insert: {
@@ -217,7 +347,7 @@ export interface Database {
           created_at?: string;
           id?: number;
           member_id: number;
-          post_id: number;
+          post_id?: number | null;
           upvote: boolean;
         };
         Update: {
@@ -225,7 +355,7 @@ export interface Database {
           created_at?: string;
           id?: number;
           member_id?: number;
-          post_id?: number;
+          post_id?: number | null;
           upvote?: boolean;
         };
         Relationships: [
@@ -240,7 +370,21 @@ export interface Database {
             foreignKeyName: "votes_member_id_fkey";
             columns: ["member_id"];
             isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["member_id"];
+          },
+          {
+            foreignKeyName: "votes_member_id_fkey";
+            columns: ["member_id"];
+            isOneToOne: false;
             referencedRelation: "members";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "votes_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
             referencedColumns: ["id"];
           },
           {
@@ -254,7 +398,27 @@ export interface Database {
       };
     };
     Views: {
-      [_ in never]: never;
+      expanded_posts: {
+        Row: {
+          anonymous: boolean | null;
+          author_email: string | null;
+          author_name: string | null;
+          author_picture: string | null;
+          author_role: string | null;
+          class_id: number | null;
+          class_name: string | null;
+          content: string | null;
+          created_at: string | null;
+          downvotes: number | null;
+          id: number | null;
+          member_id: number | null;
+          pinned: boolean | null;
+          title: string | null;
+          upvotes: number | null;
+          user_id: number | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       [_ in never]: never;
@@ -266,7 +430,7 @@ export interface Database {
       [_ in never]: never;
     };
   };
-}
+};
 
 export type Tables<
   PublicTableNameOrOptions extends

@@ -1,48 +1,31 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
-import { getUser } from "lib/get_user.ts";
+import { bad, success, unauthorized } from "lib/response.ts";
+import { APIState } from "lib/state.ts";
 
-export const handler: Handlers = {
-  async POST(req) {
-    //get user
-    const user = await getUser(req);
-    if (!user) return new Response(null, { status: 401 });
+// TODO(lino-levan): Validate inputs
+export const handler: Handlers<unknown, APIState> = {
+  async POST(req, ctx) {
+    const user = ctx.state.user;
 
     //insert new class
-    const { name, _GPT, _access } = await req.json();
-    const { error } = await supabase.from("classes").insert({ name });
-    //const { error } = await supabase.from("classes").insert({ name, enableGPT: GPT, access: access});
-
-    //get class_id (somehow I can't get classData from line 13)
-    const { data: classData, error: classError } = await supabase.from(
-      "classes",
-    )
-      .select("*")
-      .eq("name", name)
-      .order("created_at", { ascending: false })
-      .limit(1);
-
-    if (
-      classError || !classData || classData.length === 0 || classData.length > 1
-    ) {
-      return new Response(null, { status: 500 });
-    }
-
-    if (error) throw error;
-    const classroom = classData[0];
+    const { name, description, enableAI } = await req.json();
+    const { error, data: classroom } = await supabase.from("classes").insert({
+      name,
+      description,
+      ai: enableAI,
+    }).select("*").single();
+    if (error) return bad();
 
     //insert new member
     const { error: memberError } = await supabase.from("members").insert({
       user_id: user.id,
       role: "teacher",
       class_id: classroom.id,
-    });
+    }).select("*");
 
-    if (memberError) {
-      console.error(memberError);
-      throw memberError;
-    }
+    if (memberError) return bad();
 
-    return new Response(JSON.stringify(classroom));
+    return success(JSON.stringify(classroom));
   },
 };
