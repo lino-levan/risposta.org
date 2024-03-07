@@ -88,18 +88,9 @@ export default async function Dashboard(
     : (data[0].upvote ? 1 : -1);
 
   const postedBy = post.anonymous ? "Anonymous" : ctx.state.user.name;
-  //added to check for editing post
-  const { data: postData, error } = await supabase
-    .from("posts")
-    .select("*, member:member_id(user_id)")
-    .eq("id", ctx.params.postId)
-    .single();
-  if (error || !postData) {
-    throw new Error("Post not found or an error occurred.");
-  }
-  const postCreatorId = postData.member.user_id;
 
-  function renderComment(comment, index) {
+  // deno-lint-ignore no-explicit-any
+  function renderComment(comment: any, index: any) {
     return (
       <div
         class={`px-4 py-2 flex p-4 ${
