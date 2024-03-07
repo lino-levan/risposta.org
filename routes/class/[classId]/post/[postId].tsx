@@ -2,9 +2,10 @@ import { FreshContext } from "$fresh/server.ts";
 import type { PostState } from "lib/state.ts";
 import { supabase } from "lib/db.ts";
 import { getReadableTime } from "lib/readable_time.ts";
+import { getPostVotes } from "lib/get_post_votes.ts";
 import { CommentVote } from "islands/CommentVote.tsx";
-import { PostComment } from "islands/PostComment.tsx";
-import { ThreadedComment } from "islands/ThreadedComment.tsx";
+import { CreateComment } from "islands/CreateComment.tsx";
+import { Comment } from "islands/Comment.tsx";
 import { Post } from "islands/Post.tsx";
 
 export default async function Dashboard(
@@ -12,13 +13,7 @@ export default async function Dashboard(
   ctx: FreshContext<PostState>,
 ) {
   const post = ctx.state.post;
-  const { count: upvoteCount } = await supabase.from("votes").select("*", {
-    count: "exact",
-  }).eq("upvote", true).eq("post_id", post.id);
-  const { count: downvoteCount } = await supabase.from("votes").select("*", {
-    count: "exact",
-  }).eq("upvote", false).eq("post_id", post.id);
-  const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
+  const votes = await getPostVotes(post.id);
 
   // Get comments
   const { data: commentData } = await supabase
@@ -32,10 +27,12 @@ export default async function Dashboard(
     created_at: string;
     member_id: { user_id: { name: string; picture: string } };
     parent_id: number;
+    // deno-lint-ignore no-explicit-any
     children: any[];
   }[];
 
-  function buildTree(comments, parent) {
+  // deno-lint-ignore no-explicit-any
+  function buildTree(comments: any, parent: any) {
     const tree = [];
 
     for (const comment of comments) {
@@ -86,18 +83,9 @@ export default async function Dashboard(
     : (data[0].upvote ? 1 : -1);
 
   const postedBy = post.anonymous ? "Anonymous" : ctx.state.user.name;
-  //added to check for editing post
-  const { data: postData, error } = await supabase
-    .from("posts")
-    .select("*, member:member_id(user_id)")
-    .eq("id", ctx.params.postId)
-    .single();
-  if (error || !postData) {
-    throw new Error("Post not found or an error occurred.");
-  }
-  const postCreatorId = postData.member.user_id;
 
-  function renderComment(comment, index) {
+  // deno-lint-ignore no-explicit-any
+  function renderComment(comment: any, index: any) {
     return (
       <div
         class={`px-4 py-2 flex p-4 ${
@@ -124,7 +112,7 @@ export default async function Dashboard(
             />
           </div>
           <div class={` ${comment.parent_id ? "pl-1" : ""}`}>
-            <ThreadedComment
+            <Comment
               post_id={ctx.params.postId}
               classId={ctx.params.classId}
               commentId={comment.id}
@@ -160,7 +148,7 @@ export default async function Dashboard(
         tags={tags}
         postedBy={postedBy}
       />
-      <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
+      <CreateComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       {commentForest && commentForest.map(renderComment)}
     </div>
   ); }

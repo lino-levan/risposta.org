@@ -40,7 +40,17 @@ export default async function Layout(
           >
             Create Post
           </a>
-          <SearchablePostList classId={classId} posts={data} />
+          <SearchablePostList
+            classId={classId}
+            posts={data.map((post) => ({
+              id: post.id,
+              title: post.title,
+              content: post.content,
+              upvotes: post.upvotes,
+              downvotes: post.downvotes,
+              created_at: post.created_at,
+            }))}
+          />
         </aside>
         <main class="flex-1 bg-base-100 flex flex-col items-center justify-center">
           <ctx.Component />

@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
 
-export interface ThreadedCommentProps {
+export interface CommentProps {
   post_id: string;
   classId: string;
   parent_id?: number;
@@ -8,7 +8,7 @@ export interface ThreadedCommentProps {
 }
 
 //island
-export function ThreadedComment(props: ThreadedCommentProps) {
+export function Comment(props: CommentProps) {
   const comment = useSignal("");
   const disabled = useSignal(false);
   const showCommentForm = useSignal(false);
@@ -40,7 +40,7 @@ export function ThreadedComment(props: ThreadedCommentProps) {
               console.log("Post Comment button clicked!");
               console.log("post_id:", props.post_id);
               console.log("comment:", comment.value);
-              const req = await fetch(`/api/class/${props.post_id}/comment`, {
+              const req = await fetch(`/api/posts/${props.post_id}/comment`, {
                 method: "POST",
                 body: JSON.stringify({
                   content: comment.value,

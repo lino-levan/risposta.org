@@ -5,7 +5,10 @@ import type { Database } from "lib/supabase_types.ts";
 
 export function SearchablePostList(
   props: {
-    posts: Database["public"]["Views"]["expanded_posts"]["Row"][];
+    posts: Pick<
+      Database["public"]["Views"]["expanded_posts"]["Row"],
+      "id" | "title" | "content" | "upvotes" | "downvotes" | "created_at"
+    >[];
     classId: number;
   },
 ) {

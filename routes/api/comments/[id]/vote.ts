@@ -1,6 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
-import { bad, success, unauthorized } from "lib/response.ts";
+import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
 
 export const handler: Handlers<unknown, APIState> = {
@@ -11,32 +11,23 @@ export const handler: Handlers<unknown, APIState> = {
     const user = ctx.state.user;
 
     // Get data on the comment being upvoted
-    const { data: commentData, error: commentError } = await supabase.from(
+    const { data: comment, error: commentError } = await supabase.from(
       "comments",
-    ).select("*").eq("id", commentId);
-    if (commentError || commentData.length === 0 || commentData.length > 1) {
-      return bad();
-    }
-    const comment = commentData[0];
+    ).select("*").eq("id", commentId).single();
+    if (commentError) return bad();
 
     // Get data on the author who commented the comment
-    const { data: authorData, error: authorError } = await supabase.from(
+    const { data: author, error: authorError } = await supabase.from(
       "members",
-    ).select("*").eq("id", comment.member_id);
-    if (authorError || authorData.length === 0 || authorData.length > 1) {
-      return bad();
-    }
-    const author = authorData[0];
+    ).select("*").eq("id", comment.member_id).single();
+    if (authorError) return bad();
 
     // get member who is upvoting from the class id and user
-    const { data: memberData, error: memberError } = await supabase.from(
+    const { data: member, error: memberError } = await supabase.from(
       "members",
-    ).select("*").eq("user_id", user.id).eq("class_id", author.class_id);
-    if (
-      memberError || !memberData || memberData.length === 0 ||
-      memberData.length > 1
-    ) return new Response(null, { status: 500 });
-    const member = memberData[0];
+    ).select("*").eq("user_id", user.id).eq("class_id", author.class_id)
+      .single();
+    if (memberError) return bad();
 
     if (vote === 1) {
       const { error } = await supabase
@@ -64,7 +55,8 @@ export const handler: Handlers<unknown, APIState> = {
         .from("votes")
         .delete()
         .eq("comment_id", commentId)
-        .eq("member_id", member.id);
+        .eq("member_id", member.id)
+        .select("*");
       if (error) return bad();
     }
 

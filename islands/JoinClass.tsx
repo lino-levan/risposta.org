@@ -6,7 +6,7 @@ export default function CreateClassForm() {
 
   const handleJoinClass = async () => {
     try {
-      const response = await fetch("/api/class/join_class", {
+      const response = await fetch("/api/class/join", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

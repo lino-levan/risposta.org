@@ -1,13 +1,13 @@
 import { useSignal } from "@preact/signals";
 import { Multiselect } from "islands/Multiselect.tsx";
 
-export interface PostQuestionProps {
+export interface CreatePostProps {
   classId: string;
   username?: string;
   tags: string[];
 }
 
-export function PostQuestion(props: PostQuestionProps) {
+export function CreatePost(props: CreatePostProps) {
   const title = useSignal("");
   const content = useSignal("");
   const loading = useSignal(false);
@@ -52,7 +52,7 @@ export function PostQuestion(props: PostQuestionProps) {
             anonymous.value = e.currentTarget.value === "anonymous";
           }}
         >
-          <option value={props.username}>
+          <option value="username">
             {props.username}
           </option>
           <option value="anonymous">Anonymous</option>

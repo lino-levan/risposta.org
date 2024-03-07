@@ -1,13 +1,13 @@
 import { useSignal } from "@preact/signals";
 
-export interface PostCommentProps {
+export interface CreateCommentProps {
   post_id: string;
   classId: string;
   parent_id?: number;
 }
 
 //island
-export function PostComment(props: PostCommentProps) {
+export function CreateComment(props: CreateCommentProps) {
   const comment = useSignal("");
   const disabled = useSignal(false);
   return (
@@ -27,7 +27,7 @@ export function PostComment(props: PostCommentProps) {
           console.log("Post Comment button clicked!");
           console.log("post_id:", props.post_id);
           console.log("comment:", comment.value);
-          const req = await fetch(`/api/class/${props.post_id}/comment`, {
+          const req = await fetch(`/api/posts/${props.post_id}/comment`, {
             method: "POST",
             body: JSON.stringify({
               content: comment.value,

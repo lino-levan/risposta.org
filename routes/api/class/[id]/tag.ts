@@ -1,6 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
-import { bad, success, unauthorized } from "lib/response.ts";
+import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
 
 export const handler: Handlers<unknown, APIState> = {
@@ -8,7 +8,7 @@ export const handler: Handlers<unknown, APIState> = {
     // TODO(lino-levan): Validate input
     const classId = parseInt(ctx.params.id);
     const tags: { id?: number; tag: string }[] = await req.json();
-    const user = ctx.state.user;
+    // const user = ctx.state.user;
 
     // upsert keys
     const { data: upsertData, error: upsertError } = await supabase

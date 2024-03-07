@@ -1,0 +1,12 @@
+import { supabase } from "lib/db.ts";
+
+export async function getPostVotes(post_id: number) {
+  const { count: upvoteCount } = await supabase.from("votes").select("*", {
+    count: "exact",
+  }).eq("upvote", true).eq("post_id", post_id);
+  const { count: downvoteCount } = await supabase.from("votes").select("*", {
+    count: "exact",
+  }).eq("upvote", false).eq("post_id", post_id);
+
+  return (upvoteCount ?? 0) - (downvoteCount ?? 0);
+}

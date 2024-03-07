@@ -1,6 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
-import { bad, success, unauthorized } from "lib/response.ts";
+import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
 
 // TODO(lino-levan): Validate inputs
