@@ -1,13 +1,13 @@
 import { useSignal } from "@preact/signals";
 
-export interface PostCommentProps {
+export interface CreateCommentProps {
   post_id: string;
   classId: string;
   parent_id?: number;
 }
 
 //island
-export function PostComment(props: PostCommentProps) {
+export function CreateComment(props: CreateCommentProps) {
   const comment = useSignal("");
   const disabled = useSignal(false);
   return (

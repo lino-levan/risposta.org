@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
 
-export interface ThreadedCommentProps {
+export interface CommentProps {
   post_id: string;
   classId: string;
   parent_id?: number;
@@ -8,7 +8,7 @@ export interface ThreadedCommentProps {
 }
 
 //island
-export function ThreadedComment(props: ThreadedCommentProps) {
+export function Comment(props: CommentProps) {
   const comment = useSignal("");
   const disabled = useSignal(false);
   const showCommentForm = useSignal(false);

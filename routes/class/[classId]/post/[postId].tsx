@@ -2,9 +2,10 @@ import { FreshContext } from "$fresh/server.ts";
 import type { PostState } from "lib/state.ts";
 import { supabase } from "lib/db.ts";
 import { getReadableTime } from "lib/readable_time.ts";
+import { getPostVotes } from "lib/get_post_votes.ts";
 import { CommentVote } from "islands/CommentVote.tsx";
-import { PostComment } from "islands/PostComment.tsx";
-import { ThreadedComment } from "islands/ThreadedComment.tsx";
+import { CreateComment } from "islands/CreateComment.tsx";
+import { Comment } from "islands/Comment.tsx";
 import { Post } from "islands/Post.tsx";
 
 export default async function Dashboard(
@@ -12,13 +13,7 @@ export default async function Dashboard(
   ctx: FreshContext<PostState>,
 ) {
   const post = ctx.state.post;
-  const { count: upvoteCount } = await supabase.from("votes").select("*", {
-    count: "exact",
-  }).eq("upvote", true).eq("post_id", post.id);
-  const { count: downvoteCount } = await supabase.from("votes").select("*", {
-    count: "exact",
-  }).eq("upvote", false).eq("post_id", post.id);
-  const votes = (upvoteCount ?? 0) - (downvoteCount ?? 0);
+  const votes = await getPostVotes(post.id);
 
   // Get comments
   const { data: commentData } = await supabase
@@ -117,7 +112,7 @@ export default async function Dashboard(
             />
           </div>
           <div class={` ${comment.parent_id ? "pl-1" : ""}`}>
-            <ThreadedComment
+            <Comment
               post_id={ctx.params.postId}
               classId={ctx.params.classId}
               commentId={comment.id}
@@ -153,7 +148,7 @@ export default async function Dashboard(
         tags={tags}
         postedBy={postedBy}
       />
-      <PostComment post_id={ctx.params.postId} classId={ctx.params.classId} />
+      <CreateComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       {commentForest && commentForest.map(renderComment)}
     </div>
   );

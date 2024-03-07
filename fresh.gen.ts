@@ -35,20 +35,19 @@ import * as $class_user from "./routes/class/user.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
+import * as $Comment from "./islands/Comment.tsx";
 import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
+import * as $CreateComment from "./islands/CreateComment.tsx";
+import * as $CreatePost from "./islands/CreatePost.tsx";
 import * as $DeleteComment from "./islands/DeleteComment.tsx";
 import * as $EditComment from "./islands/EditComment.tsx";
 import * as $JoinClass from "./islands/JoinClass.tsx";
 import * as $Multiselect from "./islands/Multiselect.tsx";
 import * as $Post from "./islands/Post.tsx";
-import * as $PostComment from "./islands/PostComment.tsx";
-import * as $PostQuestion from "./islands/PostQuestion.tsx";
 import * as $SearchablePostList from "./islands/SearchablePostList.tsx";
-import * as $ThreadedComment from "./islands/ThreadedComment.tsx";
 import * as $UpdateClass from "./islands/UpdateClass.tsx";
 import * as $Vote from "./islands/Vote.tsx";
-import * as $edit from "./islands/edit.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -89,20 +88,19 @@ const manifest = {
     "./routes/signup.tsx": $signup,
   },
   islands: {
+    "./islands/Comment.tsx": $Comment,
     "./islands/CommentVote.tsx": $CommentVote,
     "./islands/CreateClass.tsx": $CreateClass,
+    "./islands/CreateComment.tsx": $CreateComment,
+    "./islands/CreatePost.tsx": $CreatePost,
     "./islands/DeleteComment.tsx": $DeleteComment,
     "./islands/EditComment.tsx": $EditComment,
     "./islands/JoinClass.tsx": $JoinClass,
     "./islands/Multiselect.tsx": $Multiselect,
     "./islands/Post.tsx": $Post,
-    "./islands/PostComment.tsx": $PostComment,
-    "./islands/PostQuestion.tsx": $PostQuestion,
     "./islands/SearchablePostList.tsx": $SearchablePostList,
-    "./islands/ThreadedComment.tsx": $ThreadedComment,
     "./islands/UpdateClass.tsx": $UpdateClass,
     "./islands/Vote.tsx": $Vote,
-    "./islands/edit.tsx": $edit,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
