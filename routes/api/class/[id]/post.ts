@@ -4,21 +4,24 @@ import { getClassTags } from "lib/get_class_tags.ts";
 import { getMembership } from "lib/get_member.ts";
 import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
+import { z } from "zod";
+
+const postSchema = z.object({
+  title: z.string().min(1).max(100),
+  content: z.string().min(1),
+  tags: z.string().array(),
+  anonymous: z.boolean(),
+});
 
 export const handler: Handlers<unknown, APIState> = {
   async POST(req, ctx) {
     // TODO(lino-levan): Validate input
     const classId = parseInt(ctx.params.id);
-    const { title, content, tags, anonymous }: {
-      title: string;
-      content: string;
-      tags: string[];
-      anonymous: boolean;
-    } = await req
-      .json();
-
-    // get user for request
     const user = ctx.state.user;
+
+    const result = postSchema.safeParse(await req.json());
+    if (!result.success) return bad(result.error.toString());
+    const { title, content, tags, anonymous } = result.data;
 
     const member = await getMembership(user.id, classId);
     if (!member) return ctx.renderNotFound();

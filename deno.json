@@ -38,7 +38,8 @@
     "$std/": "https://deno.land/std@0.211.0/",
     "icons/": "https://deno.land/x/tabler_icons_tsx@0.0.6/tsx/",
     "deno_kv_oauth": "https://deno.land/x/deno_kv_oauth@v0.10.0/mod.ts",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@v2.39.3"
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@v2.39.3",
+    "zod": "https://deno.land/x/zod@v3.22.4/mod.ts"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
