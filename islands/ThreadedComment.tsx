@@ -40,7 +40,7 @@ export function ThreadedComment(props: ThreadedCommentProps) {
               console.log("Post Comment button clicked!");
               console.log("post_id:", props.post_id);
               console.log("comment:", comment.value);
-              const req = await fetch(`/api/class/${props.post_id}/comment`, {
+              const req = await fetch(`/api/posts/${props.post_id}/comment`, {
                 method: "POST",
                 body: JSON.stringify({
                   content: comment.value,

@@ -8,15 +8,14 @@ import * as $api_middleware from "./routes/api/_middleware.ts";
 import * as $api_auth_callback from "./routes/api/auth/callback.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
-import * as $api_class_id_comment from "./routes/api/class/[id]/comment.ts";
 import * as $api_class_id_index from "./routes/api/class/[id]/index.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_tag from "./routes/api/class/[id]/tag.ts";
 import * as $api_class_index from "./routes/api/class/index.ts";
 import * as $api_class_join from "./routes/api/class/join.ts";
-import * as $api_comments_id_delete from "./routes/api/comments/[id]/delete.ts";
-import * as $api_comments_id_edit from "./routes/api/comments/[id]/edit.ts";
+import * as $api_comments_id_index from "./routes/api/comments/[id]/index.ts";
 import * as $api_comments_id_vote from "./routes/api/comments/[id]/vote.ts";
+import * as $api_posts_id_comment from "./routes/api/posts/[id]/comment.ts";
 import * as $api_posts_id_index from "./routes/api/posts/[id]/index.ts";
 import * as $api_posts_id_pin from "./routes/api/posts/[id]/pin.ts";
 import * as $api_posts_id_vote from "./routes/api/posts/[id]/vote.ts";
@@ -60,15 +59,14 @@ const manifest = {
     "./routes/api/auth/callback.ts": $api_auth_callback,
     "./routes/api/auth/login.ts": $api_auth_login,
     "./routes/api/auth/logout.ts": $api_auth_logout,
-    "./routes/api/class/[id]/comment.ts": $api_class_id_comment,
     "./routes/api/class/[id]/index.ts": $api_class_id_index,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
     "./routes/api/class/[id]/tag.ts": $api_class_id_tag,
     "./routes/api/class/index.ts": $api_class_index,
     "./routes/api/class/join.ts": $api_class_join,
-    "./routes/api/comments/[id]/delete.ts": $api_comments_id_delete,
-    "./routes/api/comments/[id]/edit.ts": $api_comments_id_edit,
+    "./routes/api/comments/[id]/index.ts": $api_comments_id_index,
     "./routes/api/comments/[id]/vote.ts": $api_comments_id_vote,
+    "./routes/api/posts/[id]/comment.ts": $api_posts_id_comment,
     "./routes/api/posts/[id]/index.ts": $api_posts_id_index,
     "./routes/api/posts/[id]/pin.ts": $api_posts_id_pin,
     "./routes/api/posts/[id]/vote.ts": $api_posts_id_vote,

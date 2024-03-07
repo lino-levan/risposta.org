@@ -1,14 +1,14 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
 import { success } from "lib/response.ts";
-import { bad, unauthorized } from "lib/response.ts";
+import { bad } from "lib/response.ts";
 import type { APIState } from "lib/state.ts";
 
 // TODO(lino-levan): Verify that the user is authorized to pin results
 export const handler: Handlers<unknown, APIState> = {
   async POST(_, ctx) {
     const postId = parseInt(ctx.params.id);
-    const user = ctx.state.user;
+    // const user = ctx.state.user;
 
     const { data: post, error: postError } = await supabase
       .from("posts")
@@ -29,7 +29,7 @@ export const handler: Handlers<unknown, APIState> = {
   },
   async DELETE(_, ctx) {
     const postId = parseInt(ctx.params.id);
-    const user = ctx.state.user;
+    // const user = ctx.state.user;
 
     const { data: post, error: postError } = await supabase
       .from("posts")

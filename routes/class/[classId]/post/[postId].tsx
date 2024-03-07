@@ -32,10 +32,12 @@ export default async function Dashboard(
     created_at: string;
     member_id: { user_id: { name: string; picture: string } };
     parent_id: number;
+    // deno-lint-ignore no-explicit-any
     children: any[];
   }[];
 
-  function buildTree(comments, parent) {
+  // deno-lint-ignore no-explicit-any
+  function buildTree(comments: any, parent: any) {
     const tree = [];
 
     for (const comment of comments) {

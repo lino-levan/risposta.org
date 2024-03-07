@@ -43,7 +43,7 @@ export default async function Dashboard(
           {classes.map((course) => (
             <a
               href={`/class/${course.id}`}
-              class="rounded-lg px-4 py-2 flex flex-col bg-base-200 hover:shadow-lgrounded"
+              class="rounded-lg px-4 py-2 flex flex-col bg-base-200 hover:bg-base-300"
             >
               <div class="flex items-center justify-between w-full">
                 <img

@@ -1,6 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
 import { APIState } from "lib/state.ts";
+import { bad, success } from "lib/response.ts";
 
 // TODO(lino-levan): Validate inputs
 export const handler: Handlers<unknown, APIState> = {
@@ -19,12 +20,9 @@ export const handler: Handlers<unknown, APIState> = {
     });
 
     // Handle member insertion errors
-    if (memberError) {
-      console.error(memberError);
-      throw memberError;
-    }
+    if (memberError) return bad();
 
     // Return success response
-    return new Response(JSON.stringify({ success: true }));
+    return success(JSON.stringify({ success: true }));
   },
 };
