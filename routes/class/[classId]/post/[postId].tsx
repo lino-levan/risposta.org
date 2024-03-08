@@ -151,4 +151,5 @@ export default async function Dashboard(
       <CreateComment post_id={ctx.params.postId} classId={ctx.params.classId} />
       {commentForest && commentForest.map(renderComment)}
     </div>
-  ); }
+  );
+}
