@@ -4,7 +4,7 @@ import { oAuthConfig } from "lib/auth.ts";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
 
-/** Properties guarenteed to exist on a google user */
+/** Properties guaranteed to exist on a google user */
 interface GoogleUser {
   email: string;
   name: string;
