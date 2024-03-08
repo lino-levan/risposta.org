@@ -20,7 +20,7 @@ export const handler: Handlers<unknown, APIState> = {
     //insert new member
     const { error: memberError } = await supabase.from("members").insert({
       user_id: user.id,
-      role: "teacher",
+      role: "instructor",
       class_id: classroom.id,
     }).select("*");
 

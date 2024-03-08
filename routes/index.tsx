@@ -43,7 +43,7 @@ export default async function Home(req: Request) {
               href="/signup"
               className="btn"
             >
-              Continue as Teacher
+              Continue as Instructor
             </a>
           </div>
         </div>
@@ -77,7 +77,7 @@ export default async function Home(req: Request) {
         <div className="container mx-auto max-w-screen-md">
           <h2 className="text-3xl font-bold mb-4">About Us</h2>
           <p className="text-lg mb-8">
-            Risposta is designed to empower both students and teachers in the
+            Risposta is designed to empower both students and instructors in the
             educational journey. Our platform offers advanced tools for
             collaboration, interactive learning, and seamless communication.
           </p>

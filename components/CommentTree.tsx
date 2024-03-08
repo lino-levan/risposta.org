@@ -24,10 +24,14 @@ export function CommentTree(props: CommentTreeProps) {
       content={props.comment.content}
       votes={props.comment.upvotes - props.comment.downvotes}
       voted={comment_voted ? (comment_voted.upvote ? 1 : -1) : 0}
+      role={props.comment.author_role}
       created_at={props.comment.created_at}
       parent_id={props.comment.parent_id}
     >
-      {props.comments.filter((c) => c.parent_id === props.comment.id).map((
+      {props.comments.filter((c) => c.parent_id === props.comment.id).sort((
+        a,
+        b,
+      ) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes)).map((
         c,
       ) => (
         <CommentTree

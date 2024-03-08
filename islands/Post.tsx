@@ -1,4 +1,5 @@
 import { getReadableTime } from "lib/readable_time.ts";
+import IconDotsVertical from "icons/dots-vertical.tsx";
 import { Vote } from "islands/Vote.tsx";
 import { DotMenu } from "components/DotMenu.tsx";
 import { useSignal } from "@preact/signals";
@@ -18,7 +19,7 @@ interface PostProps {
   tags: PostTag[];
 
   isAuthor: boolean;
-  isTeacher: boolean;
+  isInstructor: boolean;
 }
 
 export function Post(
@@ -33,7 +34,7 @@ export function Post(
     content,
     tags,
     isAuthor,
-    isTeacher,
+    isInstructor,
     pinned,
   }: PostProps,
 ) {
@@ -51,7 +52,7 @@ export function Post(
       },
     });
   }
-  if (isAuthor || isTeacher) {
+  if (isAuthor || isInstructor) {
     menuItems.push({
       name: "Delete Post",
       onClick: async () => {
@@ -64,7 +65,7 @@ export function Post(
       },
     });
   }
-  if (isTeacher && !pinned) {
+  if (isInstructor && !pinned) {
     menuItems.push({
       name: "Pin Post",
       onClick: async () => {
@@ -77,7 +78,7 @@ export function Post(
       },
     });
   }
-  if (isTeacher && pinned) {
+  if (isInstructor && pinned) {
     menuItems.push({
       name: "Unpin Post",
       onClick: async () => {
@@ -158,8 +159,11 @@ export function Post(
           )}
         </div>
         <DotMenu
+          class="ml-auto"
           items={menuItems}
-        />
+        >
+          <IconDotsVertical />
+        </DotMenu>
       </div>
       {!editing.value && <p class="pl-8">{content}</p>}
       {editing.value && (

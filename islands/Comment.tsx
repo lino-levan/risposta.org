@@ -1,8 +1,10 @@
 import { useSignal } from "@preact/signals";
 import type { ComponentChildren } from "preact";
 import IconMessage from "icons/message.tsx";
+import IconDots from "icons/dots.tsx";
 import { CommentVote } from "islands/CommentVote.tsx";
 import { getReadableTime } from "lib/readable_time.ts";
+import { DotMenu } from "components/DotMenu.tsx";
 
 export interface CommentProps {
   class_id: number;
@@ -11,6 +13,7 @@ export interface CommentProps {
   comment_id: number;
   picture: string;
   name: string;
+  role: string;
   content: string;
   created_at: string;
   parent_id: number | null;
@@ -26,7 +29,10 @@ export function Comment(props: CommentProps) {
   const showCommentForm = useSignal(false);
 
   return (
-    <div class="px-4 py-2 flex gap-2 p-4 border-l-2">
+    <div
+      id={props.comment_id.toString()}
+      class="px-4 py-2 flex gap-2 p-4 border-l-2"
+    >
       <img
         class="rounded-full w-6 h-6"
         src={props.picture}
@@ -36,10 +42,18 @@ export function Comment(props: CommentProps) {
           <span class="text-black font-bold">
             {props.name}
           </span>{" "}
+          {props.role !== "student" && (
+            <>
+              <span class="text-xs bg-black text-white px-1 py-[2px] rounded">
+                {props.role}
+              </span>
+              {" "}
+            </>
+          )}
           · {getReadableTime(props.created_at)}
         </p>
         <p>{props.content}</p>
-        <div class="flex items-center gap-2 text-gray-500 text-sm">
+        <div class="flex items-center gap-1 text-gray-500 text-sm">
           <CommentVote
             votes={props.votes}
             voted={props.voted}
@@ -52,6 +66,31 @@ export function Comment(props: CommentProps) {
             <IconMessage class="w-5 h-5" />
             Reply
           </button>
+          <DotMenu
+            items={[
+              {
+                name: "Share",
+                onClick: async () => {
+                  const url = new URL(location.toString());
+                  url.hash = props.comment_id.toString();
+                  await navigator.clipboard.writeText(url.toString());
+                },
+              },
+              {
+                name: "Delete",
+                onClick: async () => {
+                  const req = await fetch(`/api/comments/${props.comment_id}`, {
+                    method: "DELETE",
+                  });
+                  if (req.ok) {
+                    location.reload();
+                  }
+                },
+              },
+            ]}
+          >
+            <IconDots class="w-5 h-5" />
+          </DotMenu>
         </div>
         <div>
           {showCommentForm.value && (
@@ -65,7 +104,7 @@ export function Comment(props: CommentProps) {
                 }}
               />
               <button
-                className="btn btn-primary"
+                className="btn btn-primary w-max"
                 disabled={disabled.value}
                 onClick={async () => {
                   disabled.value = true;

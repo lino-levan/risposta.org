@@ -30,7 +30,7 @@ export default async function Dashboard(
         pinned={post.pinned}
         classId={ctx.state.class.id}
         isAuthor={post.member_id === ctx.state.member.id}
-        isTeacher={ctx.state.member.role !== "student"}
+        isInstructor={ctx.state.member.role !== "student"}
         createdAt={post.created_at}
         votes={votes}
         voted={voted}
@@ -41,7 +41,9 @@ export default async function Dashboard(
         postedBy={postedBy}
       />
       <CreateComment post_id={ctx.params.postId} classId={ctx.params.classId} />
-      {comments.filter((comment) => !comment.parent_id).map((comment) => (
+      {comments.filter((comment) => !comment.parent_id).sort((a, b) =>
+        (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes)
+      ).map((comment) => (
         <CommentTree
           comment={comment}
           comments={comments}

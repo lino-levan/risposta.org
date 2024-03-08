@@ -45,6 +45,8 @@ export const handler: Handlers<unknown, APIState> = {
       return unauthorized("You do not have permission to edit this comment.");
     }
 
+    console.log("hi");
+
     const { error } = await supabase
       .from("comments")
       .delete()

@@ -1,15 +1,18 @@
 import { useSignal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
-import IconDotsVertical from "icons/dots-vertical.tsx";
+import type { ComponentChildren } from "preact";
 
 interface DotMenuProps {
   items: {
     name: string;
     onClick: () => void;
   }[];
+
+  class?: string;
+  children: ComponentChildren;
 }
 
-export function DotMenu({ items }: DotMenuProps) {
+export function DotMenu(props: DotMenuProps) {
   const dotMenuOpen = useSignal(false);
 
   useEffect(() => {
@@ -25,13 +28,13 @@ export function DotMenu({ items }: DotMenuProps) {
 
   return (
     <button
-      class="ml-auto hover:bg-base-300 rounded-full p-1 relative"
+      class={`${props.class} hover:bg-base-300 rounded-full p-1 relative`}
       onClick={(e) => {
         e.stopPropagation();
         dotMenuOpen.value = !dotMenuOpen.value;
       }}
     >
-      <IconDotsVertical />
+      {props.children}
       {dotMenuOpen.value && (
         <div
           style={{
@@ -40,12 +43,12 @@ export function DotMenu({ items }: DotMenuProps) {
             backgroundColor:
               "var(--fallback-b1,oklch(var(--b1)/var(--tw-bg-opacity)))",
           }}
-          class="absolute border shadow w-48 right-0 top-10 p-2 rounded-lg flex flex-col gap-2 bg-base-100"
+          class="absolute border shadow w-48 right-0 top-10 p-2 rounded-lg flex flex-col gap-2 bg-base-100 z-10"
         >
-          {items.map(({ name, onClick }, i) => (
+          {props.items.map(({ name, onClick }, i) => (
             <>
               <button class="btn btn-ghost" onClick={onClick}>{name}</button>
-              {i !== items.length - 1 && <div class="border-b" />}
+              {i !== props.items.length - 1 && <div class="border-b" />}
             </>
           ))}
         </div>

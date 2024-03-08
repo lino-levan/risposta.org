@@ -53,7 +53,7 @@ export function SearchablePostList(
       return currentFilter.includes(post.id!);
     }).filter((post) => {
       const isAuthor = props.member?.id && post.member_id === props.member.id;
-      const isTeacher = props.member?.role === "teacher"; // Corrected condition
+      const isInstructor = props.member?.role === "instructor"; // Corrected condition
       const isInstructorPost = post.visibility === "instructor";
 
       //Permission Test Values
@@ -61,7 +61,7 @@ export function SearchablePostList(
       /*
       console.log("Post ID:", post.id);
       console.log("Is Author:", isAuthor);
-      console.log("Is Teacher:", isTeacher);
+      console.log("Is Instructor:", isInstructor);
       console.log("Is Instructor Post:", isInstructorPost);
       console.log("Member ID:", props.member?.id);
       console.log("Member Role:", props.member?.role);
@@ -71,7 +71,7 @@ export function SearchablePostList(
       */
 
       // Only include the post if the user is the author, a teacher, or the post is not intended for instructors
-      return isAuthor || isTeacher || !isInstructorPost;
+      return isAuthor || isInstructor || !isInstructorPost;
     });
 
     //sorted here
