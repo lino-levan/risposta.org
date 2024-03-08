@@ -6,6 +6,6 @@ export async function getClassTags(class_id: number) {
     .select("*")
     .eq("class_id", class_id);
 
-  if (error || !tagsData) return null;
+  if (error) return null;
   return tagsData;
 }

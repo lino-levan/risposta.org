@@ -36,6 +36,59 @@ export type Database = {
         };
         Relationships: [];
       };
+      comment_votes: {
+        Row: {
+          comment_id: number;
+          created_at: string;
+          id: number;
+          member_id: number;
+          upvote: boolean;
+        };
+        Insert: {
+          comment_id: number;
+          created_at?: string;
+          id?: number;
+          member_id: number;
+          upvote: boolean;
+        };
+        Update: {
+          comment_id?: number;
+          created_at?: string;
+          id?: number;
+          member_id?: number;
+          upvote?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_comment_votes_comment_id_fkey";
+            columns: ["comment_id"];
+            isOneToOne: false;
+            referencedRelation: "comments";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_comment_votes_comment_id_fkey";
+            columns: ["comment_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_comments";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_comment_votes_member_id_fkey";
+            columns: ["member_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["member_id"];
+          },
+          {
+            foreignKeyName: "public_comment_votes_member_id_fkey";
+            columns: ["member_id"];
+            isOneToOne: false;
+            referencedRelation: "members";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       comments: {
         Row: {
           content: string;
@@ -81,6 +134,13 @@ export type Database = {
             columns: ["parent_id"];
             isOneToOne: false;
             referencedRelation: "comments";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comments_parent_id_fkey";
+            columns: ["parent_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_comments";
             referencedColumns: ["id"];
           },
           {
@@ -195,6 +255,59 @@ export type Database = {
           },
         ];
       };
+      post_votes: {
+        Row: {
+          created_at: string;
+          id: number;
+          member_id: number;
+          post_id: number;
+          upvote: boolean;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          member_id: number;
+          post_id: number;
+          upvote: boolean;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          member_id?: number;
+          post_id?: number;
+          upvote?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_post_votes_member_id_fkey";
+            columns: ["member_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["member_id"];
+          },
+          {
+            foreignKeyName: "public_post_votes_member_id_fkey";
+            columns: ["member_id"];
+            isOneToOne: false;
+            referencedRelation: "members";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_post_votes_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_post_votes_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "posts";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       posts: {
         Row: {
           anonymous: boolean;
@@ -204,7 +317,7 @@ export type Database = {
           member_id: number;
           pinned: boolean;
           title: string;
-          visibility: string | null;
+          visibility: string;
         };
         Insert: {
           anonymous: boolean;
@@ -214,7 +327,7 @@ export type Database = {
           member_id: number;
           pinned?: boolean;
           title: string;
-          visibility?: string | null;
+          visibility: string;
         };
         Update: {
           anonymous?: boolean;
@@ -224,7 +337,7 @@ export type Database = {
           member_id?: number;
           pinned?: boolean;
           title?: string;
-          visibility?: string | null;
+          visibility?: string;
         };
         Relationships: [
           {
@@ -370,6 +483,13 @@ export type Database = {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "votes_comment_id_fkey";
+            columns: ["comment_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_comments";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "votes_member_id_fkey";
             columns: ["member_id"];
             isOneToOne: false;
@@ -401,6 +521,80 @@ export type Database = {
       };
     };
     Views: {
+      expanded_comments: {
+        Row: {
+          author_name: string | null;
+          author_role: string | null;
+          author_user_id: number | null;
+          class_id: number | null;
+          content: string | null;
+          created_at: string | null;
+          downvotes: number | null;
+          id: number | null;
+          parent_id: number | null;
+          picture: string | null;
+          post_id: number | null;
+          upvotes: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "comments_parent_id_fkey";
+            columns: ["parent_id"];
+            isOneToOne: false;
+            referencedRelation: "comments";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comments_parent_id_fkey";
+            columns: ["parent_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_comments";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comments_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "posts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comments_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "members_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "classes";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "members_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["class_id"];
+          },
+          {
+            foreignKeyName: "members_user_id_fkey";
+            columns: ["author_user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "members_user_id_fkey";
+            columns: ["author_user_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["user_id"];
+          },
+        ];
+      };
       expanded_posts: {
         Row: {
           anonymous: boolean | null;

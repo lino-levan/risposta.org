@@ -33,7 +33,7 @@ export const handler: Handlers<unknown, APIState> = {
 
     if (vote === 1) {
       const { error } = await supabase
-        .from("votes")
+        .from("post_votes")
         .upsert({ post_id: postId, member_id: member.id, upvote: true }, {
           onConflict: "post_id, member_id",
         })
@@ -41,7 +41,7 @@ export const handler: Handlers<unknown, APIState> = {
       if (error) return bad();
     } else if (vote === -1) {
       const { error } = await supabase
-        .from("votes")
+        .from("post_votes")
         .upsert({ post_id: postId, member_id: member.id, upvote: false }, {
           onConflict: "post_id, member_id",
         })
@@ -49,7 +49,7 @@ export const handler: Handlers<unknown, APIState> = {
       if (error) return bad();
     } else if (vote === 0) {
       const { error } = await supabase
-        .from("votes")
+        .from("post_votes")
         .delete()
         .eq("post_id", postId)
         .eq("member_id", member.id)

@@ -2,6 +2,7 @@ import { getReadableTime } from "lib/readable_time.ts";
 import { Vote } from "islands/Vote.tsx";
 import { DotMenu } from "components/DotMenu.tsx";
 import { useSignal } from "@preact/signals";
+import { PostTag } from "lib/get_post_tags.ts";
 
 interface PostProps {
   votes: number;
@@ -14,11 +15,7 @@ interface PostProps {
 
   title: string;
   content: string;
-  tags: {
-    tag_id: {
-      tag: string;
-    };
-  }[];
+  tags: PostTag[];
 
   isAuthor: boolean;
   isTeacher: boolean;
@@ -154,7 +151,7 @@ export function Post(
             <div class="flex gap-2 pt-2">
               {tags!.map((tag) => (
                 <p class="text-xs bg-black text-white px-2 rounded">
-                  {tag.tag_id.tag}
+                  {tag.tag.tag}
                 </p>
               ))}
             </div>
