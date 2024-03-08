@@ -5,7 +5,7 @@ Started" guide here: https://fresh.deno.dev/docs/getting-started
 
 ## Features
 
-- Google-Powered yser authentication and authorization
+- Google-Powered user authentication and authorization
 - Create and view posts within a class
 - Comment on posts and reply to comments
 - Upvote and downvote posts and comments
