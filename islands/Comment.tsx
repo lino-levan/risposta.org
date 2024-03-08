@@ -1,5 +1,6 @@
 import { useSignal } from "@preact/signals";
 import type { ComponentChildren } from "preact";
+import IconMessage from "icons/message.tsx";
 import { CommentVote } from "islands/CommentVote.tsx";
 import { getReadableTime } from "lib/readable_time.ts";
 
@@ -38,61 +39,60 @@ export function Comment(props: CommentProps) {
           · {getReadableTime(props.created_at)}
         </p>
         <p>{props.content}</p>
-        <div class="flex gap-4">
+        <div class="flex items-center gap-2 text-gray-500 text-sm">
           <CommentVote
             votes={props.votes}
             voted={props.voted}
             commentId={props.comment_id}
           />
+          <button
+            class="flex items-center gap-1 hover:bg-base-300 p-1 rounded"
+            onClick={() => showCommentForm.value = !showCommentForm.value}
+          >
+            <IconMessage class="w-5 h-5" />
+            Reply
+          </button>
         </div>
         <div>
-          <div class="flex flex-col gap-4 rounded bg-white px-4 py-2 pl-8">
-            <button
-              className="bg-green-400 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-max"
-              onClick={() => showCommentForm.value = !showCommentForm.value}
-            >
-              Reply
-            </button>
-            {showCommentForm.value && (
-              <>
-                <p className="font-bold">Comment</p>
-                <textarea
-                  className="border rounded px-4 py-2 w-96 h-12 resize-none"
-                  value={comment.value}
-                  onInput={(e) => {
-                    comment.value = e.currentTarget.value;
-                  }}
-                />
-                <button
-                  className="bg-green-400 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-max"
-                  disabled={disabled.value}
-                  onClick={async () => {
-                    disabled.value = true;
-                    const req = await fetch(
-                      `/api/posts/${props.post_id}/comment`,
-                      {
-                        method: "POST",
-                        body: JSON.stringify({
-                          content: comment.value,
-                          post_id: props.post_id,
-                          parent_id: props.comment_id,
-                        }),
-                      },
-                    );
-                    if (req.ok) {
-                      comment.value = "";
-                      disabled.value = false;
-                      window.location.reload();
-                    } else {
-                      disabled.value = false;
-                    }
-                  }}
-                >
-                  Post Reply
-                </button>
-              </>
-            )}
-          </div>
+          {showCommentForm.value && (
+            <div class="flex flex-col gap-4 px-4 py-2 pl-8 border-l-2">
+              <textarea
+                placeholder="What are your thoughts?"
+                className="textarea textarea-bordered w-96 h-24 resize-none"
+                value={comment.value}
+                onInput={(e) => {
+                  comment.value = e.currentTarget.value;
+                }}
+              />
+              <button
+                className="btn btn-primary"
+                disabled={disabled.value}
+                onClick={async () => {
+                  disabled.value = true;
+                  const req = await fetch(
+                    `/api/posts/${props.post_id}/comment`,
+                    {
+                      method: "POST",
+                      body: JSON.stringify({
+                        content: comment.value,
+                        post_id: props.post_id,
+                        parent_id: props.comment_id,
+                      }),
+                    },
+                  );
+                  if (req.ok) {
+                    comment.value = "";
+                    disabled.value = false;
+                    window.location.reload();
+                  } else {
+                    disabled.value = false;
+                  }
+                }}
+              >
+                Post Reply
+              </button>
+            </div>
+          )}
           {props.children}
         </div>
       </div>
