@@ -204,6 +204,7 @@ export type Database = {
           member_id: number;
           pinned: boolean;
           title: string;
+          visibility: string | null;
         };
         Insert: {
           anonymous: boolean;
@@ -213,6 +214,7 @@ export type Database = {
           member_id: number;
           pinned?: boolean;
           title: string;
+          visibility?: string | null;
         };
         Update: {
           anonymous?: boolean;
@@ -222,6 +224,7 @@ export type Database = {
           member_id?: number;
           pinned?: boolean;
           title?: string;
+          visibility?: string | null;
         };
         Relationships: [
           {
@@ -416,6 +419,7 @@ export type Database = {
           title: string | null;
           upvotes: number | null;
           user_id: number | null;
+          visibility: string | null;
         };
         Relationships: [];
       };

@@ -7,9 +7,20 @@ export function SearchablePostList(
   props: {
     posts: Pick<
       Database["public"]["Views"]["expanded_posts"]["Row"],
-      "id" | "title" | "content" | "upvotes" | "downvotes" | "created_at"
+      | "id"
+      | "title"
+      | "content"
+      | "upvotes"
+      | "downvotes"
+      | "created_at"
+      | "visibility"
+      | "member_id"
     >[];
     classId: number;
+    member: {
+      id: number;
+      role: string;
+    };
   },
 ) {
   const miniSearchMemo = useMemo(
@@ -40,6 +51,23 @@ export function SearchablePostList(
     const postsToSort = props.posts.filter((post) => {
       if (currentFilter === null) return true;
       return currentFilter.includes(post.id!);
+    }).filter((post) => {
+      const isAuthor = props.member?.id && post.member_id === props.member.id;
+      const isTeacher = props.member?.role === "teacher"; // Corrected condition
+      const isInstructorPost = post.visibility === "instructor";
+
+      console.log("Post ID:", post.id);
+      console.log("Is Author:", isAuthor);
+      console.log("Is Teacher:", isTeacher);
+      console.log("Is Instructor Post:", isInstructorPost);
+      console.log("Member ID:", props.member?.id);
+      console.log("Member Role:", props.member?.role);
+      console.log("Post Member ID:", post.member_id);
+      console.log("Post Visibility:", post.visibility);
+      console.log("---");
+
+      // Only include the post if the user is the author, a teacher, or the post is not intended for instructors
+      return isAuthor || isTeacher || !isInstructorPost;
     });
 
     //sorted here
