@@ -11,6 +11,7 @@ const postSchema = z.object({
   content: z.string().min(1),
   tags: z.string().array(),
   anonymous: z.boolean(),
+  visibility: z.string(),
 });
 
 export const handler: Handlers<unknown, APIState> = {
@@ -21,7 +22,7 @@ export const handler: Handlers<unknown, APIState> = {
 
     const result = postSchema.safeParse(await req.json());
     if (!result.success) return bad(result.error.toString());
-    const { title, content, tags, anonymous } = result.data;
+    const { title, content, tags, anonymous, visibility } = result.data;
 
     const member = await getMembership(user.id, classId);
     if (!member) return ctx.renderNotFound();
@@ -44,6 +45,7 @@ export const handler: Handlers<unknown, APIState> = {
         content,
         title,
         anonymous,
+        visibility,
       }).select().single();
     if (postError) return bad();
 

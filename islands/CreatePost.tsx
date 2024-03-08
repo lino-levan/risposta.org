@@ -13,12 +13,19 @@ export function CreatePost(props: CreatePostProps) {
   const loading = useSignal(false);
   const anonymous = useSignal(false);
   const tags = useSignal<string[]>([]);
+  const visibility = useSignal("everyone");
 
   return (
     <div class="flex flex-col gap-4 p-10">
       <div class="flex flex-col gap-2">
         <p class="font-bold w-36">Post To</p>
-        <select class="select select-bordered">
+        <select
+          class="select select-bordered"
+          value={visibility.value}
+          onChange={(e) => {
+            visibility.value = e.currentTarget.value;
+          }}
+        >
           <option value="everyone">Entire Class</option>
           <option value="instructor">Instructor</option>
         </select>
@@ -71,6 +78,7 @@ export function CreatePost(props: CreatePostProps) {
                 content: content.value,
                 tags: tags.value,
                 anonymous: anonymous.value,
+                visibility: visibility.value,
               }),
             });
             if (req.ok) {
