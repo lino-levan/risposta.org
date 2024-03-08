@@ -50,6 +50,7 @@ export default async function Dashboard(
           comments_voted={comments_voted}
           class_id={ctx.state.class.id}
           post_id={post.id}
+          member={ctx.state.member}
         />
       ))}
     </div>

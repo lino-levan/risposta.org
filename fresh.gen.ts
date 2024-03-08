@@ -40,7 +40,6 @@ import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
 import * as $CreateComment from "./islands/CreateComment.tsx";
 import * as $CreatePost from "./islands/CreatePost.tsx";
-import * as $DeleteComment from "./islands/DeleteComment.tsx";
 import * as $EditComment from "./islands/EditComment.tsx";
 import * as $JoinClass from "./islands/JoinClass.tsx";
 import * as $Multiselect from "./islands/Multiselect.tsx";
@@ -93,7 +92,6 @@ const manifest = {
     "./islands/CreateClass.tsx": $CreateClass,
     "./islands/CreateComment.tsx": $CreateComment,
     "./islands/CreatePost.tsx": $CreatePost,
-    "./islands/DeleteComment.tsx": $DeleteComment,
     "./islands/EditComment.tsx": $EditComment,
     "./islands/JoinClass.tsx": $JoinClass,
     "./islands/Multiselect.tsx": $Multiselect,

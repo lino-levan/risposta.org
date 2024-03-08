@@ -1,11 +1,14 @@
 import { Comment } from "islands/Comment.tsx";
 import type { ExpandedComment } from "lib/get_post_comments.ts";
 import type { CommentVoted } from "lib/get_post_comments_voted.ts";
+import type { Database } from "lib/supabase_types.ts";
 
 interface CommentTreeProps {
   comment: ExpandedComment;
   comments: ExpandedComment[];
   comments_voted: CommentVoted[];
+
+  member: Database["public"]["Tables"]["members"]["Row"];
   class_id: number;
   post_id: number;
 }
@@ -27,6 +30,8 @@ export function CommentTree(props: CommentTreeProps) {
       role={props.comment.author_role}
       created_at={props.comment.created_at}
       parent_id={props.comment.parent_id}
+      is_author={props.comment.author_user_id === props.member.user_id}
+      is_instructor={props.member.role !== "student"}
     >
       {props.comments.filter((c) => c.parent_id === props.comment.id).sort((
         a,
@@ -40,6 +45,7 @@ export function CommentTree(props: CommentTreeProps) {
           comments_voted={props.comments_voted}
           class_id={props.class_id}
           post_id={props.post_id}
+          member={props.member}
         />
       ))}
     </Comment>

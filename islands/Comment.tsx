@@ -18,15 +18,54 @@ export interface CommentProps {
   created_at: string;
   parent_id: number | null;
   votes: number;
+
+  is_author: boolean;
+  is_instructor: boolean;
   voted: 0 | 1 | -1;
 
   children: ComponentChildren;
 }
 
 export function Comment(props: CommentProps) {
+  const editing = useSignal(false);
+  const editedContent = useSignal(props.content);
   const comment = useSignal("");
   const disabled = useSignal(false);
   const showCommentForm = useSignal(false);
+
+  const menuItems = [
+    {
+      name: "Share",
+      onClick: () => {
+        const url = new URL(location.toString());
+        url.hash = props.comment_id.toString();
+        navigator.clipboard.writeText(url.toString());
+      },
+    },
+  ];
+
+  if (props.is_author || props.is_instructor) {
+    menuItems.push({
+      name: "Delete",
+      onClick: async () => {
+        const req = await fetch(`/api/comments/${props.comment_id}`, {
+          method: "DELETE",
+        });
+        if (req.ok) {
+          location.reload();
+        }
+      },
+    });
+  }
+
+  if (props.is_author) {
+    menuItems.push({
+      name: "Edit",
+      onClick: () => {
+        editing.value = true;
+      },
+    });
+  }
 
   return (
     <div
@@ -52,7 +91,43 @@ export function Comment(props: CommentProps) {
           )}
           · {getReadableTime(props.created_at)}
         </p>
-        <p>{props.content}</p>
+        {!editing.value && <p>{props.content}</p>}
+        {editing.value && (
+          <>
+            <div class="flex gap-4">
+              <button
+                class="btn btn-primary w-max"
+                onClick={async () => {
+                  const req = await fetch(`/api/comments/${props.comment_id}`, {
+                    method: "PATCH",
+                    body: JSON.stringify({
+                      content: editedContent.value,
+                    }),
+                  });
+                  if (req.ok) {
+                    location.reload();
+                  }
+                }}
+              >
+                Save Edit
+              </button>
+              <button
+                class="btn btn-ghost w-max"
+                onClick={() => {
+                  editing.value = false;
+                  editedContent.value = props.content;
+                }}
+              >
+                Cancel Edit
+              </button>
+            </div>
+            <textarea
+              class="textarea textarea-bordered"
+              value={editedContent.value}
+              onInput={(e) => editedContent.value = e.currentTarget.value}
+            />
+          </>
+        )}
         <div class="flex items-center gap-1 text-gray-500 text-sm">
           <CommentVote
             votes={props.votes}
@@ -67,27 +142,7 @@ export function Comment(props: CommentProps) {
             Reply
           </button>
           <DotMenu
-            items={[
-              {
-                name: "Share",
-                onClick: async () => {
-                  const url = new URL(location.toString());
-                  url.hash = props.comment_id.toString();
-                  await navigator.clipboard.writeText(url.toString());
-                },
-              },
-              {
-                name: "Delete",
-                onClick: async () => {
-                  const req = await fetch(`/api/comments/${props.comment_id}`, {
-                    method: "DELETE",
-                  });
-                  if (req.ok) {
-                    location.reload();
-                  }
-                },
-              },
-            ]}
+            items={menuItems}
           >
             <IconDots class="w-5 h-5" />
           </DotMenu>
