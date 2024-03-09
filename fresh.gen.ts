@@ -4,21 +4,20 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_middleware from "./routes/api/_middleware.ts";
 import * as $api_auth_callback from "./routes/api/auth/callback.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
-import * as $api_class_id_comment from "./routes/api/class/[id]/comment.ts";
-import * as $api_class_id_delete_class from "./routes/api/class/[id]/delete_class.ts";
-import * as $api_class_id_faq_add from "./routes/api/class/[id]/faq/add.ts";
-import * as $api_class_id_faq_remove from "./routes/api/class/[id]/faq/remove.ts";
+import * as $api_class_id_index from "./routes/api/class/[id]/index.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
-import * as $api_class_id_rename from "./routes/api/class/[id]/rename.ts";
-import * as $api_class_create_class from "./routes/api/class/create_class.ts";
-import * as $api_comments_id_delete from "./routes/api/comments/[id]/delete.ts";
-import * as $api_comments_id_edit from "./routes/api/comments/[id]/edit.ts";
+import * as $api_class_id_tag from "./routes/api/class/[id]/tag.ts";
+import * as $api_class_index from "./routes/api/class/index.ts";
+import * as $api_class_join from "./routes/api/class/join.ts";
+import * as $api_comments_id_index from "./routes/api/comments/[id]/index.ts";
 import * as $api_comments_id_vote from "./routes/api/comments/[id]/vote.ts";
-import * as $api_posts_id_delete from "./routes/api/posts/[id]/delete.ts";
-import * as $api_posts_id_edit from "./routes/api/posts/[id]/edit.ts";
+import * as $api_posts_id_comment from "./routes/api/posts/[id]/comment.ts";
+import * as $api_posts_id_index from "./routes/api/posts/[id]/index.ts";
+import * as $api_posts_id_pin from "./routes/api/posts/[id]/pin.ts";
 import * as $api_posts_id_vote from "./routes/api/posts/[id]/vote.ts";
 import * as $class_classId_layout from "./routes/class/[classId]/_layout.tsx";
 import * as $class_classId_middleware from "./routes/class/[classId]/_middleware.ts";
@@ -29,47 +28,45 @@ import * as $class_classId_post_middleware from "./routes/class/[classId]/post/_
 import * as $class_classId_settings from "./routes/class/[classId]/settings.tsx";
 import * as $class_layout from "./routes/class/_layout.tsx";
 import * as $class_middleware from "./routes/class/_middleware.ts";
-import * as $class_create_class from "./routes/class/create_class.tsx";
+import * as $class_create from "./routes/class/create.tsx";
 import * as $class_index from "./routes/class/index.tsx";
-import * as $class_no_access from "./routes/class/no_access.tsx";
+import * as $class_join_class from "./routes/class/join_class.tsx";
 import * as $class_user from "./routes/class/user.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
+import * as $Comment from "./islands/Comment.tsx";
 import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
-import * as $DeleteComment from "./islands/DeleteComment.tsx";
+import * as $CreateComment from "./islands/CreateComment.tsx";
+import * as $CreatePost from "./islands/CreatePost.tsx";
 import * as $EditComment from "./islands/EditComment.tsx";
-import * as $FAQ_AddToFAQ from "./islands/FAQ/AddToFAQ.tsx";
-import * as $FAQ_RemoveFromFAQ from "./islands/FAQ/RemoveFromFAQ.tsx";
-import * as $PostComment from "./islands/PostComment.tsx";
-import * as $PostQuestion from "./islands/PostQuestion.tsx";
+import * as $JoinClass from "./islands/JoinClass.tsx";
+import * as $Multiselect from "./islands/Multiselect.tsx";
+import * as $Post from "./islands/Post.tsx";
 import * as $SearchablePostList from "./islands/SearchablePostList.tsx";
-import * as $UpdataClass from "./islands/UpdataClass.tsx";
+import * as $UpdateClass from "./islands/UpdateClass.tsx";
 import * as $Vote from "./islands/Vote.tsx";
-import * as $delete from "./islands/delete.tsx";
-import * as $edit from "./islands/edit.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/_middleware.ts": $api_middleware,
     "./routes/api/auth/callback.ts": $api_auth_callback,
     "./routes/api/auth/login.ts": $api_auth_login,
     "./routes/api/auth/logout.ts": $api_auth_logout,
-    "./routes/api/class/[id]/comment.ts": $api_class_id_comment,
-    "./routes/api/class/[id]/delete_class.ts": $api_class_id_delete_class,
-    "./routes/api/class/[id]/faq/add.ts": $api_class_id_faq_add,
-    "./routes/api/class/[id]/faq/remove.ts": $api_class_id_faq_remove,
+    "./routes/api/class/[id]/index.ts": $api_class_id_index,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
-    "./routes/api/class/[id]/rename.ts": $api_class_id_rename,
-    "./routes/api/class/create_class.ts": $api_class_create_class,
-    "./routes/api/comments/[id]/delete.ts": $api_comments_id_delete,
-    "./routes/api/comments/[id]/edit.ts": $api_comments_id_edit,
+    "./routes/api/class/[id]/tag.ts": $api_class_id_tag,
+    "./routes/api/class/index.ts": $api_class_index,
+    "./routes/api/class/join.ts": $api_class_join,
+    "./routes/api/comments/[id]/index.ts": $api_comments_id_index,
     "./routes/api/comments/[id]/vote.ts": $api_comments_id_vote,
-    "./routes/api/posts/[id]/delete.ts": $api_posts_id_delete,
-    "./routes/api/posts/[id]/edit.ts": $api_posts_id_edit,
+    "./routes/api/posts/[id]/comment.ts": $api_posts_id_comment,
+    "./routes/api/posts/[id]/index.ts": $api_posts_id_index,
+    "./routes/api/posts/[id]/pin.ts": $api_posts_id_pin,
     "./routes/api/posts/[id]/vote.ts": $api_posts_id_vote,
     "./routes/class/[classId]/_layout.tsx": $class_classId_layout,
     "./routes/class/[classId]/_middleware.ts": $class_classId_middleware,
@@ -81,28 +78,27 @@ const manifest = {
     "./routes/class/[classId]/settings.tsx": $class_classId_settings,
     "./routes/class/_layout.tsx": $class_layout,
     "./routes/class/_middleware.ts": $class_middleware,
-    "./routes/class/create_class.tsx": $class_create_class,
+    "./routes/class/create.tsx": $class_create,
     "./routes/class/index.tsx": $class_index,
-    "./routes/class/no_access.tsx": $class_no_access,
+    "./routes/class/join_class.tsx": $class_join_class,
     "./routes/class/user.tsx": $class_user,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
     "./routes/signup.tsx": $signup,
   },
   islands: {
+    "./islands/Comment.tsx": $Comment,
     "./islands/CommentVote.tsx": $CommentVote,
     "./islands/CreateClass.tsx": $CreateClass,
-    "./islands/DeleteComment.tsx": $DeleteComment,
+    "./islands/CreateComment.tsx": $CreateComment,
+    "./islands/CreatePost.tsx": $CreatePost,
     "./islands/EditComment.tsx": $EditComment,
-    "./islands/FAQ/AddToFAQ.tsx": $FAQ_AddToFAQ,
-    "./islands/FAQ/RemoveFromFAQ.tsx": $FAQ_RemoveFromFAQ,
-    "./islands/PostComment.tsx": $PostComment,
-    "./islands/PostQuestion.tsx": $PostQuestion,
+    "./islands/JoinClass.tsx": $JoinClass,
+    "./islands/Multiselect.tsx": $Multiselect,
+    "./islands/Post.tsx": $Post,
     "./islands/SearchablePostList.tsx": $SearchablePostList,
-    "./islands/UpdataClass.tsx": $UpdataClass,
+    "./islands/UpdateClass.tsx": $UpdateClass,
     "./islands/Vote.tsx": $Vote,
-    "./islands/delete.tsx": $delete,
-    "./islands/edit.tsx": $edit,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

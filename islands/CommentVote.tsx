@@ -14,9 +14,9 @@ export function CommentVote(props: VoteProps) {
   const voted = useSignal(props.voted);
 
   return (
-    <div class="flex gap-2 items-center w-4">
+    <div class="flex gap-1 items-center">
       <button
-        class="hover:bg-gray-100 rounded"
+        class="hover:bg-base-300 rounded"
         onClick={async () => {
           if (voted.value !== 1) {
             // if upvoted, effective vote total goes down by 2
@@ -26,7 +26,7 @@ export function CommentVote(props: VoteProps) {
               votes.value++;
             }
             voted.value = 1;
-            const req = await fetch(`/api/comments/${props.commentId}/vote`, {
+            await fetch(`/api/comments/${props.commentId}/vote`, {
               method: "POST",
               body: JSON.stringify({
                 vote: 1,
@@ -36,7 +36,7 @@ export function CommentVote(props: VoteProps) {
           } else {
             voted.value = 0;
             votes.value--;
-            const req = await fetch(`/api/comments/${props.commentId}/vote`, {
+            await fetch(`/api/comments/${props.commentId}/vote`, {
               method: "POST",
               body: JSON.stringify({
                 vote: 0,
@@ -48,9 +48,9 @@ export function CommentVote(props: VoteProps) {
       >
         {voted.value === 1 ? <ArrowUpFilled /> : <ArrowUp />}
       </button>
-      <p>{votes}</p>
+      <p class="text-sm">{votes}</p>
       <button
-        class="hover:bg-gray-100 rounded"
+        class="hover:bg-base-300 rounded"
         onClick={async () => {
           if (voted.value !== -1) {
             // if upvoted, effective vote total goes down by 2
@@ -60,7 +60,7 @@ export function CommentVote(props: VoteProps) {
               votes.value--;
             }
             voted.value = -1;
-            const req = await fetch(`/api/comments/${props.commentId}/vote`, {
+            await fetch(`/api/comments/${props.commentId}/vote`, {
               method: "POST",
               body: JSON.stringify({
                 vote: -1,
@@ -70,7 +70,7 @@ export function CommentVote(props: VoteProps) {
           } else {
             voted.value = 0;
             votes.value++;
-            const req = await fetch(`/api/comments/${props.commentId}/vote`, {
+            await fetch(`/api/comments/${props.commentId}/vote`, {
               method: "POST",
               body: JSON.stringify({
                 vote: 0,

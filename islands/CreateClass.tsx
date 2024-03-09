@@ -4,16 +4,15 @@ export default function CreateClassForm() {
   const [className, setClassName] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState("");
-  const [enableGPT, setEnableGPT] = useState(false);
-  const [publicAccess, setPublicAccess] = useState(false);
+  const [enableAI, setEnableAI] = useState(false);
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
 
-    const classData = { name: className, GPT: enableGPT, access: publicAccess };
+    const classData = { name: className, description, enableAI };
 
     try {
-      const response = await fetch("/api/class/create_class", {
+      const response = await fetch("/api/class", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,17 +40,18 @@ export default function CreateClassForm() {
         <input
           id="className"
           type="text"
-          class="border p-2 rounded w-full"
+          class="input input-bordered w-full"
           value={className}
           onInput={(e) => setClassName(e.currentTarget.value)}
           required
+          autocomplete="off"
         />
       </div>
       <div>
         <label for="description" class="block mb-2">Description</label>
         <textarea
           id="description"
-          class="border p-2 rounded w-full"
+          class="textarea textarea-bordered w-full"
           value={description}
           onInput={(e) => setDescription(e.currentTarget.value)}
         />
@@ -61,26 +61,16 @@ export default function CreateClassForm() {
           <input
             id="enableGPT"
             type="checkbox"
-            checked={enableGPT}
-            onChange={(e) => setEnableGPT(e.currentTarget.checked)}
+            class="checkbox"
+            checked={enableAI}
+            onChange={(e) => setEnableAI(e.currentTarget.checked)}
           />
-          Enable ChatGPT response (not implemented)
-        </label>
-      </div>
-      <div>
-        <label for="publicAccess" class="flex items-center gap-2">
-          <input
-            id="publicAccess"
-            type="checkbox"
-            checked={publicAccess}
-            onChange={(e) => setPublicAccess(e.currentTarget.checked)}
-          />
-          Set class to public access (not implemented)
+          Enable AI features
         </label>
       </div>
       <button
         type="submit"
-        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        class="btn btn-primary"
       >
         Create Class
       </button>

@@ -20,8 +20,8 @@ export default async function Dashboard(
             <h2>{user.email}</h2>
           </div>
         </div>
-        <a class="border px-4 py-2 flex gap-2" href="/api/auth/logout">
-          <IconLogout /> Logout
+        <a class="btn btn-error" href="/api/auth/logout">
+          <IconLogout /> Log out
         </a>
       </div>
     </>

@@ -7,7 +7,6 @@ export async function getClass(class_id: number) {
     .eq("id", class_id)
     .single();
 
-  //console.log("Class id:", class_id);
-  if (error || !classData) return null;
+  if (error) return null;
   return classData;
 }
