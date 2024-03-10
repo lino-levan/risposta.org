@@ -44,6 +44,7 @@ import * as $JoinClass from "./islands/JoinClass.tsx";
 import * as $Multiselect from "./islands/Multiselect.tsx";
 import * as $Post from "./islands/Post.tsx";
 import * as $SearchablePostList from "./islands/SearchablePostList.tsx";
+import * as $Themes from "./islands/Themes.tsx";
 import * as $UpdateClass from "./islands/UpdateClass.tsx";
 import * as $Vote from "./islands/Vote.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -95,6 +96,7 @@ const manifest = {
     "./islands/Multiselect.tsx": $Multiselect,
     "./islands/Post.tsx": $Post,
     "./islands/SearchablePostList.tsx": $SearchablePostList,
+    "./islands/Themes.tsx": $Themes,
     "./islands/UpdateClass.tsx": $UpdateClass,
     "./islands/Vote.tsx": $Vote,
   },
