@@ -3,6 +3,8 @@ import type { ClassState } from "lib/state.ts";
 import { SearchablePostList } from "islands/SearchablePostList.tsx";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
+import { getClassTags } from "lib/get_class_tags.ts";
+import { getPostTags } from "lib/get_post_tags.ts";
 
 export default async function Layout(
   req: Request,
@@ -17,6 +19,26 @@ export default async function Layout(
     .eq("class_id", classId);
 
   if (error) return bad();
+
+  const classTags = await getClassTags(ctx.state.class.id);
+  if (!classTags) return ctx.renderNotFound();
+  const uniqueTags = [...new Set(classTags.map((tag) => tag.tag))];
+
+  interface PostWithTags {
+    postId: number;
+    tagString: string[];
+  }
+
+  const postsWithTags: PostWithTags[] = await Promise.all(
+    data.map(async (post) => {
+      const postTags = await getPostTags(post.id as number);
+      const tagString = postTags.map((tag) => tag.tag.tag);
+      return {
+        postId: post.id as number,
+        tagString,
+      };
+    }),
+  );
 
   return (
     <div class="flex pt-16 w-screen h-screen overflow-hidden">
@@ -45,6 +67,8 @@ export default async function Layout(
             visibility: post.visibility,
           }))}
           member={ctx.state.member}
+          classTags={uniqueTags}
+          postTags={postsWithTags}
         />
       </aside>
       <main class="grow bg-base-100 flex flex-col items-center justify-center">

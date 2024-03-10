@@ -1,6 +1,7 @@
 import IconLogout from "icons/logout.tsx";
 import { FreshContext } from "$fresh/server.ts";
 import type { DashboardState } from "lib/state.ts";
+import { Themes } from "islands/Themes.tsx"
 
 // deno-lint-ignore require-await
 export default async function Dashboard(
@@ -20,6 +21,7 @@ export default async function Dashboard(
             <h2>{user.email}</h2>
           </div>
         </div>
+        <Themes />
         <a class="btn btn-error" href="/api/auth/logout">
           <IconLogout /> Log out
         </a>
