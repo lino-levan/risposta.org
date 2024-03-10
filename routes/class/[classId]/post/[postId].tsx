@@ -8,16 +8,6 @@ import { getPostComments } from "lib/get_post_comments.ts";
 import { getPostVoted } from "lib/get_post_voted.ts";
 import { getPostTags } from "lib/get_post_tags.ts";
 import { getPostCommentsVoted } from "lib/get_post_comments_voted.ts";
-import { supabase } from "lib/db.ts";
-import { getReadableTime } from "lib/readable_time.ts";
-import { Vote } from "islands/Vote.tsx";
-import { CommentVote } from "islands/CommentVote.tsx";
-import { PostComment } from "islands/PostComment.tsx";
-import { EditPost } from "islands/edit.tsx";
-import { DeletePost } from "islands/delete.tsx";
-import { AddToFAQ } from "islands/FAQ/AddToFAQ.tsx";
-import { EditComment } from "islands/EditComment.tsx";
-import { DeleteComment } from "islands/DeleteComment.tsx";
 
 export default async function Dashboard(
   req: Request,
