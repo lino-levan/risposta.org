@@ -13,6 +13,8 @@ import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_tag from "./routes/api/class/[id]/tag.ts";
 import * as $api_class_index from "./routes/api/class/index.ts";
 import * as $api_class_join from "./routes/api/class/join.ts";
+import * as $api_comments_id_delete from "./routes/api/comments/[id]/delete.ts";
+import * as $api_comments_id_edit from "./routes/api/comments/[id]/edit.ts";
 import * as $api_comments_id_index from "./routes/api/comments/[id]/index.ts";
 import * as $api_comments_id_vote from "./routes/api/comments/[id]/vote.ts";
 import * as $api_posts_id_comment from "./routes/api/posts/[id]/comment.ts";
@@ -40,6 +42,7 @@ import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
 import * as $CreateComment from "./islands/CreateComment.tsx";
 import * as $CreatePost from "./islands/CreatePost.tsx";
+import * as $DeleteComment from "./islands/DeleteComment.tsx";
 import * as $EditComment from "./islands/EditComment.tsx";
 import * as $JoinClass from "./islands/JoinClass.tsx";
 import * as $Multiselect from "./islands/Multiselect.tsx";
@@ -62,6 +65,8 @@ const manifest = {
     "./routes/api/class/[id]/tag.ts": $api_class_id_tag,
     "./routes/api/class/index.ts": $api_class_index,
     "./routes/api/class/join.ts": $api_class_join,
+    "./routes/api/comments/[id]/delete.ts": $api_comments_id_delete,
+    "./routes/api/comments/[id]/edit.ts": $api_comments_id_edit,
     "./routes/api/comments/[id]/index.ts": $api_comments_id_index,
     "./routes/api/comments/[id]/vote.ts": $api_comments_id_vote,
     "./routes/api/posts/[id]/comment.ts": $api_posts_id_comment,
@@ -92,6 +97,7 @@ const manifest = {
     "./islands/CreateClass.tsx": $CreateClass,
     "./islands/CreateComment.tsx": $CreateComment,
     "./islands/CreatePost.tsx": $CreatePost,
+    "./islands/DeleteComment.tsx": $DeleteComment,
     "./islands/EditComment.tsx": $EditComment,
     "./islands/JoinClass.tsx": $JoinClass,
     "./islands/Multiselect.tsx": $Multiselect,

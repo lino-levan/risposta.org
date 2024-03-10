@@ -2,6 +2,13 @@ import { useComputed, useSignal } from "@preact/signals";
 import { useMemo } from "preact/hooks";
 import MiniSearch from "https://esm.sh/minisearch@v6.3.0";
 import type { Database } from "lib/supabase_types.ts";
+import { Multiselect } from "islands/Multiselect.tsx";
+import { post } from "https://esm.sh/v135/@supabase/storage-js@2.5.5/dist/module/lib/fetch.js";
+
+interface PostWithTags {
+  postId: number;
+  tagString: string[];
+}
 
 export function SearchablePostList(
   props: {
@@ -21,6 +28,8 @@ export function SearchablePostList(
       id: number;
       role: string;
     };
+    classTags: string[];
+    postTags: PostWithTags[];
   },
 ) {
   const miniSearchMemo = useMemo(
@@ -40,12 +49,24 @@ export function SearchablePostList(
   );
 
   const filter = useSignal<number[] | null>(null);
-
   const sortRule = useSignal(
     globalThis?.localStorage?.getItem("sortRule") ?? "recent",
   );
+  const selectedTags = useSignal<string[]>([]);
 
   const sortedFilteredPosts = useComputed(() => {
+    //sort for post matching selected tag
+    const actualSelectedTags = selectedTags.value;
+    const postMatchingCurrentSelectedTag: number[] = [];
+    props.postTags.forEach((tag) => {
+      const allTagsMatch = actualSelectedTags.every((selectedTag) =>
+        tag.tagString.includes(selectedTag)
+      );
+      if (allTagsMatch) {
+        postMatchingCurrentSelectedTag.push(tag.postId);
+      }
+    });
+
     const currentFilter = filter.value;
     //filtered here
     const postsToSort = props.posts.filter((post) => {
@@ -55,9 +76,10 @@ export function SearchablePostList(
       const isAuthor = props.member?.id && post.member_id === props.member.id;
       const isInstructor = props.member?.role === "instructor"; // Corrected condition
       const isInstructorPost = post.visibility === "instructor";
-
+      const isAllowedTag = postMatchingCurrentSelectedTag.includes(
+        post.id as number,
+      );
       //Permission Test Values
-
       /*
       console.log("Post ID:", post.id);
       console.log("Is Author:", isAuthor);
@@ -67,11 +89,13 @@ export function SearchablePostList(
       console.log("Member Role:", props.member?.role);
       console.log("Post Member ID:", post.member_id);
       console.log("Post Visibility:", post.visibility);
+      console.log("Selected Tags: ", selectedTags);
+      console.log("Class Tags: ", props.classTags);
       console.log("---");
       */
-
       // Only include the post if the user is the author, a teacher, or the post is not intended for instructors
-      return isAuthor || isInstructor || !isInstructorPost;
+      // and the post is an allowed tag
+      return (isAuthor || isInstructor || !isInstructorPost) && isAllowedTag;
     });
 
     //sorted here
@@ -105,6 +129,12 @@ export function SearchablePostList(
           By High Votes
         </option>
       </select>
+      {props.classTags.length > 0 && (
+        <>
+          <p class="font-bold">Sort Tags</p>
+          <Multiselect selected={selectedTags} options={props.classTags} />
+        </>
+      )}
       <input
         class="input input-bordered py-4"
         placeholder="Search for..."
