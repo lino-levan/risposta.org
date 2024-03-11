@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./supabase_types.ts";
-import { noRunOnBuild } from "./build.ts";
+import { noRunOnBuild } from "lib/build.ts";
 
 noRunOnBuild(() => {
   if (!Deno.env.get("SUPABASE_URL")) {
@@ -12,7 +12,6 @@ noRunOnBuild(() => {
   }
 });
 
-// Gigaweird hack to make the build step work
 export const supabase = noRunOnBuild(() =>
   createClient<Database>(
     Deno.env.get("SUPABASE_URL")!,

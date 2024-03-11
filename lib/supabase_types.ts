@@ -12,7 +12,6 @@ export type Database = {
       classes: {
         Row: {
           ai: boolean;
-          code: string | null;
           created_at: string;
           description: string;
           id: number;
@@ -20,7 +19,6 @@ export type Database = {
         };
         Insert: {
           ai?: boolean;
-          code?: string | null;
           created_at?: string;
           description?: string;
           id?: number;
@@ -28,7 +26,6 @@ export type Database = {
         };
         Update: {
           ai?: boolean;
-          code?: string | null;
           created_at?: string;
           description?: string;
           id?: number;
@@ -156,6 +153,42 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "posts";
             referencedColumns: ["id"];
+          },
+        ];
+      };
+      invites: {
+        Row: {
+          class_id: number;
+          code: string;
+          created_at: string;
+          id: number;
+        };
+        Insert: {
+          class_id: number;
+          code: string;
+          created_at?: string;
+          id?: number;
+        };
+        Update: {
+          class_id?: number;
+          code?: string;
+          created_at?: string;
+          id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "public_invites_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "classes";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "public_invites_class_id_fkey";
+            columns: ["class_id"];
+            isOneToOne: false;
+            referencedRelation: "expanded_posts";
+            referencedColumns: ["class_id"];
           },
         ];
       };

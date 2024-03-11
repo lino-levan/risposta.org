@@ -1,27 +1,25 @@
 import { Handlers } from "$fresh/server.ts";
-import { supabase } from "lib/db.ts";
+import { deleteMember } from "db/delete_member.ts";
+import { updateMember } from "db/update_member.ts";
 import { bad, success } from "lib/response.ts";
 
 export const handler: Handlers = {
-  //change TA/student role
+  /** Change member role */
   async PATCH(req, _ctx) {
-    const target = await req.json();
-    const { error } = await supabase.from("members")
-      .update({ role: target.role })
-      .eq("id", target.id)
-      .select();
+    const { id, role } = await req.json();
 
-    if (error) return bad();
+    const member = await updateMember(id, role);
+    if (!member) return bad();
+
     return success();
   },
-  //remove from class
-  async DELETE(_req, _ctx) {
-    const target = await _req.json();
-    const { error } = await supabase.from("members")
-      .delete()
-      .eq("id", target.id);
+  /** Remove member from class */
+  async DELETE(req, _ctx) {
+    const { id } = await req.json();
 
-    if (error) return bad();
+    const deleted = await deleteMember(id);
+    if (!deleted) return bad();
+
     return success();
   },
 };

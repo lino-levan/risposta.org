@@ -9,11 +9,12 @@
     "build": "BUILD=true deno run --unstable-kv -A dev.ts build",
     "preview": "deno run --unstable-kv -A main.ts",
     "update": "deno run -A -r https://fresh.deno.dev/update .",
-    "generate_types": "deno run npm:supabase gen types typescript --project-id \"tagbdsskikxmxzdznifn\" --schema public > lib/supabase_types.ts"
+    "generate_types": "deno run npm:supabase gen types typescript --project-id tagbdsskikxmxzdznifn --schema public > lib/supabase_types.ts"
   },
   "lint": { "rules": { "tags": ["fresh", "recommended"] } },
   "exclude": ["**/_fresh/*"],
   "imports": {
+    "db/": "./db/",
     "lib/": "./lib/",
     "islands/": "./islands/",
     "components/": "./components/",

@@ -34,7 +34,7 @@ export default async function Dashboard(
           </a>
           <a
             class="btn"
-            href="/class/join_class"
+            href="/class/join"
           >
             Join class
           </a>

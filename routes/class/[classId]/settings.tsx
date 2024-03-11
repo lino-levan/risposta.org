@@ -1,8 +1,9 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { ClassState } from "lib/state.ts";
-import { ClassSettings } from "islands/ClassSettings.tsx";
+import { ClassTabs } from "islands/ClassTabs.tsx";
 import { getClassTags } from "lib/get_class_tags.ts";
 import { getClassMembers } from "lib/get_class_members.ts";
+import { getClassInvites } from "db/get_class_invites.ts";
 
 export default async function Dashboard(
   req: Request,
@@ -11,20 +12,22 @@ export default async function Dashboard(
   //check valid access
   if (ctx.state.member.role !== "instructor") return ctx.renderNotFound();
 
-  //fetch all tags
-  const tags = await getClassTags(ctx.state.class.id);
-  if (!tags) return ctx.renderNotFound();
-
-  //fetch all members
-  const members = await getClassMembers(ctx.state.class.id);
-  if (!members) return ctx.renderNotFound();
+  const [invites, tags, members] = await Promise.all([
+    getClassInvites(ctx.state.class.id),
+    getClassTags(ctx.state.class.id),
+    getClassMembers(ctx.state.class.id),
+  ]);
+  if (!invites || !tags || !members) return ctx.renderNotFound();
 
   return (
-    <ClassSettings
+    <ClassTabs
       class_id={ctx.state.class.id}
       class_name={ctx.state.class.name}
-      tags={tags}
+      class_description={ctx.state.class.description}
+      class_ai={ctx.state.class.ai}
+      invites={invites.map((invite) => invite.code)}
       members={members}
+      tags={tags}
     />
   );
 }

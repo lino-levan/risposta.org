@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 
-export default function CreateClassForm() {
+export function JoinClass() {
   const [message, setMessage] = useState("");
   const [classId, setClassId] = useState(""); // State to store the class ID
 
