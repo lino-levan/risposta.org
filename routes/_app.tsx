@@ -1,9 +1,11 @@
-import { type PageProps } from "$fresh/server.ts";
-import {pageTheme} from "lib/page_theme.ts"
+import { FreshContext } from "$fresh/server.ts";
+import { getCookies } from "$std/http/cookie.ts";
 
-export default function App({ Component }: PageProps) {
+// deno-lint-ignore require-await
+export default async function App(req: Request, ctx: FreshContext) {
+  const cookies = getCookies(req.headers);
   return (
-    <html data-theme={pageTheme}>
+    <html data-theme={cookies.theme ?? "cupcake"}>
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +13,7 @@ export default function App({ Component }: PageProps) {
         <link rel="stylesheet" href="/styles.css" />
       </head>
       <body class="flex flex-col">
-        <Component />
+        <ctx.Component />
       </body>
     </html>
   );

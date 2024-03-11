@@ -1,13 +1,15 @@
 import IconLogout from "icons/logout.tsx";
 import { FreshContext } from "$fresh/server.ts";
 import type { DashboardState } from "lib/state.ts";
-import { Themes } from "islands/Themes.tsx"
+import { Themes } from "islands/Themes.tsx";
+import { getCookies } from "$std/http/cookie.ts";
 
 // deno-lint-ignore require-await
 export default async function Dashboard(
   req: Request,
   ctx: FreshContext<DashboardState>,
 ) {
+  const cookies = getCookies(req.headers);
   const user = ctx.state.user;
 
   return (
@@ -21,7 +23,7 @@ export default async function Dashboard(
             <h2>{user.email}</h2>
           </div>
         </div>
-        <Themes />
+        <Themes theme={cookies.theme ?? "cupcake"} />
         <a class="btn btn-error" href="/api/auth/logout">
           <IconLogout /> Log out
         </a>

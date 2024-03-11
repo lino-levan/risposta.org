@@ -1,6 +1,6 @@
 import { type Config } from "tailwindcss";
 import DaisyUI from "daisyui";
-import {daisyThemes} from "lib/daisy_themes.ts"
+import { daisyThemes } from "lib/daisy_themes.ts";
 
 export default {
   content: [
