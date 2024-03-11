@@ -27,7 +27,6 @@ import * as $class_classId_middleware from "./routes/class/[classId]/_middleware
 import * as $class_classId_create from "./routes/class/[classId]/create.tsx";
 import * as $class_classId_index from "./routes/class/[classId]/index.tsx";
 import * as $class_classId_post_postId_ from "./routes/class/[classId]/post/[postId].tsx";
-import * as $class_classId_post_middleware from "./routes/class/[classId]/post/_middleware.ts";
 import * as $class_classId_settings from "./routes/class/[classId]/settings.tsx";
 import * as $class_layout from "./routes/class/_layout.tsx";
 import * as $class_middleware from "./routes/class/_middleware.ts";
@@ -84,8 +83,6 @@ const manifest = {
     "./routes/class/[classId]/create.tsx": $class_classId_create,
     "./routes/class/[classId]/index.tsx": $class_classId_index,
     "./routes/class/[classId]/post/[postId].tsx": $class_classId_post_postId_,
-    "./routes/class/[classId]/post/_middleware.ts":
-      $class_classId_post_middleware,
     "./routes/class/[classId]/settings.tsx": $class_classId_settings,
     "./routes/class/_layout.tsx": $class_layout,
     "./routes/class/_middleware.ts": $class_middleware,

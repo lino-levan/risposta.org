@@ -1,7 +1,7 @@
 import { supabase } from "lib/db.ts";
 
 export async function getMembership(user_id: number, class_id: number) {
-  const { data: memberData, error } = await supabase
+  const { data, error } = await supabase
     .from("members")
     .select("*")
     .eq("user_id", user_id)
@@ -9,5 +9,5 @@ export async function getMembership(user_id: number, class_id: number) {
     .single();
 
   if (error) return null;
-  return memberData;
+  return data;
 }

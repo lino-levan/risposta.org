@@ -1,7 +1,7 @@
 import { useComputed, useSignal } from "@preact/signals";
 import { useMemo } from "preact/hooks";
 import MiniSearch from "https://esm.sh/minisearch@v6.3.0";
-import type { Database } from "lib/supabase_types.ts";
+import type { Tables } from "lib/supabase_types.ts";
 import { Multiselect } from "islands/Multiselect.tsx";
 
 interface PostWithTags {
@@ -12,7 +12,7 @@ interface PostWithTags {
 export function SearchablePostList(
   props: {
     posts: Pick<
-      Database["public"]["Views"]["expanded_posts"]["Row"],
+      Tables<"expanded_posts">,
       | "id"
       | "title"
       | "content"

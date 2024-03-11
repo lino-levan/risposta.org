@@ -2,13 +2,13 @@ import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
 import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
+import { deleteTag } from "db/delete_tag.ts";
 
+// TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
   async POST(req, ctx) {
-    // TODO(lino-levan): Validate input
     const classId = parseInt(ctx.params.id);
     const tags: { id?: number; tag: string }[] = await req.json();
-    // const user = ctx.state.user;
 
     // upsert keys
     const { data: upsertData, error: upsertError } = await supabase
@@ -41,14 +41,11 @@ export const handler: Handlers<unknown, APIState> = {
     return success(JSON.stringify([...upsertData, ...data]));
   },
   async DELETE(req) {
-    // TODO(lino-levan): Validate input
-    const { tagId }: { tagId: string } = await req.json();
+    const { tag_id }: { tag_id: number } = await req.json();
 
-    const { error } = await supabase.from("tags")
-      .delete()
-      .eq("id", tagId);
+    const deleted = await deleteTag(tag_id);
+    if (!deleted) return bad();
 
-    if (error) return bad();
     return success();
   },
 };

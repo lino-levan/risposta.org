@@ -1,5 +1,5 @@
 import { useSignal } from "@preact/signals";
-import type { Database } from "lib/supabase_types.ts";
+import type { Tables } from "lib/supabase_types.ts";
 import type { ClassMember } from "db/get_class_members.ts";
 import { ClassMembers } from "islands/ClassMembers.tsx";
 import { ClassSettings } from "islands/ClassSettings.tsx";
@@ -11,7 +11,7 @@ interface ClassTabsProps {
   class_name: string;
   class_description: string;
   class_ai: boolean;
-  tags: Database["public"]["Tables"]["tags"]["Row"][];
+  tags: Tables<"tags">[];
   members: ClassMember[];
   invites: string[];
 }

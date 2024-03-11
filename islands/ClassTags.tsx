@@ -1,17 +1,17 @@
 import { useSignal } from "@preact/signals";
 import { debounce } from "$std/async/debounce.ts";
 import IconX from "icons/x.tsx";
-import type { Database } from "lib/supabase_types.ts";
+import type { Tables } from "lib/supabase_types.ts";
 
 export interface ClassTagsProps {
   classId: number;
-  tags: Database["public"]["Tables"]["tags"]["Row"][];
+  tags: Tables<"tags">[];
 }
 
 const updateTags = debounce(
   async (
     classId: number,
-    tags: Database["public"]["Tables"]["tags"]["Row"][],
+    tags: Tables<"tags">[],
   ) => {
     await fetch(`/api/class/${classId}/tag`, {
       method: "POST",
@@ -45,7 +45,7 @@ export function ClassTags(props: ClassTagsProps) {
               const req = await fetch(`/api/class/${props.classId}/tag`, {
                 method: "DELETE",
                 body: JSON.stringify({
-                  tagId: tag.id,
+                  tag_id: tag.id,
                 }),
               });
               if (req.ok) {

@@ -1,5 +1,6 @@
 import { Handlers } from "$fresh/server.ts";
-import { supabase } from "lib/db.ts";
+import { insertPost } from "db/insert_post.ts";
+import { insertPostTags } from "db/insert_post_tags.ts";
 import { getClassTags } from "db/get_class_tags.ts";
 import { getMembership } from "db/get_member.ts";
 import { bad, success } from "lib/response.ts";
@@ -39,25 +40,22 @@ export const handler: Handlers<unknown, APIState> = {
     }
 
     // post question
-    const { error: postError, data: post } = await supabase.from("posts")
-      .insert({
-        member_id: member.id,
-        content,
-        title,
-        anonymous,
-        visibility,
-      }).select().single();
-    if (postError) return bad();
+    const post = await insertPost(
+      member.id,
+      content,
+      title,
+      anonymous,
+      visibility,
+    );
+    if (!post) return bad();
 
-    const { error: tagsError } = await supabase.from("post_tags").insert(
-      tags.map((tag) => (
-        {
-          post_id: post.id,
-          tag_id: classTags.find((t) => t.tag === tag)!.id,
-        }
-      )),
-    ).select();
-    if (tagsError) return bad();
+    const postTags = await insertPostTags(tags.map((tag) => (
+      {
+        post_id: post.id,
+        tag_id: classTags.find((t) => t.tag === tag)!.id,
+      }
+    )));
+    if (!postTags) return bad();
 
     // success :)
     return success();

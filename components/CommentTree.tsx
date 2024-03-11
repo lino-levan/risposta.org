@@ -1,14 +1,14 @@
 import { Comment } from "islands/Comment.tsx";
 import type { ExpandedComment } from "db/get_post_comments.ts";
 import type { CommentVoted } from "db/get_post_comments_voted.ts";
-import type { Database } from "lib/supabase_types.ts";
+import type { Tables } from "lib/supabase_types.ts";
 
 interface CommentTreeProps {
   comment: ExpandedComment;
   comments: ExpandedComment[];
   comments_voted: CommentVoted[];
 
-  member: Database["public"]["Tables"]["members"]["Row"];
+  member: Tables<"members">;
   class_id: number;
   post_id: number;
 }

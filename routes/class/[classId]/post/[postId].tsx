@@ -8,21 +8,26 @@ import { getPostComments } from "db/get_post_comments.ts";
 import { getPostVoted } from "db/get_post_voted.ts";
 import { getPostTags } from "db/get_post_tags.ts";
 import { getPostCommentsVoted } from "db/get_post_comments_voted.ts";
+import { getExpandedPost } from "db/get_expanded_post.ts";
 
 export default async function Dashboard(
   req: Request,
   ctx: FreshContext<PostState>,
 ) {
-  const post = ctx.state.post;
-  const postedBy = post.anonymous ? "Anonymous" : ctx.state.user.name;
+  const postId = parseInt(ctx.params.postId);
 
-  const [votes, comments, voted, tags, comments_voted] = await Promise.all([
-    getPostVotes(post.id),
-    getPostComments(post.id),
-    getPostVoted(ctx.state.member.id, post.id),
-    getPostTags(post.id),
-    getPostCommentsVoted(post.id),
-  ]);
+  const [post, votes, comments, voted, tags, comments_voted] = await Promise
+    .all([
+      getExpandedPost(postId),
+      getPostVotes(postId),
+      getPostComments(postId),
+      getPostVoted(ctx.state.member.id, postId),
+      getPostTags(postId),
+      getPostCommentsVoted(postId),
+    ]);
+  if (!post) return ctx.renderNotFound();
+
+  const postedBy = post.anonymous ? "Anonymous" : ctx.state.user.name;
 
   return (
     <div class="w-full h-full p-4 flex flex-col overflow-hidden overflow-y-auto">
