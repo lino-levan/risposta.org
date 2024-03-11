@@ -1,19 +1,12 @@
-import { Database } from "lib/supabase_types.ts";
 import { bad } from "lib/response.ts";
-
-interface UserDetail {
-  name: string;
-  picture: string;
-}
+import type { ClassMember } from "lib/get_class_members.ts";
 
 export interface MemberListProps {
   classId: number;
-  members: (Database["public"]["Tables"]["members"]["Row"] & {
-    user_id: UserDetail;
-  })[];
+  members: ClassMember[];
 }
 
-function groupMembersByRole(members: MemberListProps["members"]) {
+function groupMembersByRole(members: ClassMember[]) {
   return members.reduce(
     (acc: Record<string, MemberListProps["members"]>, member) => {
       const roleGroup = acc[member.role] || [];
@@ -86,13 +79,13 @@ export function MemberList(props: MemberListProps) {
                   key={member.id}
                   class="dropdown dropdown-end bg-base-200 shadow hover:shadow-lg transition-shadow duration-200 rounded-badge"
                 >
-                  <div tabindex={0} class="flex gap-4 items-center">
+                  <div tabindex={0} class="flex gap-4 items-center p-2">
                     <img
                       src={member.user_id.picture}
                       alt="Profile Picture"
                       class="w-10 h-10 rounded-full"
                     />
-                    <p>{member.user_id.name}</p>
+                    <p class="w-max">{member.user_id.name}</p>
                   </div>
                   <ul
                     tabindex={0}

@@ -9,6 +9,7 @@ import * as $api_auth_callback from "./routes/api/auth/callback.ts";
 import * as $api_auth_login from "./routes/api/auth/login.ts";
 import * as $api_auth_logout from "./routes/api/auth/logout.ts";
 import * as $api_class_id_index from "./routes/api/class/[id]/index.ts";
+import * as $api_class_id_member from "./routes/api/class/[id]/member.ts";
 import * as $api_class_id_post from "./routes/api/class/[id]/post.ts";
 import * as $api_class_id_tag from "./routes/api/class/[id]/tag.ts";
 import * as $api_class_index from "./routes/api/class/index.ts";
@@ -35,6 +36,8 @@ import * as $class_user from "./routes/class/user.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $signup from "./routes/signup.tsx";
+import * as $ClassMemberList from "./islands/ClassMemberList.tsx";
+import * as $ClassSettings from "./islands/ClassSettings.tsx";
 import * as $Comment from "./islands/Comment.tsx";
 import * as $CommentVote from "./islands/CommentVote.tsx";
 import * as $CreateClass from "./islands/CreateClass.tsx";
@@ -58,6 +61,7 @@ const manifest = {
     "./routes/api/auth/login.ts": $api_auth_login,
     "./routes/api/auth/logout.ts": $api_auth_logout,
     "./routes/api/class/[id]/index.ts": $api_class_id_index,
+    "./routes/api/class/[id]/member.ts": $api_class_id_member,
     "./routes/api/class/[id]/post.ts": $api_class_id_post,
     "./routes/api/class/[id]/tag.ts": $api_class_id_tag,
     "./routes/api/class/index.ts": $api_class_index,
@@ -87,6 +91,8 @@ const manifest = {
     "./routes/signup.tsx": $signup,
   },
   islands: {
+    "./islands/ClassMemberList.tsx": $ClassMemberList,
+    "./islands/ClassSettings.tsx": $ClassSettings,
     "./islands/Comment.tsx": $Comment,
     "./islands/CommentVote.tsx": $CommentVote,
     "./islands/CreateClass.tsx": $CreateClass,

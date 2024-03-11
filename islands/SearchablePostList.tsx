@@ -3,7 +3,6 @@ import { useMemo } from "preact/hooks";
 import MiniSearch from "https://esm.sh/minisearch@v6.3.0";
 import type { Database } from "lib/supabase_types.ts";
 import { Multiselect } from "islands/Multiselect.tsx";
-import { post } from "https://esm.sh/v135/@supabase/storage-js@2.5.5/dist/module/lib/fetch.js";
 
 interface PostWithTags {
   postId: number;

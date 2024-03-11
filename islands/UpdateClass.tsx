@@ -68,7 +68,7 @@ export function UpdateClassForm(props: UpdataClassProps) {
       <p class="text-xl w-full">Tags</p>
       <div class="w-full flex flex-col gap-2">
         {tags.value.map((tag, i) => (
-          <div class="border rounded flex-grow flex">
+          <div class="flex-grow flex">
             <input
               class="input input-bordered flex-grow"
               value={tag.tag}
