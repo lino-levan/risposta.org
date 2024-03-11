@@ -1,6 +1,6 @@
 import { Comment } from "islands/Comment.tsx";
-import type { ExpandedComment } from "lib/get_post_comments.ts";
-import type { CommentVoted } from "lib/get_post_comments_voted.ts";
+import type { ExpandedComment } from "db/get_post_comments.ts";
+import type { CommentVoted } from "db/get_post_comments_voted.ts";
 import type { Database } from "lib/supabase_types.ts";
 
 interface CommentTreeProps {

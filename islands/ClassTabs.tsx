@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
 import type { Database } from "lib/supabase_types.ts";
-import type { ClassMember } from "lib/get_class_members.ts";
+import type { ClassMember } from "db/get_class_members.ts";
 import { ClassMembers } from "islands/ClassMembers.tsx";
 import { ClassSettings } from "islands/ClassSettings.tsx";
 import { ClassInvites } from "islands/ClassInvites.tsx";

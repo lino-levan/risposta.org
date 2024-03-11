@@ -3,8 +3,8 @@ import type { ClassState } from "lib/state.ts";
 import { SearchablePostList } from "islands/SearchablePostList.tsx";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
-import { getClassTags } from "lib/get_class_tags.ts";
-import { getPostTags } from "lib/get_post_tags.ts";
+import { getClassTags } from "db/get_class_tags.ts";
+import { getPostTags } from "db/get_post_tags.ts";
 
 export default async function Layout(
   req: Request,

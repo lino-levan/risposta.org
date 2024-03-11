@@ -1,5 +1,5 @@
 import { bad } from "lib/response.ts";
-import type { ClassMember } from "lib/get_class_members.ts";
+import type { ClassMember } from "db/get_class_members.ts";
 
 export interface ClassMembersProps {
   classId: number;

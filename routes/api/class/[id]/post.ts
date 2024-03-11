@@ -1,7 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
 import { supabase } from "lib/db.ts";
-import { getClassTags } from "lib/get_class_tags.ts";
-import { getMembership } from "lib/get_member.ts";
+import { getClassTags } from "db/get_class_tags.ts";
+import { getMembership } from "db/get_member.ts";
 import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
 import { z } from "zod";

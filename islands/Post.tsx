@@ -3,7 +3,7 @@ import IconDotsVertical from "icons/dots-vertical.tsx";
 import { Vote } from "islands/Vote.tsx";
 import { DotMenu } from "components/DotMenu.tsx";
 import { useSignal } from "@preact/signals";
-import { PostTag } from "lib/get_post_tags.ts";
+import { PostTag } from "db/get_post_tags.ts";
 
 interface PostProps {
   votes: number;

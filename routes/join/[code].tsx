@@ -1,7 +1,7 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { DashboardState } from "lib/state.ts";
 import { redirect } from "lib/response.ts";
-import { getUser } from "lib/get_user.ts";
+import { getUser } from "db/get_user.ts";
 import { insertMember } from "db/insert_member.ts";
 import { getInvite } from "db/get_invite.ts";
 

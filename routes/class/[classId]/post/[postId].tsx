@@ -3,11 +3,11 @@ import { CreateComment } from "islands/CreateComment.tsx";
 import { Post } from "islands/Post.tsx";
 import { CommentTree } from "components/CommentTree.tsx";
 import type { PostState } from "lib/state.ts";
-import { getPostVotes } from "lib/get_post_votes.ts";
-import { getPostComments } from "lib/get_post_comments.ts";
-import { getPostVoted } from "lib/get_post_voted.ts";
-import { getPostTags } from "lib/get_post_tags.ts";
-import { getPostCommentsVoted } from "lib/get_post_comments_voted.ts";
+import { getPostVotes } from "db/get_post_votes.ts";
+import { getPostComments } from "db/get_post_comments.ts";
+import { getPostVoted } from "db/get_post_voted.ts";
+import { getPostTags } from "db/get_post_tags.ts";
+import { getPostCommentsVoted } from "db/get_post_comments_voted.ts";
 
 export default async function Dashboard(
   req: Request,

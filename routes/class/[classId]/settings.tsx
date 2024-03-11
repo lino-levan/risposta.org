@@ -1,8 +1,8 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { ClassState } from "lib/state.ts";
 import { ClassTabs } from "islands/ClassTabs.tsx";
-import { getClassTags } from "lib/get_class_tags.ts";
-import { getClassMembers } from "lib/get_class_members.ts";
+import { getClassTags } from "db/get_class_tags.ts";
+import { getClassMembers } from "db/get_class_members.ts";
 import { getClassInvites } from "db/get_class_invites.ts";
 
 export default async function Dashboard(
