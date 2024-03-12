@@ -3,6 +3,7 @@ import IconDotsVertical from "icons/dots-vertical.tsx";
 import { Vote } from "islands/Vote.tsx";
 import { DotMenu } from "components/DotMenu.tsx";
 import { useSignal } from "@preact/signals";
+import { render } from "gfm";
 import { PostTag } from "db/get_post_tags.ts";
 
 interface PostProps {
@@ -165,7 +166,12 @@ export function Post(
           <IconDotsVertical />
         </DotMenu>
       </div>
-      {!editing.value && <p class="pl-8">{content}</p>}
+      {!editing.value && (
+        <div
+          class="markdown-body pl-8"
+          dangerouslySetInnerHTML={{ __html: render(content) }}
+        />
+      )}
       {editing.value && (
         <textarea
           class="ml-8 textarea textarea-bordered max-w-screen-md w-full"

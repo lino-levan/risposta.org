@@ -1,4 +1,5 @@
 import { FreshContext } from "$fresh/server.ts";
+import { render } from "gfm";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
 import type { ClassState } from "lib/state.ts";
@@ -32,7 +33,12 @@ export default async function ClassDashboard(
       {data.map((item) => (
         <div class="flex flex-col gap-2 justify-between">
           <h2 class="text-xl">{item.title}</h2>
-          <p>{item.content}</p>
+          <div
+            class="markdown-body"
+            dangerouslySetInnerHTML={{ __html: render(item.content) }}
+          >
+            {item.content}
+          </div>
         </div>
       ))}
     </div>

@@ -153,7 +153,7 @@ export function SearchablePostList(
           class="block py-2 px-3 rounded bg-base-200 hover:bg-base-300"
         >
           <h2 class="text-xl">{item.title}</h2>
-          <p class="text-sm text-black whitespace-nowrap overflow-hidden text-ellipsis">
+          <p class="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
             {item.content}
           </p>
         </a>

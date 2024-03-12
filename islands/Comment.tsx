@@ -5,6 +5,7 @@ import IconDots from "icons/dots.tsx";
 import { CommentVote } from "islands/CommentVote.tsx";
 import { getReadableTime } from "lib/readable_time.ts";
 import { DotMenu } from "components/DotMenu.tsx";
+import { render } from "gfm";
 
 export interface CommentProps {
   class_id: number;
@@ -91,7 +92,13 @@ export function Comment(props: CommentProps) {
           )}
           · {getReadableTime(props.created_at)}
         </p>
-        {!editing.value && <p>{props.content}</p>}
+        {!editing.value && (
+          <div
+            class="markdown-body"
+            dangerouslySetInnerHTML={{ __html: render(props.content) }}
+          >
+          </div>
+        )}
         {editing.value && (
           <>
             <div class="flex gap-4">
