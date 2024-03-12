@@ -16,9 +16,13 @@ export default async function ClassDashboard(
 
   return (
     <div class="bg-base-200 p-20 rounded max-w-screen-sm">
-      <h1 class="text-2xl font-bold">
+      <h1 class="text-2xl font-bold text-center">
         Welcome to {ctx.state.class.name}!
       </h1>
+      <h2 class="text-2xl font-bold text-center">
+        Class ID: {ctx.state.class.id}
+      </h2>
+      
 
       {data.length > 0 && (
         <h1 className="font-bold text-xl mt-6 mb-6">

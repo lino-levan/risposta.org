@@ -10,19 +10,19 @@ export const handler: Handlers<unknown, APIState> = {
     const user = ctx.state.user;
 
     // Class id thats passed through
-    const { class_id } = await req.json();
+    const { newUsername } = await req.json();
 
     // Insert new member
-    const { error: memberError } = await supabase.from("members").insert({
-      user_id: user.id,
-      role: "student", // Assuming the role is 'student' for those joining
-      class_id: class_id,
-    });
+    // Update the username with the new name
+    const { error: updateError } = await supabase.from("users")
+      .update({ name: newUsername })
+      .eq("id", user.id);
+      
 
     // Handle member insertion errors
-    if (memberError) return bad();
+    if (updateError) return bad("Failed to update username.");
 
     // Return success response
-    return success(JSON.stringify({ success: true }));
-  },
+    return success("Username updated successfully.");
+  }
 };
