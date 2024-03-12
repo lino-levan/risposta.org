@@ -12,6 +12,7 @@ import { getPostTags } from "db/get_post_tags.ts";
 import { getPostCommentsVoted } from "db/get_post_comments_voted.ts";
 import { getExpandedPost } from "db/get_expanded_post.ts";
 import { getReadableTime } from "lib/readable_time.ts";
+import { render } from "gfm";
 
 export default async function Dashboard(
   req: Request,
@@ -60,9 +61,10 @@ export default async function Dashboard(
               · {getReadableTime(post.created_at)}
             </span>
           </div>
-          <p>
-            {post.ai_answer}
-          </p>
+          <div
+            class="markdown-body"
+            dangerouslySetInnerHTML={{ __html: render(post.ai_answer) }}
+          />
           <p class="text-yellow-500 bg-yellow-100 border border-yellow-500 p-2 rounded-lg text-sm w-max flex gap-2 items-center">
             <IconAlertTriangle class="w-4 h-4" />
             AI generated answer may be false or misleading. Please fact-check
