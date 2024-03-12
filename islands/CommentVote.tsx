@@ -30,7 +30,7 @@ export function CommentVote(props: VoteProps) {
               method: "POST",
               body: JSON.stringify({
                 vote: 1,
-                commentId: props.commentId,
+                comment_id: props.commentId,
               }),
             });
           } else {
@@ -40,7 +40,7 @@ export function CommentVote(props: VoteProps) {
               method: "POST",
               body: JSON.stringify({
                 vote: 0,
-                commentId: props.commentId,
+                comment_id: props.commentId,
               }),
             });
           }
@@ -64,7 +64,7 @@ export function CommentVote(props: VoteProps) {
               method: "POST",
               body: JSON.stringify({
                 vote: -1,
-                commentId: props.commentId,
+                comment_id: props.commentId,
               }),
             });
           } else {
@@ -74,7 +74,7 @@ export function CommentVote(props: VoteProps) {
               method: "POST",
               body: JSON.stringify({
                 vote: 0,
-                commentId: props.commentId,
+                comment_id: props.commentId,
               }),
             });
           }

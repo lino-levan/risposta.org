@@ -7,7 +7,8 @@ export async function updateComment(
   const { error, data } = await supabase
     .from("comments")
     .update({ content })
-    .eq("id", comment_id);
+    .eq("id", comment_id)
+    .select("*");
   if (error) return null;
   return data;
 }

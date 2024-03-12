@@ -13,13 +13,19 @@ export const handler: Handlers<unknown, APIState> = {
       .json();
     const user = ctx.state.user;
 
+    console.log(vote);
+
     // Get data on the comment being upvoted
     const comment = await getComment(comment_id);
     if (!comment) return bad();
 
+    console.log(vote);
+
     // get member who is upvoting from the class id and user
     const member = await getMembership(user.id, comment.member.class_id);
     if (!member) return bad();
+
+    console.log(vote);
 
     if (vote === 1 || vote === -1) {
       const voted = await upsertCommentVote(comment.id, member.id, vote === 1);
