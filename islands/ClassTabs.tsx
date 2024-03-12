@@ -20,7 +20,7 @@ export function ClassTabs(props: ClassTabsProps) {
   const activeTab = useSignal("Settings");
 
   return (
-    <div class="h-full w-full max-w-screen-md flex flex-col gap-4 p-4">
+    <div class="h-full w-full max-w-screen-md flex flex-col gap-4 p-4 overflow-y-auto">
       <div class="tabs tabs-boxed shadow">
         <button
           onClick={() => activeTab.value = "Settings"}

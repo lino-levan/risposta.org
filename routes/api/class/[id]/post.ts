@@ -70,6 +70,6 @@ export const handler: Handlers<unknown, APIState> = {
     if (!postTags) return bad();
 
     // success :)
-    return success();
+    return success(post.id.toString());
   },
 };
