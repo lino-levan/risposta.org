@@ -52,13 +52,15 @@ export default async function Dashboard(
                     encodeURIComponent(course.name)
                   }`}
                 />
-                <p class="font-bold text-xl">{course.name}</p>
+                <p class="font-bold text-xl truncate">{course.name}</p>
               </div>
               {course.description && (
-                <p class="pl-8 text-right">{course.description}</p>
+                <p class="pl-10 text-right truncate">{course.description}</p>
               )}
               {!course.description && (
-                <p class="pl-8 text-right">No description for this course...</p>
+                <p class="pl-10 text-right">
+                  No description for this course...
+                </p>
               )}
             </a>
           ))}

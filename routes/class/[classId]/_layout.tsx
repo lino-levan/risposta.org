@@ -1,6 +1,9 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { ClassState } from "lib/state.ts";
-import { SearchablePostList } from "islands/SearchablePostList.tsx";
+import {
+  type PostWithTags,
+  SearchablePostList,
+} from "islands/SearchablePostList.tsx";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
 import { getClassTags } from "db/get_class_tags.ts";
@@ -23,11 +26,6 @@ export default async function Layout(
   const classTags = await getClassTags(ctx.state.class.id);
   if (!classTags) return ctx.renderNotFound();
   const uniqueTags = [...new Set(classTags.map((tag) => tag.tag))];
-
-  interface PostWithTags {
-    postId: number;
-    tagString: string[];
-  }
 
   const postsWithTags: PostWithTags[] = await Promise.all(
     data.map(async (post) => {

@@ -1,8 +1,8 @@
 import { FreshContext } from "$fresh/server.ts";
+import type { ClassState } from "lib/state.ts";
 import { CreateComment } from "islands/CreateComment.tsx";
 import { Post } from "islands/Post.tsx";
 import { CommentTree } from "components/CommentTree.tsx";
-import type { PostState } from "lib/state.ts";
 import { getPostVotes } from "db/get_post_votes.ts";
 import { getPostComments } from "db/get_post_comments.ts";
 import { getPostVoted } from "db/get_post_voted.ts";
@@ -12,7 +12,7 @@ import { getExpandedPost } from "db/get_expanded_post.ts";
 
 export default async function Dashboard(
   req: Request,
-  ctx: FreshContext<PostState>,
+  ctx: FreshContext<ClassState>,
 ) {
   const postId = parseInt(ctx.params.postId);
 
@@ -27,7 +27,7 @@ export default async function Dashboard(
     ]);
   if (!post) return ctx.renderNotFound();
 
-  const postedBy = post.anonymous ? "Anonymous" : ctx.state.user.name;
+  const postedBy = post.anonymous ? "Anonymous" : post.author_name;
 
   return (
     <div class="w-full h-full p-4 flex flex-col overflow-hidden overflow-y-auto">

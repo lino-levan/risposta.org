@@ -4,7 +4,7 @@ import MiniSearch from "https://esm.sh/minisearch@v6.3.0";
 import type { Tables } from "lib/supabase_types.ts";
 import { Multiselect } from "islands/Multiselect.tsx";
 
-interface PostWithTags {
+export interface PostWithTags {
   postId: number;
   tagString: string[];
 }

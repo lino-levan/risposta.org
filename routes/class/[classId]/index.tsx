@@ -20,6 +20,10 @@ export default async function ClassDashboard(
         Welcome to {ctx.state.class.name}!
       </h1>
 
+      <p>
+        {ctx.state.class.description}
+      </p>
+
       {data.length > 0 && (
         <h1 className="font-bold text-xl mt-6 mb-6">
           Frequently Asked Questions

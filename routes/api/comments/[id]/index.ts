@@ -1,59 +1,26 @@
 import { Handlers } from "$fresh/server.ts";
-import { supabase } from "lib/db.ts";
-import { bad, unauthorized } from "lib/response.ts";
+import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
+import { updateComment } from "db/update_comment.ts";
+import { deleteComment } from "db/delete_comment.ts";
 
-async function getCommentAuthor(commentId: number) {
-  const { data: commentData, error: commentError } = await supabase
-    .from("comments")
-    .select("id, member_id, member:member_id (user_id)")
-    .eq("id", commentId)
-    .single();
-  if (commentError) return null;
-  return (commentData.member as unknown as { user_id: number }).user_id;
-}
-
+// TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
   async PATCH(req, ctx) {
-    // TODO(lino-levan): Validate input
-    const commentId = parseInt(ctx.params.id);
+    const comment_id = parseInt(ctx.params.id);
     const { content }: { content: string } = await req.json();
-    const user = ctx.state.user;
 
-    const authorId = await getCommentAuthor(commentId);
-    if (!authorId) return bad("Comment not found.");
-    if (authorId !== user.id) {
-      return unauthorized("You do not have permission to edit this comment.");
-    }
-
-    const { error } = await supabase
-      .from("comments")
-      .update({ content })
-      .eq("id", commentId);
-
-    if (error) return bad();
+    const updated = await updateComment(comment_id, content);
+    if (!updated) return bad();
 
     return new Response("Comment updated successfully", { status: 200 });
   },
   async DELETE(_, ctx) {
-    const commentId = parseInt(ctx.params.id);
-    const user = ctx.state.user;
+    const comment_id = parseInt(ctx.params.id);
 
-    const authorId = await getCommentAuthor(commentId);
-    if (!authorId) return bad("Comment not found.");
-    if (authorId !== user.id) {
-      return unauthorized("You do not have permission to edit this comment.");
-    }
+    const deleted = await deleteComment(comment_id);
+    if (!deleted) return bad();
 
-    console.log("hi");
-
-    const { error } = await supabase
-      .from("comments")
-      .delete()
-      .eq("id", commentId);
-
-    if (error) return bad();
-
-    return new Response(ctx.params.id);
+    return success();
   },
 };
