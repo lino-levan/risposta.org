@@ -4,8 +4,10 @@ import { insertPostTags } from "db/insert_post_tags.ts";
 import { getClassTags } from "db/get_class_tags.ts";
 import { getMembership } from "db/get_member.ts";
 import { bad, success } from "lib/response.ts";
+import { generateResponse } from "lib/ai.ts";
 import { APIState } from "lib/state.ts";
 import { z } from "zod";
+import { getClass } from "db/get_class.ts";
 
 const postSchema = z.object({
   title: z.string().min(1).max(100),
@@ -39,6 +41,15 @@ export const handler: Handlers<unknown, APIState> = {
       }
     }
 
+    const classroom = await getClass(classId);
+    if (!classroom) return bad();
+
+    let ai_answer = null;
+
+    if (classroom.ai) {
+      ai_answer = await generateResponse(content);
+    }
+
     // post question
     const post = await insertPost(
       member.id,
@@ -46,6 +57,7 @@ export const handler: Handlers<unknown, APIState> = {
       title,
       anonymous,
       visibility,
+      ai_answer,
     );
     if (!post) return bad();
 

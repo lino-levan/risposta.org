@@ -161,19 +161,16 @@ export type Database = {
           class_id: number;
           code: string;
           created_at: string;
-          id: number;
         };
         Insert: {
           class_id: number;
           code: string;
           created_at?: string;
-          id?: number;
         };
         Update: {
           class_id?: number;
           code?: string;
           created_at?: string;
-          id?: number;
         };
         Relationships: [
           {
@@ -343,6 +340,7 @@ export type Database = {
       };
       posts: {
         Row: {
+          ai_answer: string | null;
           anonymous: boolean;
           content: string;
           created_at: string;
@@ -353,6 +351,7 @@ export type Database = {
           visibility: string;
         };
         Insert: {
+          ai_answer?: string | null;
           anonymous: boolean;
           content: string;
           created_at?: string;
@@ -363,6 +362,7 @@ export type Database = {
           visibility: string;
         };
         Update: {
+          ai_answer?: string | null;
           anonymous?: boolean;
           content?: string;
           created_at?: string;
@@ -630,6 +630,7 @@ export type Database = {
       };
       expanded_posts: {
         Row: {
+          ai_answer: string | null;
           anonymous: boolean | null;
           author_email: string | null;
           author_name: string | null;

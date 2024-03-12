@@ -6,6 +6,7 @@ export async function insertPost(
   title: string,
   anonymous: boolean,
   visibility: string,
+  ai_answer: string | null,
 ) {
   const { error, data } = await supabase.from("posts")
     .insert({
@@ -14,6 +15,7 @@ export async function insertPost(
       title,
       anonymous,
       visibility,
+      ai_answer,
     }).select("*").single();
   if (error) return null;
   return data;

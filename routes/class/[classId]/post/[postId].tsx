@@ -1,4 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
+import IconSparkles from "icons/sparkles.tsx";
+import IconAlertTriangle from "icons/alert-triangle.tsx";
 import type { ClassState } from "lib/state.ts";
 import { CreateComment } from "islands/CreateComment.tsx";
 import { Post } from "islands/Post.tsx";
@@ -9,6 +11,7 @@ import { getPostVoted } from "db/get_post_voted.ts";
 import { getPostTags } from "db/get_post_tags.ts";
 import { getPostCommentsVoted } from "db/get_post_comments_voted.ts";
 import { getExpandedPost } from "db/get_expanded_post.ts";
+import { getReadableTime } from "lib/readable_time.ts";
 
 export default async function Dashboard(
   req: Request,
@@ -46,6 +49,27 @@ export default async function Dashboard(
         postedBy={postedBy}
       />
       <CreateComment post_id={ctx.params.postId} classId={ctx.params.classId} />
+      {post.ai_answer !== null && (
+        <div class="border-l-2 pl-12 p-4 flex flex-col gap-2">
+          <div class="text-xs flex items-center gap-1">
+            <IconSparkles class="w-4 h-4" />
+            <span class="text-black font-bold">
+              AI Answer
+            </span>
+            <span class="text-zinc-400">
+              · {getReadableTime(post.created_at)}
+            </span>
+          </div>
+          <p>
+            {post.ai_answer}
+          </p>
+          <p class="text-yellow-500 bg-yellow-100 border border-yellow-500 p-2 rounded-lg text-sm w-max flex gap-2 items-center">
+            <IconAlertTriangle class="w-4 h-4" />
+            AI generated answer may be false or misleading. Please fact-check
+            any AI answer before taking action.
+          </p>
+        </div>
+      )}
       {comments.filter((comment) => !comment.parent_id).sort((a, b) =>
         (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes)
       ).map((comment) => (
