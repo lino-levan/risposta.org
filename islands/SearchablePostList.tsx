@@ -1,37 +1,40 @@
 import { useComputed, useSignal } from "@preact/signals";
 import { useMemo } from "preact/hooks";
 import MiniSearch from "https://esm.sh/minisearch@v6.3.0";
-import type { Database } from "lib/supabase_types.ts";
+import type { Tables } from "lib/supabase_types.ts";
 import { Multiselect } from "islands/Multiselect.tsx";
-import { post } from "https://esm.sh/v135/@supabase/storage-js@2.5.5/dist/module/lib/fetch.js";
 
-interface PostWithTags {
+export interface PostWithTags {
   postId: number;
   tagString: string[];
 }
 
-export function SearchablePostList(
-  props: {
-    posts: Pick<
-      Database["public"]["Views"]["expanded_posts"]["Row"],
-      | "id"
-      | "title"
-      | "content"
-      | "upvotes"
-      | "downvotes"
-      | "created_at"
-      | "visibility"
-      | "member_id"
-    >[];
-    classId: number;
-    member: {
-      id: number;
-      role: string;
-    };
-    classTags: string[];
-    postTags: PostWithTags[];
-  },
-) {
+interface SearchablePostListProps {
+  posts: Pick<
+    Tables<"expanded_posts">,
+    | "id"
+    | "title"
+    | "content"
+    | "upvotes"
+    | "downvotes"
+    | "created_at"
+    | "visibility"
+    | "member_id"
+  >[];
+  classId: number;
+  member: {
+    id: number;
+    role: string;
+  };
+  classTags: string[];
+  postTags: PostWithTags[];
+}
+
+/**
+ * A searchable list of posts
+ */
+export function SearchablePostList(props: SearchablePostListProps) {
+  // Create a memoized MiniSearch instance
   const miniSearchMemo = useMemo(
     () => {
       const miniSearch = new MiniSearch({
@@ -48,14 +51,15 @@ export function SearchablePostList(
     [props.posts],
   );
 
+  // Create signals for the filter and sort rule
   const filter = useSignal<number[] | null>(null);
   const sortRule = useSignal(
     globalThis?.localStorage?.getItem("sortRule") ?? "recent",
   );
   const selectedTags = useSignal<string[]>([]);
 
+  // Create a computed signal for the sorted and filtered posts
   const sortedFilteredPosts = useComputed(() => {
-    //sort for post matching selected tag
     const actualSelectedTags = selectedTags.value;
     const postMatchingCurrentSelectedTag: number[] = [];
     props.postTags.forEach((tag) => {
@@ -79,26 +83,12 @@ export function SearchablePostList(
       const isAllowedTag = postMatchingCurrentSelectedTag.includes(
         post.id as number,
       );
-      //Permission Test Values
-      /*
-      console.log("Post ID:", post.id);
-      console.log("Is Author:", isAuthor);
-      console.log("Is Instructor:", isInstructor);
-      console.log("Is Instructor Post:", isInstructorPost);
-      console.log("Member ID:", props.member?.id);
-      console.log("Member Role:", props.member?.role);
-      console.log("Post Member ID:", post.member_id);
-      console.log("Post Visibility:", post.visibility);
-      console.log("Selected Tags: ", selectedTags);
-      console.log("Class Tags: ", props.classTags);
-      console.log("---");
-      */
       // Only include the post if the user is the author, a teacher, or the post is not intended for instructors
       // and the post is an allowed tag
       return (isAuthor || isInstructor || !isInstructorPost) && isAllowedTag;
     });
 
-    //sorted here
+    // Sort the posts based on the sort rule
     if (sortRule.value === "votes") {
       return postsToSort.sort((a, b) =>
         (b.upvotes! - b.downvotes!) - (a.upvotes! - a.downvotes!)
@@ -154,7 +144,7 @@ export function SearchablePostList(
           class="block py-2 px-3 rounded bg-base-200 hover:bg-base-300"
         >
           <h2 class="text-xl">{item.title}</h2>
-          <p class="text-sm text-black whitespace-nowrap overflow-hidden text-ellipsis">
+          <p class="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
             {item.content}
           </p>
         </a>

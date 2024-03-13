@@ -1,4 +1,4 @@
-import { getUser } from "lib/get_user.ts";
+import { getUser } from "db/get_user.ts";
 import { redirect } from "lib/response.ts";
 
 export default async function Home(req: Request) {

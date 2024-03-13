@@ -6,7 +6,9 @@ export interface CreateCommentProps {
   parent_id?: number;
 }
 
-//island
+/**
+ * CreateComment component is used to create a new comment on a post.
+ */
 export function CreateComment(props: CreateCommentProps) {
   const comment = useSignal("");
   const disabled = useSignal(false);

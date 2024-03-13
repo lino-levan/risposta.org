@@ -11,6 +11,7 @@ export default async function App(req: Request, ctx: FreshContext) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Risposta</title>
         <link rel="stylesheet" href="/styles.css" />
+        <link rel="stylesheet" href="/gfm.css" />
       </head>
       <body class="flex flex-col">
         <ctx.Component />

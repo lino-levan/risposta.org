@@ -1,25 +1,14 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { DashboardState } from "lib/state.ts";
-import { Tables } from "lib/supabase_types.ts";
+import { getUserClasses } from "db/get_user_classes.ts";
 import { bad } from "lib/response.ts";
-import { supabase } from "lib/db.ts";
 
 export default async function Dashboard(
   req: Request,
   ctx: FreshContext<DashboardState>,
 ) {
-  // Get member who is opening the page
-  const { data, error } = await supabase
-    .from("members")
-    .select("*, class_id!inner(*)")
-    .eq("user_id", ctx.state.user.id);
-  if (error) return bad();
-
-  // This spooky code exists to extract classes from our join
-  // We have to convince typescript that this is okay, we know it's okay
-  const classes = data.map((row) => row.class_id) as unknown as Tables<
-    "classes"
-  >[];
+  const classes = await getUserClasses(ctx.state.user.id);
+  if (!classes) return bad();
 
   return (
     <div class="flex flex-col items-center px-4 pt-16 w-screen h-screen bg-base-100">
@@ -34,7 +23,7 @@ export default async function Dashboard(
           </a>
           <a
             class="btn"
-            href="/class/join_class"
+            href="/class/join"
           >
             Join class
           </a>
@@ -52,13 +41,15 @@ export default async function Dashboard(
                     encodeURIComponent(course.name)
                   }`}
                 />
-                <p class="font-bold text-xl">{course.name}</p>
+                <p class="font-bold text-xl truncate">{course.name}</p>
               </div>
               {course.description && (
-                <p class="pl-8 text-right">{course.description}</p>
+                <p class="pl-10 text-right truncate">{course.description}</p>
               )}
               {!course.description && (
-                <p class="pl-8 text-right">No description for this course...</p>
+                <p class="pl-10 text-right">
+                  No description for this course...
+                </p>
               )}
             </a>
           ))}

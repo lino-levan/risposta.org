@@ -1,21 +1,15 @@
-import { Database } from "lib/supabase_types.ts";
 import { bad } from "lib/response.ts";
+import type { ClassMember } from "db/get_class_members.ts";
 
-interface UserDetail {
-  name: string;
-  picture: string;
-}
-
-export interface MemberListProps {
+export interface ClassMembersProps {
   classId: number;
-  members: (Database["public"]["Tables"]["members"]["Row"] & {
-    user_id: UserDetail;
-  })[];
+  members: ClassMember[];
 }
 
-function groupMembersByRole(members: MemberListProps["members"]) {
+/** Group members by their role */
+function groupMembersByRole(members: ClassMember[]) {
   return members.reduce(
-    (acc: Record<string, MemberListProps["members"]>, member) => {
+    (acc: Record<string, ClassMember[]>, member) => {
       const roleGroup = acc[member.role] || [];
       roleGroup.push(member);
       acc[member.role] = roleGroup;
@@ -25,7 +19,8 @@ function groupMembersByRole(members: MemberListProps["members"]) {
   );
 }
 
-export function MemberList(props: MemberListProps) {
+/** Component to display class members */
+export function ClassMembers(props: ClassMembersProps) {
   const members = props.members;
 
   const groupedMembers = groupMembersByRole(members);
@@ -73,26 +68,26 @@ export function MemberList(props: MemberListProps) {
   };
 
   return (
-    <div class="p-4">
+    <div class="flex flex-col gap-4">
+      <p class="text-xl w-full">Members</p>
       {Object.entries(groupedMembers).map(([role, members]) => (
-        <div key={role} class="card bg-base-100 shadow-xl mb-6">
+        <div key={role} class="card bg-base-100 border">
           <div class="card-body">
             <h2 class="card-title capitalize">{role} ({members.length})</h2>
             <div class="divider"></div> {/* Divider for visual separation */}
             <div class="flex flex-wrap gap-4 justify-start">
-              {/* Members aligned horizontally */}
               {members.map((member) => (
                 <div
                   key={member.id}
-                  class="dropdown dropdown-end bg-base-200 shadow hover:shadow-lg transition-shadow duration-200 rounded-badge"
+                  class="dropdown dropdown-end border bg-base-200 rounded-badge"
                 >
-                  <div tabindex={0} class="flex gap-4 items-center">
+                  <div tabindex={0} class="flex gap-4 items-center p-2">
                     <img
-                      src={member.user_id.picture}
+                      src={member.user.picture}
                       alt="Profile Picture"
                       class="w-10 h-10 rounded-full"
                     />
-                    <p>{member.user_id.name}</p>
+                    <p class="w-max">{member.user.name}</p>
                   </div>
                   <ul
                     tabindex={0}

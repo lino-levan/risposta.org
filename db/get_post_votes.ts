@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Get the votes for a post */
 export async function getPostVotes(post_id: number) {
   const { count: upvoteCount } = await supabase.from("post_votes").select("*", {
     count: "exact",

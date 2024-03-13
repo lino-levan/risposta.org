@@ -7,6 +7,9 @@ export interface CreatePostProps {
   tags: string[];
 }
 
+/**
+ * Create a new post
+ */
 export function CreatePost(props: CreatePostProps) {
   const title = useSignal("");
   const content = useSignal("");
@@ -17,8 +20,8 @@ export function CreatePost(props: CreatePostProps) {
 
   return (
     <div class="flex flex-col gap-4 p-10">
-      <div class="flex flex-col gap-2">
-        <p class="font-bold w-36">Post To</p>
+      <div class="flex flex-col gap-2 w-full">
+        <p class="font-bold">Post To</p>
         <select
           class="select select-bordered"
           value={visibility.value}
@@ -31,11 +34,11 @@ export function CreatePost(props: CreatePostProps) {
         </select>
         {props.tags.length > 0 && (
           <>
-            <p class="font-bold w-36">Tags</p>
+            <p class="font-bold">Tags</p>
             <Multiselect selected={tags} options={props.tags} />
           </>
         )}
-        <p class="font-bold w-36 text-black">Title</p>
+        <p class="font-boldtext-black">Title</p>
         <input
           class="input input-bordered w-full"
           value={title.value}
@@ -82,17 +85,14 @@ export function CreatePost(props: CreatePostProps) {
               }),
             });
             if (req.ok) {
-              location.href = `/class/${props.classId}`;
+              const postId = await req.text();
+              location.href = `/class/${props.classId}/post/${postId}`;
+            } else {
+              loading.value = false;
             }
           }}
         >
           Post
-        </button>
-        <button
-          class="btn btn-ghost"
-          disabled={loading}
-        >
-          Save Draft
         </button>
         <a
           class="btn btn-ghost"

@@ -3,12 +3,17 @@ import ArrowUp from "icons/arrow-big-up.tsx";
 import ArrowUpFilled from "icons/arrow-big-up-filled.tsx";
 
 export interface VoteProps {
+  /** ID of the post */
   postId: number;
   /** 0 if no vote, -1 if downvote, 1 if upvote */
   voted: number;
+  /** Total number of votes */
   votes: number;
 }
 
+/**
+ * A component that allows users to vote on a post.
+ */
 export function Vote(props: VoteProps) {
   const votes = useSignal(props.votes);
   const voted = useSignal(props.voted);

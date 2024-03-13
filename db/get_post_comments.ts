@@ -7,6 +7,7 @@ export type ExpandedComment =
   & NoNullFields<Omit<Comments, "parent_id">>
   & Pick<Comments, "parent_id">;
 
+/** Get all comments for a post */
 export async function getPostComments(post_id: number) {
   const { data: comments } = await supabase
     .from("expanded_comments")

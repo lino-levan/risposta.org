@@ -1,6 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { APIState } from "lib/state.ts";
-import { getUser } from "lib/get_user.ts";
+import { getUser } from "db/get_user.ts";
 import { unauthorized } from "lib/response.ts";
 
 export async function handler(

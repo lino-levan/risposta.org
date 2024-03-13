@@ -9,6 +9,13 @@ export interface VoteProps {
   votes: number;
 }
 
+/**
+ * A component that allows users to vote on a comment.
+ * @param props
+ * @param props.commentId The ID of the comment to vote on
+ * @param props.voted 0 if no vote, -1 if downvote, 1 if upvote
+ * @param props.votes The total number of votes on the comment
+ */
 export function CommentVote(props: VoteProps) {
   const votes = useSignal(props.votes);
   const voted = useSignal(props.voted);
@@ -30,7 +37,7 @@ export function CommentVote(props: VoteProps) {
               method: "POST",
               body: JSON.stringify({
                 vote: 1,
-                commentId: props.commentId,
+                comment_id: props.commentId,
               }),
             });
           } else {
@@ -40,7 +47,7 @@ export function CommentVote(props: VoteProps) {
               method: "POST",
               body: JSON.stringify({
                 vote: 0,
-                commentId: props.commentId,
+                comment_id: props.commentId,
               }),
             });
           }
@@ -64,7 +71,7 @@ export function CommentVote(props: VoteProps) {
               method: "POST",
               body: JSON.stringify({
                 vote: -1,
-                commentId: props.commentId,
+                comment_id: props.commentId,
               }),
             });
           } else {
@@ -74,7 +81,7 @@ export function CommentVote(props: VoteProps) {
               method: "POST",
               body: JSON.stringify({
                 vote: 0,
-                commentId: props.commentId,
+                comment_id: props.commentId,
               }),
             });
           }

@@ -12,6 +12,7 @@ interface DotMenuProps {
   children: ComponentChildren;
 }
 
+/** A button that opens a menu when clicked */
 export function DotMenu(props: DotMenuProps) {
   const dotMenuOpen = useSignal(false);
 

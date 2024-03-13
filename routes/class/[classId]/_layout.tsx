@@ -1,36 +1,30 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { ClassState } from "lib/state.ts";
-import { SearchablePostList } from "islands/SearchablePostList.tsx";
+import {
+  type PostWithTags,
+  SearchablePostList,
+} from "islands/SearchablePostList.tsx";
 import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
-import { getClassTags } from "lib/get_class_tags.ts";
-import { getPostTags } from "lib/get_post_tags.ts";
+import { getClassTags } from "db/get_class_tags.ts";
+import { getPostTags } from "db/get_post_tags.ts";
+import { getClassPosts } from "db/get_class_posts.ts";
 
 export default async function Layout(
   req: Request,
   ctx: FreshContext<ClassState>,
 ) {
   const classId = ctx.state.class.id;
-  const { data, error } = await supabase
-    .from("expanded_posts")
-    .select(
-      "id, title, content, upvotes, downvotes, created_at, visibility, member_id",
-    )
-    .eq("class_id", classId);
-
-  if (error) return bad();
+  const posts = await getClassPosts(classId);
+  if (!posts) return bad();
 
   const classTags = await getClassTags(ctx.state.class.id);
   if (!classTags) return ctx.renderNotFound();
   const uniqueTags = [...new Set(classTags.map((tag) => tag.tag))];
 
-  interface PostWithTags {
-    postId: number;
-    tagString: string[];
-  }
-
+  // Get tags for each post
   const postsWithTags: PostWithTags[] = await Promise.all(
-    data.map(async (post) => {
+    posts.map(async (post) => {
       const postTags = await getPostTags(post.id as number);
       const tagString = postTags.map((tag) => tag.tag.tag);
       return {
@@ -56,7 +50,7 @@ export default async function Layout(
         </a>
         <SearchablePostList
           classId={classId}
-          posts={data.map((post) => ({
+          posts={posts.map((post) => ({
             id: post.id,
             title: post.title,
             content: post.content,

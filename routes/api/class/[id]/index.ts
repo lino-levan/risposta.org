@@ -1,32 +1,40 @@
 import { Handlers } from "$fresh/server.ts";
-import { supabase } from "lib/db.ts";
+import { updateClass } from "db/update_class.ts";
+import { deleteClass } from "db/delete_class.ts";
 import { bad, success } from "lib/response.ts";
 import { z } from "zod";
 
 const classSchema = z.object({
-  name: z.string().min(1).max(100),
+  name: z.string().min(1).max(100).optional(),
+  description: z.string().optional(),
+  ai: z.boolean().optional(),
 });
 
 // TODO(lino-levan): Validate inputs
 export const handler: Handlers = {
+  // Update the class settings
   async PATCH(req, ctx) {
+    const classId = parseInt(ctx.params.id);
     const result = classSchema.safeParse(await req.json());
     if (!result.success) return bad(result.error.toString());
-    const { error } = await supabase.from("classes").update(result.data).eq(
-      "id",
-      ctx.params.id,
-    ).select();
 
-    if (error) return bad();
+    const classroom = await updateClass(
+      classId,
+      result.data.name,
+      result.data.description,
+      result.data.ai,
+    );
+    if (!classroom) return bad();
+
     return success();
   },
+  // Delete the class
   async DELETE(_req, ctx) {
-    const { error } = await supabase.from("classes").delete().eq(
-      "id",
-      ctx.params.id,
-    );
+    const classId = parseInt(ctx.params.id);
 
-    if (error) return bad();
+    const deleted = await deleteClass(classId);
+    if (!deleted) return bad();
+
     return success();
   },
 };

@@ -1,7 +1,7 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { ClassState } from "lib/state.ts";
-import { getClass } from "lib/get_class.ts";
-import { getMembership } from "lib/get_member.ts";
+import { getClass } from "db/get_class.ts";
+import { getMembership } from "db/get_member.ts";
 
 export async function handler(
   _: Request,

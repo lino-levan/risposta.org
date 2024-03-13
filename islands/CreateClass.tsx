@@ -1,5 +1,8 @@
 import { useState } from "preact/hooks";
 
+/**
+ * Form to create a new class
+ */
 export default function CreateClassForm() {
   const [className, setClassName] = useState("");
   const [description, setDescription] = useState("");
@@ -9,7 +12,7 @@ export default function CreateClassForm() {
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
 
-    const classData = { name: className, description, enableAI };
+    const classData = { name: className, description, ai: enableAI };
 
     try {
       const response = await fetch("/api/class", {

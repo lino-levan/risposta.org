@@ -1,57 +1,35 @@
 import { Handlers } from "$fresh/server.ts";
-import { supabase } from "lib/db.ts";
-import { bad, success, unauthorized } from "lib/response.ts";
+import { bad, success } from "lib/response.ts";
 import type { APIState } from "lib/state.ts";
+import { deletePost } from "db/delete_post.ts";
+import { updatePost } from "db/update_post.ts";
+import { z } from "zod";
+
+const updatePostSchema = z.object({
+  title: z.string().min(1).max(100),
+  content: z.string().min(1),
+});
 
 export const handler: Handlers<unknown, APIState> = {
+  // Update a post
   async PATCH(req, ctx) {
+    const result = updatePostSchema.safeParse(await req.json());
+    if (!result.success) return bad(result.error.toString());
+    const { title, content } = result.data;
+
     const postId = parseInt(ctx.params.id);
-    const user = ctx.state.user;
-    const { title, content }: {
-      title: string;
-      content: string;
-    } = await req.json();
 
-    const { data: post, error: postError } = await supabase
-      .from("expanded_posts")
-      .select("*")
-      .eq("id", postId)
-      .single();
-
-    if (postError) return bad("Post not found.");
-    if (post.user_id !== user.id) {
-      return unauthorized("You do not have permission to edit this post.");
-    }
-
-    const { error } = await supabase.from("posts")
-      .update({ title, content })
-      .eq("id", postId)
-      .select("*");
-
-    if (error) return bad();
+    const post = await updatePost(postId, { title, content });
+    if (!post) return bad();
 
     return success("Post updated successfully");
   },
+  // Delete a post
   async DELETE(_, ctx) {
     const postId = parseInt(ctx.params.id);
-    const user = ctx.state.user;
 
-    const { data: post, error: postError } = await supabase
-      .from("expanded_posts")
-      .select("*")
-      .eq("id", postId)
-      .single();
-
-    if (postError) return bad("Post not found.");
-    if (post.user_id !== user.id) {
-      return unauthorized("You do not have permission to edit this post.");
-    }
-
-    const { error } = await supabase.from("posts")
-      .delete()
-      .eq("id", postId);
-
-    if (error) return bad();
+    const deleted = await deletePost(postId);
+    if (!deleted) return bad();
 
     return success(ctx.params.id);
   },

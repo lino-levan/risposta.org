@@ -3,25 +3,39 @@ import IconDotsVertical from "icons/dots-vertical.tsx";
 import { Vote } from "islands/Vote.tsx";
 import { DotMenu } from "components/DotMenu.tsx";
 import { useSignal } from "@preact/signals";
-import { PostTag } from "lib/get_post_tags.ts";
+import { render } from "gfm";
+import { PostTag } from "db/get_post_tags.ts";
 
 interface PostProps {
+  /** The number of votes this post has */
   votes: number;
-  voted: number;
+  /** The vote the current user has given this post */
+  voted: 0 | 1 | -1;
+  /** The ID of the class this post is in */
   classId: number;
+  /** The ID of the post */
   postId: number;
+  /** The username of the user who posted this */
   postedBy: string;
+  /** The time this post was created */
   createdAt: string;
+  /** Whether this post is pinned */
   pinned: boolean;
-
+  /** The title of the post */
   title: string;
+  /** The content of the post */
   content: string;
+  /** The tags of the post */
   tags: PostTag[];
-
+  /** Whether the current user is the author of this post */
   isAuthor: boolean;
+  /** Whether the current user is an instructor in this class */
   isInstructor: boolean;
 }
 
+/**
+ * A post in a class
+ */
 export function Post(
   {
     classId,
@@ -165,7 +179,12 @@ export function Post(
           <IconDotsVertical />
         </DotMenu>
       </div>
-      {!editing.value && <p class="pl-8">{content}</p>}
+      {!editing.value && (
+        <div
+          class="markdown-body pl-8"
+          dangerouslySetInnerHTML={{ __html: render(content) }}
+        />
+      )}
       {editing.value && (
         <textarea
           class="ml-8 textarea textarea-bordered max-w-screen-md w-full"

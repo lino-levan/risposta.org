@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Get the vote of a post from the database */
 export async function getPostVoted(member_id: number, post_id: number) {
   const { data } = await supabase.from("post_votes").select("*").eq(
     "member_id",

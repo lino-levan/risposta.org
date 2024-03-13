@@ -1,6 +1,6 @@
 import { FreshContext } from "$fresh/server.ts";
 import type { ClassState } from "lib/state.ts";
-import { getClassTags } from "lib/get_class_tags.ts";
+import { getClassTags } from "db/get_class_tags.ts";
 import { CreatePost } from "islands/CreatePost.tsx";
 
 export default async function Create(

@@ -1,18 +1,19 @@
 import { Comment } from "islands/Comment.tsx";
-import type { ExpandedComment } from "lib/get_post_comments.ts";
-import type { CommentVoted } from "lib/get_post_comments_voted.ts";
-import type { Database } from "lib/supabase_types.ts";
+import type { ExpandedComment } from "db/get_post_comments.ts";
+import type { CommentVoted } from "db/get_post_comments_voted.ts";
+import type { Tables } from "lib/supabase_types.ts";
 
 interface CommentTreeProps {
   comment: ExpandedComment;
   comments: ExpandedComment[];
   comments_voted: CommentVoted[];
 
-  member: Database["public"]["Tables"]["members"]["Row"];
+  member: Tables<"members">;
   class_id: number;
   post_id: number;
 }
 
+/** A recursive component that renders a comment and its children.*/
 export function CommentTree(props: CommentTreeProps) {
   const comment_voted = props.comments_voted.find((v) =>
     v.comment_id === props.comment.id

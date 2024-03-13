@@ -1,8 +1,9 @@
 import { Handlers } from "$fresh/server.ts";
 import { handleCallback } from "deno_kv_oauth";
 import { oAuthConfig } from "lib/auth.ts";
-import { supabase } from "lib/db.ts";
 import { bad } from "lib/response.ts";
+import { upsertUser } from "db/upsert_user.ts";
+import { upsertSession } from "db/upsert_session.ts";
 
 /** Properties guaranteed to exist on a google user */
 interface GoogleUser {
@@ -34,20 +35,16 @@ export const handler: Handlers = {
     const googleUser = await getGoogleUser(tokens.accessToken);
 
     // Upsert user
-    const { data: user, error: userError } = await supabase.from("users")
-      .upsert({
-        name: googleUser.name,
-        email: googleUser.email,
-        picture: googleUser.picture,
-      }, { onConflict: "email" }).select().single();
-    if (userError) return bad("error creating user record");
+    const user = await upsertUser(
+      googleUser.name,
+      googleUser.email,
+      googleUser.picture,
+    );
+    if (!user) return bad("error creating user record");
 
     // upsert session
-    const { error: sessionError } = await supabase.from("sessions").upsert({
-      id: sessionId,
-      user_id: user.id,
-    }).select();
-    if (sessionError) return bad("error creating session record");
+    const session = await upsertSession(sessionId, user.id);
+    if (!session) return bad("error creating session record");
 
     return response;
   },

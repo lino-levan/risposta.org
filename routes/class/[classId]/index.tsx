@@ -1,18 +1,15 @@
 import { FreshContext } from "$fresh/server.ts";
-import { supabase } from "lib/db.ts";
+import { render } from "gfm";
 import { bad } from "lib/response.ts";
+import { getPinnedPosts } from "db/get_pinned_posts.ts";
 import type { ClassState } from "lib/state.ts";
 
 export default async function ClassDashboard(
   req: Request,
   ctx: FreshContext<ClassState>,
 ) {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*, member_id!inner(*)")
-    .eq("member_id.class_id", ctx.params.classId)
-    .eq("pinned", true);
-  if (error) return bad();
+  const posts = await getPinnedPosts(ctx.state.class.id);
+  if (!posts) return bad();
 
   return (
     <div class="bg-base-200 p-20 rounded max-w-screen-sm">
@@ -24,15 +21,24 @@ export default async function ClassDashboard(
       </h2>
       
 
-      {data.length > 0 && (
+      <p>
+        {ctx.state.class.description}
+      </p>
+
+      {posts.length > 0 && (
         <h1 className="font-bold text-xl mt-6 mb-6">
-          Frequently Asked Questions
+          Pinned Posts
         </h1>
       )}
-      {data.map((item) => (
+      {posts.map((item) => (
         <div class="flex flex-col gap-2 justify-between">
           <h2 class="text-xl">{item.title}</h2>
-          <p>{item.content}</p>
+          <div
+            class="markdown-body"
+            dangerouslySetInnerHTML={{ __html: render(item.content) }}
+          >
+            {item.content}
+          </div>
         </div>
       ))}
     </div>
