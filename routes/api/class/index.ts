@@ -3,12 +3,21 @@ import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
 import { insertMember } from "db/insert_member.ts";
 import { insertClass } from "db/insert_class.ts";
+import { z } from "zod";
+
+const createClassSchema = z.object({
+  name: z.string().min(1).max(100),
+  description: z.string(),
+  ai: z.boolean(),
+});
 
 // TODO(lino-levan): Validate inputs
 export const handler: Handlers<unknown, APIState> = {
   async POST(req, ctx) {
     const user = ctx.state.user;
-    const { name, description, ai } = await req.json();
+    const result = createClassSchema.safeParse(await req.json());
+    if (!result.success) return bad(result.error.toString());
+    const { name, description, ai } = result.data;
 
     const classroom = await insertClass(name, description, ai);
     if (!classroom) return bad();

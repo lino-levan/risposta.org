@@ -3,7 +3,7 @@ import { supabase } from "lib/db.ts";
 export async function insertComment(
   member_id: number,
   post_id: number,
-  parent_id: number | null,
+  parent_id: number | undefined,
   content: string,
 ) {
   const { error, data } = await supabase.from("comments").insert({

@@ -5,27 +5,29 @@ import { getComment } from "db/get_comment.ts";
 import { upsertCommentVote } from "db/upsert_comment_vote.ts";
 import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
+import { z } from "zod";
+
+const voteSchema = z.object({
+  vote: z.number(),
+  comment_id: z.number(),
+});
 
 // TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
   async POST(req, ctx) {
-    const { vote, comment_id }: { vote: number; comment_id: number } = await req
-      .json();
     const user = ctx.state.user;
 
-    console.log(vote);
+    const result = voteSchema.safeParse(await req.json());
+    if (!result.success) return bad(result.error.toString());
+    const { vote, comment_id } = result.data;
 
     // Get data on the comment being upvoted
     const comment = await getComment(comment_id);
     if (!comment) return bad();
 
-    console.log(vote);
-
     // get member who is upvoting from the class id and user
     const member = await getMembership(user.id, comment.member.class_id);
     if (!member) return bad();
-
-    console.log(vote);
 
     if (vote === 1 || vote === -1) {
       const voted = await upsertCommentVote(comment.id, member.id, vote === 1);

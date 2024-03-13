@@ -5,11 +5,19 @@ import { getExpandedPost } from "db/get_expanded_post.ts";
 import { getMembership } from "db/get_member.ts";
 import { upsertPostVote } from "db/upsert_post_vote.ts";
 import { deletePostVote } from "db/delete_post_vote.ts";
+import { z } from "zod";
 
+const voteSchema = z.object({
+  vote: z.number(),
+});
+
+// TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
   async POST(req, ctx) {
-    // TODO(lino-levan): Validate input
-    const { vote }: { vote: number } = await req.json();
+    const result = voteSchema.safeParse(await req.json());
+    if (!result.success) return bad(result.error.toString());
+    const { vote } = result.data;
+
     const postId = parseInt(ctx.params.id);
     const user = ctx.state.user;
 

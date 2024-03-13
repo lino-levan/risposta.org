@@ -4,14 +4,20 @@ import { APIState } from "lib/state.ts";
 import { getExpandedPost } from "db/get_expanded_post.ts";
 import { getMembership } from "db/get_member.ts";
 import { insertComment } from "db/insert_comment.ts";
+import { z } from "zod";
+
+const createCommentSchema = z.object({
+  content: z.string().min(1),
+  parent_id: z.number().optional(),
+});
 
 export const handler: Handlers<unknown, APIState> = {
   async POST(req, ctx) {
+    const result = createCommentSchema.safeParse(await req.json());
+    if (!result.success) return bad(result.error.toString());
+    const { content, parent_id } = result.data;
+
     const postId = parseInt(ctx.params.id);
-    const { content, parent_id }: {
-      content: string;
-      parent_id: number | null;
-    } = await req.json();
 
     // get user for request
     const user = ctx.state.user;
