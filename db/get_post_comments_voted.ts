@@ -13,5 +13,5 @@ export async function getPostCommentsVoted(post_id: number) {
     .select("*, comment:comment_id!inner(*)")
     .eq("comment.post_id", post_id);
 
-  return voted as CommentVoted[];
+  return voted as unknown as CommentVoted[];
 }
