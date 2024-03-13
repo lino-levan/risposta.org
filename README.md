@@ -46,6 +46,7 @@ This will watch the project directory and restart as necessary.
 - lib/: Contains utility functions and modules used throughout the project.
 - db/: Contains all code that interfaces directly with the database.
 - static/: Contains static assets such as images and CSS files.
+- docs/: Contains the scrum documents and other project-related documents.
 
 The surface level contains basic configurations and infrastructure-task related
 files.
