@@ -6,9 +6,9 @@ export default function Error404() {
       <Head>
         <title>404 - Page not found</title>
       </Head>
-      <header className="w-screen p-4 fixed flex items-center justify-between bg-base-100 z-10">
-        <div className="flex items-center max-w-screen-md">
-          <a href="/" className="font-titan-one text-xl uppercase ml-12">
+      <header class="w-screen p-4 fixed flex items-center justify-between bg-base-100 z-10">
+        <div class="flex items-center max-w-screen-md">
+          <a href="/" class="font-titan-one text-xl uppercase ml-12">
             Risposta
           </a>
         </div>

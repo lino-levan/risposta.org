@@ -162,14 +162,14 @@ export function Comment(props: CommentProps) {
             <div class="flex flex-col gap-4 px-4 py-2 pl-8 border-l-2">
               <textarea
                 placeholder="What are your thoughts?"
-                className="textarea textarea-bordered w-96 h-24 resize-none"
+                class="textarea textarea-bordered w-96 h-24 resize-none"
                 value={comment.value}
                 onInput={(e) => {
                   comment.value = e.currentTarget.value;
                 }}
               />
               <button
-                className="btn btn-primary w-max"
+                class="btn btn-primary w-max"
                 disabled={disabled.value}
                 onClick={async () => {
                   disabled.value = true;

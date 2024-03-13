@@ -22,7 +22,7 @@ export default async function ClassDashboard(
       </p>
 
       {posts.length > 0 && (
-        <h1 className="font-bold text-xl mt-6 mb-6">
+        <h1 class="font-bold text-xl mt-6 mb-6">
           Pinned Posts
         </h1>
       )}

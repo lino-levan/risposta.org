@@ -12,3 +12,4 @@ great place to start if you want to contribute to the project!
 - [ ] Ensure API endpoints are secure
 - [ ] Allow for custom AI moderation of posts
 - [ ] Drafts for posts
+- [ ] Allowlist and blocklist for users / classes

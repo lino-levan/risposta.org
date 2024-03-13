@@ -15,14 +15,14 @@ export function CreateComment(props: CreateCommentProps) {
   return (
     <div class="px-4 py-2 flex flex-col gap-4 p-4">
       <textarea
-        className="textarea textarea-bordered w-full h-24 resize-none"
+        class="textarea textarea-bordered w-full h-24 resize-none"
         value={comment.value}
         onInput={(e) => {
           comment.value = e.currentTarget.value;
         }}
       />
       <button
-        className="btn btn-primary w-max"
+        class="btn btn-primary w-max"
         disabled={disabled}
         onClick={async () => {
           disabled.value = true;

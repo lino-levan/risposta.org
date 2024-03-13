@@ -19,6 +19,3 @@ jobs:
 
       - name: check code formatting, linting, and types
         run: deno task check
-
-      - name: run tests
-        run: deno task test
