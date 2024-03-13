@@ -1,3 +1,4 @@
+/** Get the readable time from the timestamp */
 export function getReadableTime(timestamp: string) {
   const postedTime = new Date(timestamp).getTime();
   const currentTime = new Date().getTime();

@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Upsert a comment vote in the database */
 export async function upsertPostVote(
   post_id: number,
   member_id: number,

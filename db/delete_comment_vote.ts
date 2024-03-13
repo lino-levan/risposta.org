@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Delete a comment vote from the database */
 export async function deleteCommentVote(comment_id: number, member_id: number) {
   const { error } = await supabase
     .from("comment_votes")

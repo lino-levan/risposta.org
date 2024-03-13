@@ -14,6 +14,7 @@ const voteSchema = z.object({
 
 // TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
+  // Upvote a comment
   async POST(req, ctx) {
     const user = ctx.state.user;
 

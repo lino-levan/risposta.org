@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Insert a class into the database */
 export async function insertClass(
   name: string,
   description: string,

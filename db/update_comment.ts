@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Update a comment in the database */
 export async function updateComment(
   comment_id: number,
   content: string,

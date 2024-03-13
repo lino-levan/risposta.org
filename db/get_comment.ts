@@ -1,6 +1,7 @@
 import { supabase } from "lib/db.ts";
 import type { Tables } from "lib/supabase_types.ts";
 
+/** Get a comment from the database */
 export async function getComment(comment_id: number) {
   const { data, error } = await supabase.from(
     "comments",

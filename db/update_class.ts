@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Update a class in the database */
 export async function updateClass(
   class_id: number,
   name: string | undefined,

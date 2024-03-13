@@ -16,6 +16,9 @@ interface ClassTabsProps {
   invites: string[];
 }
 
+/**
+ * A tabbed view for the class settings, tags, invites, and members.
+ */
 export function ClassTabs(props: ClassTabsProps) {
   const activeTab = useSignal("Settings");
 

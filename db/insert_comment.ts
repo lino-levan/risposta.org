@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Insert a comment into the database */
 export async function insertComment(
   member_id: number,
   post_id: number,

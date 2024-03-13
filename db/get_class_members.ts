@@ -1,19 +1,16 @@
 import { supabase } from "lib/db.ts";
-import { Database } from "lib/supabase_types.ts";
+import { Tables } from "lib/supabase_types.ts";
 
-interface UserDetail {
-  name: string;
-  picture: string;
-}
-
-export type ClassMember = Database["public"]["Tables"]["members"]["Row"] & {
-  user_id: UserDetail;
+/** A member of a class */
+export type ClassMember = Tables<"members"> & {
+  user: Tables<"users">;
 };
 
+/** Get all members of a class */
 export async function getClassMembers(class_id: number) {
   const { data: memberData, error } = await supabase
     .from("members")
-    .select("*, user_id!inner(*)")
+    .select("*, user:user_id!inner(*)")
     .eq("class_id", class_id);
   if (error) return null;
   return memberData as unknown as ClassMember[];

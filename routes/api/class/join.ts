@@ -11,6 +11,7 @@ const joinClassSchema = z.object({
 
 // TODO(lino-levan): Validate inputs
 export const handler: Handlers<unknown, APIState> = {
+  // Join a class
   async POST(req, ctx) {
     const result = joinClassSchema.safeParse(await req.json());
     if (!result.success) return bad(result.error.toString());

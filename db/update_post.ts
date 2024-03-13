@@ -1,6 +1,7 @@
 import { supabase } from "lib/db.ts";
 import { TablesUpdate } from "lib/supabase_types.ts";
 
+/** Update a post in the database */
 export async function updatePost(
   post_id: number,
   post: TablesUpdate<"posts">,

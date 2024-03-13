@@ -1,8 +1,9 @@
 import { supabase } from "lib/db.ts";
-import type { Database } from "lib/supabase_types.ts";
+import type { TablesInsert } from "lib/supabase_types.ts";
 
+/** Insert post tags into the database */
 export async function insertPostTags(
-  tags: Database["public"]["Tables"]["post_tags"]["Insert"][],
+  tags: TablesInsert<"post_tags">[],
 ) {
   const { error, data } = await supabase.from("post_tags").insert(
     tags,

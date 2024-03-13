@@ -11,6 +11,7 @@ const updateCommentSchema = z.object({
 
 // TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
+  // Update a comment
   async PATCH(req, ctx) {
     const comment_id = parseInt(ctx.params.id);
 
@@ -23,6 +24,7 @@ export const handler: Handlers<unknown, APIState> = {
 
     return new Response("Comment updated successfully", { status: 200 });
   },
+  // Delete a comment
   async DELETE(_, ctx) {
     const comment_id = parseInt(ctx.params.id);
 

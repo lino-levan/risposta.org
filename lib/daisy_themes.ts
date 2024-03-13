@@ -1,3 +1,4 @@
+/** All daisy themes */
 export const daisyThemes = [
   "acid",
   "aqua",

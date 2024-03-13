@@ -13,6 +13,7 @@ interface CommentTreeProps {
   post_id: number;
 }
 
+/** A recursive component that renders a comment and its children.*/
 export function CommentTree(props: CommentTreeProps) {
   const comment_voted = props.comments_voted.find((v) =>
     v.comment_id === props.comment.id

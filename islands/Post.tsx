@@ -7,22 +7,35 @@ import { render } from "gfm";
 import { PostTag } from "db/get_post_tags.ts";
 
 interface PostProps {
+  /** The number of votes this post has */
   votes: number;
-  voted: number;
+  /** The vote the current user has given this post */
+  voted: 0 | 1 | -1;
+  /** The ID of the class this post is in */
   classId: number;
+  /** The ID of the post */
   postId: number;
+  /** The username of the user who posted this */
   postedBy: string;
+  /** The time this post was created */
   createdAt: string;
+  /** Whether this post is pinned */
   pinned: boolean;
-
+  /** The title of the post */
   title: string;
+  /** The content of the post */
   content: string;
+  /** The tags of the post */
   tags: PostTag[];
-
+  /** Whether the current user is the author of this post */
   isAuthor: boolean;
+  /** Whether the current user is an instructor in this class */
   isInstructor: boolean;
 }
 
+/**
+ * A post in a class
+ */
 export function Post(
   {
     classId,

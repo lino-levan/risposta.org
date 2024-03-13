@@ -13,6 +13,7 @@ const createClassSchema = z.object({
 
 // TODO(lino-levan): Validate inputs
 export const handler: Handlers<unknown, APIState> = {
+  // Create a new class
   async POST(req, ctx) {
     const user = ctx.state.user;
     const result = createClassSchema.safeParse(await req.json());

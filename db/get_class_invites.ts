@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Get all invites for a class from the database */
 export async function getClassInvites(class_id: number) {
   const { data, error } = await supabase
     .from("invites")

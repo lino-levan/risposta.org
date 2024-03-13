@@ -27,6 +27,9 @@ export interface CommentProps {
   children: ComponentChildren;
 }
 
+/**
+ * A comment component, used to display comments and replies.
+ */
 export function Comment(props: CommentProps) {
   const editing = useSignal(false);
   const editedContent = useSignal(props.content);

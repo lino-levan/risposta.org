@@ -12,6 +12,7 @@ const classSchema = z.object({
 
 // TODO(lino-levan): Validate inputs
 export const handler: Handlers = {
+  // Update the class settings
   async PATCH(req, ctx) {
     const classId = parseInt(ctx.params.id);
     const result = classSchema.safeParse(await req.json());
@@ -27,6 +28,7 @@ export const handler: Handlers = {
 
     return success();
   },
+  // Delete the class
   async DELETE(_req, ctx) {
     const classId = parseInt(ctx.params.id);
 

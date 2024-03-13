@@ -6,6 +6,7 @@ import { updatePost } from "db/update_post.ts";
 
 // TODO(lino-levan): Verify that the user is authorized to pin results
 export const handler: Handlers<unknown, APIState> = {
+  // Pin a post
   async POST(_, ctx) {
     const postId = parseInt(ctx.params.id);
 
@@ -14,6 +15,7 @@ export const handler: Handlers<unknown, APIState> = {
 
     return success();
   },
+  // Unpin a post
   async DELETE(_, ctx) {
     const postId = parseInt(ctx.params.id);
 

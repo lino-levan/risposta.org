@@ -22,6 +22,7 @@ export default async function Layout(
   if (!classTags) return ctx.renderNotFound();
   const uniqueTags = [...new Set(classTags.map((tag) => tag.tag))];
 
+  // Get tags for each post
   const postsWithTags: PostWithTags[] = await Promise.all(
     posts.map(async (post) => {
       const postTags = await getPostTags(post.id as number);

@@ -12,6 +12,7 @@ const createCommentSchema = z.object({
 });
 
 export const handler: Handlers<unknown, APIState> = {
+  // Create a comment
   async POST(req, ctx) {
     const result = createCommentSchema.safeParse(await req.json());
     if (!result.success) return bad(result.error.toString());

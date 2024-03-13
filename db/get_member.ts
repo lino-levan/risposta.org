@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Get a membership from the database */
 export async function getMembership(user_id: number, class_id: number) {
   const { data, error } = await supabase
     .from("members")

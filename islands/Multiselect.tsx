@@ -8,6 +8,7 @@ interface MultiselectProps {
   selected: Signal<string[]>;
 }
 
+/** A multiselect component */
 export function Multiselect({ selected, options }: MultiselectProps) {
   const open = useSignal(false);
 

@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Insert a post into the database */
 export async function insertPost(
   member_id: number,
   content: string,

@@ -1,6 +1,7 @@
 import { supabase } from "lib/db.ts";
 import { TablesUpdate } from "lib/supabase_types.ts";
 
+/** Upsert tags in the database */
 export async function upsertTags(tags: TablesUpdate<"tags">[]) {
   const { data, error } = await supabase
     .from("tags")

@@ -13,6 +13,7 @@ const voteSchema = z.object({
 
 // TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
+  // Upvote a post
   async POST(req, ctx) {
     const result = voteSchema.safeParse(await req.json());
     if (!result.success) return bad(result.error.toString());

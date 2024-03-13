@@ -4,6 +4,7 @@ import { bad, success } from "lib/response.ts";
 import { APIState } from "lib/state.ts";
 
 export const handler: Handlers<unknown, APIState> = {
+  // Delete an invite code
   async DELETE(_, ctx) {
     const inviteId = ctx.params.id;
 

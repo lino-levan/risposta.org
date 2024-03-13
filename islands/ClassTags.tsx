@@ -8,6 +8,9 @@ export interface ClassTagsProps {
   tags: Tables<"tags">[];
 }
 
+/**
+ * Update the tags for a class
+ */
 const updateTags = debounce(
   async (
     classId: number,
@@ -21,6 +24,9 @@ const updateTags = debounce(
   500,
 );
 
+/**
+ * A component to manage the tags for a class
+ */
 export function ClassTags(props: ClassTagsProps) {
   const tags = useSignal(props.tags);
 

@@ -17,6 +17,7 @@ const deleteTagsSchema = z.object({
 
 // TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
+  // Create a new tag or update an existing tag
   async POST(req, ctx) {
     const classId = parseInt(ctx.params.id);
     const result = updateTagsSchema.safeParse(await req.json());
@@ -43,6 +44,7 @@ export const handler: Handlers<unknown, APIState> = {
     if (!insertedTags) return bad();
     return success(JSON.stringify([...upsertedTags, ...insertedTags]));
   },
+  // Delete a tag
   async DELETE(req) {
     const result = deleteTagsSchema.safeParse(await req.json());
     if (!result.success) return bad(result.error.toString());

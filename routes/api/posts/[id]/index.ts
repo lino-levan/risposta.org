@@ -11,6 +11,7 @@ const updatePostSchema = z.object({
 });
 
 export const handler: Handlers<unknown, APIState> = {
+  // Update a post
   async PATCH(req, ctx) {
     const result = updatePostSchema.safeParse(await req.json());
     if (!result.success) return bad(result.error.toString());
@@ -23,6 +24,7 @@ export const handler: Handlers<unknown, APIState> = {
 
     return success("Post updated successfully");
   },
+  // Delete a post
   async DELETE(_, ctx) {
     const postId = parseInt(ctx.params.id);
 

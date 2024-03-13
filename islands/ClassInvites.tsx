@@ -8,6 +8,7 @@ export interface ClassInviteProps {
   invites: string[];
 }
 
+/** A component to manage class invites */
 export function ClassInvites(props: ClassInviteProps) {
   const invites = useSignal(props.invites);
   const copied = useSignal<number | null>(null);

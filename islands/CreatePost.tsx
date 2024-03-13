@@ -7,6 +7,9 @@ export interface CreatePostProps {
   tags: string[];
 }
 
+/**
+ * Create a new post
+ */
 export function CreatePost(props: CreatePostProps) {
   const title = useSignal("");
   const content = useSignal("");

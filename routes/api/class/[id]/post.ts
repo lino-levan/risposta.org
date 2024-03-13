@@ -17,9 +17,10 @@ const postSchema = z.object({
   visibility: z.string(),
 });
 
+// TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
+  // Create a new post
   async POST(req, ctx) {
-    // TODO(lino-levan): Validate input
     const classId = parseInt(ctx.params.id);
     const user = ctx.state.user;
 

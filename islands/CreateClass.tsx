@@ -1,5 +1,8 @@
 import { useState } from "preact/hooks";
 
+/**
+ * Form to create a new class
+ */
 export default function CreateClassForm() {
   const [className, setClassName] = useState("");
   const [description, setDescription] = useState("");

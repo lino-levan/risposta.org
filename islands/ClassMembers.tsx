@@ -6,6 +6,7 @@ export interface ClassMembersProps {
   members: ClassMember[];
 }
 
+/** Group members by their role */
 function groupMembersByRole(members: ClassMember[]) {
   return members.reduce(
     (acc: Record<string, ClassMember[]>, member) => {
@@ -18,6 +19,7 @@ function groupMembersByRole(members: ClassMember[]) {
   );
 }
 
+/** Component to display class members */
 export function ClassMembers(props: ClassMembersProps) {
   const members = props.members;
 
@@ -81,11 +83,11 @@ export function ClassMembers(props: ClassMembersProps) {
                 >
                   <div tabindex={0} class="flex gap-4 items-center p-2">
                     <img
-                      src={member.user_id.picture}
+                      src={member.user.picture}
                       alt="Profile Picture"
                       class="w-10 h-10 rounded-full"
                     />
-                    <p class="w-max">{member.user_id.name}</p>
+                    <p class="w-max">{member.user.name}</p>
                   </div>
                   <ul
                     tabindex={0}

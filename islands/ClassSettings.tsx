@@ -8,6 +8,7 @@ export interface ClassSettingsProps {
   ai: boolean;
 }
 
+/** Debounced function to update class settings */
 const updateClass = debounce(
   async (classId: number, name: string, description: string, ai: boolean) => {
     if (!name.trim()) {
@@ -26,6 +27,7 @@ const updateClass = debounce(
   200,
 );
 
+/** Class settings component which allows the user to update the class name, description and AI settings */
 export function ClassSettings(props: ClassSettingsProps) {
   const className = useSignal(props.name);
   const classDescription = useSignal(props.description);

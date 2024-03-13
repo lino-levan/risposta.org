@@ -1,5 +1,6 @@
 import { supabase } from "lib/db.ts";
 
+/** Get pinned posts from the database */
 export async function getPinnedPosts(class_id: number) {
   const { data, error } = await supabase
     .from("posts")

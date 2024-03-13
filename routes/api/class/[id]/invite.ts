@@ -5,6 +5,7 @@ import { bad, success } from "lib/response.ts";
 
 // TODO(lino-levan): Validate input
 export const handler: Handlers<unknown, APIState> = {
+  // Create an invite code for a class
   async POST(_, ctx) {
     const classId = parseInt(ctx.params.id);
 
