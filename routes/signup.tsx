@@ -46,7 +46,7 @@ export default async function Signup(req: Request) {
           </div>
 
           <div class="h-full bg-base-300 hidden lg:flex justify-center items-center flex-col gap-4 text-center text-gray-500">
-            <img src="your-image-url.jpg" alt="Your Image" class="mb-6" />
+            <img src="/threads.png" alt="Threads" class="mb-6 p-2" />
             <p>
               Collaborative learning platform
             </p>

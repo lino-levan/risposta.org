@@ -56,19 +56,25 @@ export default async function Home(req: Request) {
       <section class="py-16 px-8 text-center bg-base-200">
         <div class="container mx-auto max-w-screen-md">
           <h2 class="text-3xl font-bold mb-4">Key Features</h2>
-          <div class="flex justify-between">
-            <div class="w-1/3">
-              <img src="image1.jpg" alt="Image 1" class="w-full mb-4" />
-              <p class="text-lg">Description for Image 1</p>
-            </div>
-            <div class="w-1/3">
-              <img src="image2.jpg" alt="Image 2" class="w-full mb-4" />
-              <p class="text-lg">Description for Image 2</p>
-            </div>
-            <div class="w-1/3">
-              <img src="image3.jpg" alt="Image 3" class="w-full mb-4" />
-              <p class="text-lg">Description for Image 3</p>
-            </div>
+          <div class="grid grid-cols-3 gap-3">
+            <img
+              src="/google.png"
+              alt="Image 1"
+              class="w-full mb-4 rounded-lg"
+            />
+            <img
+              src="/theme.png"
+              alt="Image 2"
+              class="w-full mb-4 rounded-lg"
+            />
+            <img
+              src="/threads.png"
+              alt="Image 3"
+              class="w-full mb-4 rounded-lg"
+            />
+            <p class="text-lg">Sign in with Google!</p>
+            <p class="text-lg">Choose any theme you like!</p>
+            <p class="text-lg">Create threads and get AI responses!</p>
           </div>
         </div>
       </section>
